@@ -6,8 +6,8 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,11 +21,29 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to ASKem!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Text style={styles.welcome}>Welcome to ASKem! </Text>
+        <Text style={styles.instructions}>To get started, edit App.js and Server.js {this.state.data} go there </Text>
         <Text style={styles.instructions}>{instructions}</Text>
       </View>
     );
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = { data: 'wait' }
+  }
+
+  componentDidMount() {
+    fetch('http://192.168.0.17:3000/isa/', {
+      method: 'GET'
+    })
+      .then((response) => { return response.json() })
+      .then((res) => {
+        alert(res.name),
+          this.setState({
+            data: res.name
+          })
+      }).done()
   }
 }
 
