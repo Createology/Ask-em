@@ -30,7 +30,7 @@ export default class Account extends Component<Props> {
     fetch('http://192.168.1.69:3000/isa/', {
     // fetch('http://192.168.1.156:3000/isa/', {
       method: 'GET'
-    })
+    }) 
       .then((response) => { return response.json() })
       .then((res) => {
         // alert(res.dark),
