@@ -7,13 +7,13 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView } from 'react-native';
+import { Platform, StyleSheet, Text, View , FlatList, SectionList} from 'react-native';
 import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
 import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
 // use this library https://oblador.github.io/react-native-vector-icons/
 // to choose the icon from "MaterialIcons"
-import Account from './components/account';
-import { createStackNavigator } from 'react-navigation';
+import Account from './account';
+import {createStackNavigator} from 'react-navigation';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -24,60 +24,41 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: '',
-      names: [
-        { key: 'Devin' },
-        { key: 'Jackson' },
-        { key: 'James' },
-        { key: 'Isa' },
-        { key: 'Maram' },
-        { key: 'Anagreh' },
-      ],
-      sections: [
-        { title: 'Section1', data: ['Devin'] },
-        { title: 'Section2', data: ['Jackson', 'John', 'Julie'] },
-      ],
-    }
-  }
-
-  static navigationOptions = {
-    title: 'Welcome',
-  };
-
-  try() {
-    alert('try')
-  }
-
+    static navigationOptions = {
+        title: 'Welcome',
+    };
   render() {
     return (
       <Container>
-        <Account />
-        <Text style={styles.welcome}>Welcome to ASKem! </Text>
-        {/* anything above scrollview will look like nav bar*/}
-        <ScrollView>
-          <View style={styles.container}>
+        <View style={styles.container}>
+          
+          <Text style={styles.welcome}>Welcome to ASKem! </Text>
+          <Text style={styles.instructions}>To get started, edit App.js and Server.js</Text>
+          <Text style={styles.instructions}>{instructions}</Text>
+          <Text style={styles.welcome}>This is from askem/server.js:</Text>
+          <Account />
 
-            <Text style={styles.instructions}>To get started, edit App.js and Server.js</Text>
-            <Text style={styles.instructions}>{instructions}</Text>
+          <FlatList
+            data={[
+              {key: 'Devin'},
+              {key: 'Jackson'},
+              {key: 'James'},
+            ]}
+            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+          />
 
-            <FlatList
-              data={this.state.names}
-              renderItem={({ item }) => <Text style={styles.item}>{item.key}</Text>}
-            />
+          <SectionList
+            sections={[
+              {title: 'Section1', data: ['Devin']},
+              {title: 'Section2', data: ['Jackson', 'John', 'Julie']},
+            ]}
+            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+            renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+            keyExtractor={(item, index) => index}
+          />
 
-            <SectionList
-              sections={this.state.sections}
-              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-              renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-              keyExtractor={(item, index) => index}
-            />
-
-          </View>
-        </ScrollView>
-
+        </View>
+        
         {/* <List>
           <ListItem
             roundAvatar
@@ -86,11 +67,10 @@ export default class App extends Component<Props> {
             title={'Amy Farha'}
           />
         </List> */}
-
         <Footer>
           <FooterTab style={styles.footerTab}>
             <Button onPress={this.try.bind(this)}>
-              <Icon size={40} name='home' color='grey' />
+              <Icon size={40} name='home' color='grey'/>
             </Button>
             <Button onPress={this.try.bind(this)}>
               <Icon size={40} name='library-books' color='grey' />
@@ -108,7 +88,14 @@ export default class App extends Component<Props> {
     );
   }
 
+  try() {
+    alert('try')
+  }
 
+  constructor(props) {
+    super(props)
+    this.state = { data: '' }
+  }
 
 }
 
@@ -131,12 +118,12 @@ const styles = StyleSheet.create({
   },
   button: {
     color: "#000",
-    margin: 10,
-    fontSize: 30,
+    margin: 10, 
+    fontSize: 30, 
     textAlign: 'left',
   },
   footerTab: {
-    backgroundColor: "#FFF",
+    backgroundColor:"#FFF",
     borderStyle: 'solid',
     borderWidth: 0,
     borderTopWidth: 1,
