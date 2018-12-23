@@ -2,11 +2,6 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
-import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
-// use this library https://oblador.github.io/react-native-vector-icons/
-// to choose the icon from "MaterialIcons"
-import {createStackNavigator} from 'react-navigation';
 
 type Props = {};
 export default class Account extends Component<Props> {
@@ -27,10 +22,10 @@ export default class Account extends Component<Props> {
 
   componentDidMount() {
     // depending on where am I
-    fetch('http://192.168.1.69:3000/isa/', {
+    fetch('http://192.168.0.18:3000/isa/', {
     // fetch('http://192.168.1.156:3000/isa/', {
       method: 'GET'
-    })
+    }) 
       .then((response) => { return response.json() })
       .then((res) => {
         // alert(res.dark),
