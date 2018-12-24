@@ -10,8 +10,8 @@ data.push({
     "text": "issa",
     "category": "try"
 })
-console.log('textBrain', textBrain)
 console.log('data', data)
+console.log('textBrain', textBrain)
 
 app.listen(4000, function () {
     console.log('listening on port 4000!');
