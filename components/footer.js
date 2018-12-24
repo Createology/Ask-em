@@ -11,6 +11,7 @@ export default class FooterComponent extends Component<Props> {
             servey: this.props.selectedSurvey,
         }
     }
+    
     try() {
         alert('try')
     }
