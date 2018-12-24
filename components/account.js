@@ -21,9 +21,9 @@ export default class Account extends Component<Props> {
   }
 
   componentDidMount() {
-    // depending on where am I
-    fetch('http://192.168.0.18:3000/isa/', {
-    // fetch('http://192.168.1.156:3000/isa/', {
+    // ip is changable every new internet connection, use this command in terminal: ifconfig |grep inet
+    // then take the netmask ip
+    fetch('http://172.20.10.13:3000/isa/', {
       method: 'GET'
     }) 
       .then((response) => { return response.json() })
