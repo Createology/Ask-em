@@ -19,19 +19,18 @@ export default class Account extends Component {
   }
 
   componentDidMount() {
-    // ip is changable every new internet connection, use this command in terminal: ifconfig |grep inet
-    // then take the netmask ip
-    fetch('http://172.20.10.13:3000/isa/', {
+
+    // change this eveytime you have a new internet connection using this command in terminal: ifconfig |grep inet
+    // copy the mask ip
+    fetch('http://192.168.0.17:3000/isa/', {
       method: 'GET'
     }) 
       .then((response) => { return response.json() })
       .then((res) => {
-        // alert(res.dark),
-        this.setState({
-          data: res
-        });
-      })
-      .done();
+          this.setState({
+            data: res
+          })
+      }).done()
   }
 }
 

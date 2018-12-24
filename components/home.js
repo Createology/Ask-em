@@ -44,7 +44,6 @@ export default class Home extends Component {
       <Container>
         <View style={styles.container}>
           <Text style={styles.welcome}>Welcome to ASKem! </Text>
-          <Text style={styles.welcome}>This is from askem/server.js:</Text>
         </View>
 
         <SurveyList
