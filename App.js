@@ -7,8 +7,8 @@ import {
 // import Ionicons from "react-native-vector-icons/Ionicons";
 import { Icon } from "react-native-elements";
 
-import Home from "./components/Home";
-import Account from "./components/Account";
+import Home from "./components/home";
+import Account from "./components/account";
 import Contact from "./components/Contact";
 
 const TabNavigator = createBottomTabNavigator(
