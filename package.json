@@ -5,15 +5,16 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "server": "nodemon server.js",
+    "test": "jest",
+    "brain": "nodemon brainServer.js",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "test": "jest",
-    "brain": "nodemon brainServer.js"
   },
   "dependencies": {
     "brain.js": "^1.6.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "fs": "0.0.1-security",
     "mysql": "^2.16.0",
     "native-base": "^2.9.2",
     "nodemon": "^1.18.9",
