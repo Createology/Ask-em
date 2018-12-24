@@ -1,11 +1,8 @@
-
-
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 type Props = {};
 export default class Account extends Component<Props> {
-// class Account extends Component<Props> {
   render() {
     return (
         <View style={styles.container}>
@@ -21,14 +18,13 @@ export default class Account extends Component<Props> {
   }
 
   componentDidMount() {
-    // ip is changable every new internet connection, use this command in terminal: ifconfig |grep inet
-    // then take the netmask ip
-    fetch('http://172.20.10.13:3000/isa/', {
+    // change this eveytime you have a new internet connection using this command in terminal: ifconfig |grep inet
+    // copy the mask ip
+    fetch('http://192.168.0.17:3000/isa/', {
       method: 'GET'
     }) 
       .then((response) => { return response.json() })
       .then((res) => {
-        // alert(res.dark),
           this.setState({
             data: res
           })

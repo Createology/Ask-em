@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
 import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
-import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
+import { List, ListItem, Icon, parseIconName } from 'react-native-elements'; 
 
 // props are from App component
 export default class FooterComponent extends Component<Props> {
@@ -11,6 +11,7 @@ export default class FooterComponent extends Component<Props> {
             servey: this.props.selectedSurvey,
         }
     }
+
     try() {
         alert('try')
     }

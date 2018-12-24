@@ -1,46 +1,72 @@
 [
     {
         "text": "drive",
-        "category": "compueter engineering"
+        "age": 31,
+        "category": "computer engineering"
     },
     {
         "text": "it needs more memory",
-        "category": "compueter engineering"
-    },
-    {
-        "text": "code",
+        "age": 21,
         "category": "software engineering"
     },
     {
-        "text": "CPU",
+        "text": "code",
+        "age": 35,
+        "category": "software engineering"
+    },
+    {
+        "text": "you found some bugs in the code",
+        "age": 43,
         "category": "software engineering"
     },
     {
         "text": "I tested the databse",
+        "age": 18,
         "category": "software engineering"
     },
     {
         "text": "power supply",
-        "category": "compueter engineering"
+        "age": 27,
+        "category": "software engineering"
     },
     {
         "text": "I swapped the memory",
-        "category": "compueter engineering"
+        "age": 36,
+        "category": "computer engineering"
     },
     {
         "text": "you type",
+        "age": 20,
         "category": "software engineering"
     },
     {
         "text": "she is playing",
+        "age": 55,
         "category": "software engineering"
     },
     {
         "text": "he is nice",
-        "category": "compueter engineering"
+        "age": 33,
+        "category": "computer engineering"
     },
     {
         "text": "they added a new RAM",
-        "category": "compueter engineering"
+        "age": 64,
+        "category": "computer engineering"
+    },
+    {
+        "text": "he bought a new keyboard",
+        "age": 42,
+        "category": "computer engineering"
+    },
+    {
+        "text": "they uses a new mouse",
+        "age": 31,
+        "category": "computer engineering"
+    },
+    {
+        "text": "she loves mouse pad",
+        "age": 31,
+        "category": "computer engineering"
     }
 ]
