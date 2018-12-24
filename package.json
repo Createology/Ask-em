@@ -7,7 +7,8 @@
     "server": "nodemon server.js",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "test": "jest"
+    "test": "jest",
+    "brain": "nodemon brainServer.js"
   },
   "dependencies": {
     "brain.js": "^1.6.0",
