@@ -7,13 +7,19 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View , FlatList, SectionList} from 'react-native';
+import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
 import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
 import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
 // use this library https://oblador.github.io/react-native-vector-icons/
 // to choose the icon from "MaterialIcons"
-import Account from './account';
-import {createStackNavigator} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
+
+import Account from './components/account';
+import Survey from './components/survey';
+import SurveysList from './components/surveysList';
+import FooterComponent from './components/footer';
+import Options from './components/options';
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -24,78 +30,77 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-    static navigationOptions = {
-        title: 'Welcome',
-    };
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: '',
+      names: [
+        { key: 'Isa' },
+        { key: 'Maram' },
+        { key: 'Anagreh' },
+      ],
+      sections: [
+        { title: 'Section1', data: ['Devin'] },
+        { title: 'Section2', data: ['John', 'Julie'] },
+      ],
+      modalVisible: false,
+      selectedSurvey: null,
+    }
+  }
+
+  static navigationOptions = {
+    title: 'Welcome',
+  };
+
+
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  selectedSurvey(item) {
+    this.setState({ selectedSurvey: item })
+  }
+
   render() {
     return (
       <Container>
-        <View style={styles.container}>
-          
-          <Text style={styles.welcome}>Welcome to ASKem! </Text>
-          <Text style={styles.instructions}>To get started, edit App.js and Server.js</Text>
-          <Text style={styles.instructions}>{instructions}</Text>
-          <Text style={styles.welcome}>This is from askem/server.js:</Text>
-          <Account />
-
-          <FlatList
-            data={[
-              {key: 'Devin'},
-              {key: 'Jackson'},
-              {key: 'James'},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-          />
-
-          <SectionList
-            sections={[
-              {title: 'Section1', data: ['Devin']},
-              {title: 'Section2', data: ['Jackson', 'John', 'Julie']},
-            ]}
-            renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-            keyExtractor={(item, index) => index}
-          />
-
-        </View>
+        <Text style={styles.welcome}> Welcome to ASKem! </Text>
         
-        {/* <List>
-          <ListItem
-            roundAvatar
-            avatar={'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}
-            key={'Amy Farha'}
-            title={'Amy Farha'}
-          />
-        </List> */}
-        <Footer>
-          <FooterTab style={styles.footerTab}>
-            <Button onPress={this.try.bind(this)}>
-              <Icon size={40} name='home' color='grey'/>
-            </Button>
-            <Button onPress={this.try.bind(this)}>
-              <Icon size={40} name='library-books' color='grey' />
-            </Button>
-            <Button onPress={this.try.bind(this)}>
-              {/* <Text style={styles.button}></Text> */}
-              <Icon size={40} name='account-box' color='grey' />
-            </Button>
-            <Button>
-              <Icon size={40} name='more-horiz' color='grey' />
-            </Button>
-          </FooterTab>
-        </Footer>
+        <Account />
+        <SurveysList
+          names={this.state.names}
+          selectedSurvey={this.selectedSurvey.bind(this)}
+          showHandler={this.setModalVisible.bind(this)}
+        />
+        <Survey
+          showHandler={this.setModalVisible.bind(this)}
+          visibility={this.state.modalVisible}
+          selectedSurvey={this.state.selectedSurvey}
+        />
+        
+
+        {/* anything above scrollview will look like nav bar*/}
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.instructions}>To get started, edit App.js and Server.js</Text>
+            <Text style={styles.instructions}>{instructions}</Text>
+            <SectionList
+              sections={this.state.sections}
+              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+              renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+              keyExtractor={(item, index) => index}
+            />
+          </View>
+        </ScrollView>
+
+        <FooterComponent />
+
       </Container>
     );
   }
 
-  try() {
-    alert('try')
-  }
 
-  constructor(props) {
-    super(props)
-    this.state = { data: '' }
-  }
 
 }
 
@@ -116,22 +121,12 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  button: {
-    color: "#000",
-    margin: 10, 
-    fontSize: 30, 
-    textAlign: 'left',
-  },
   footerTab: {
-    backgroundColor:"#FFF",
+    backgroundColor: "#FFF",
     borderStyle: 'solid',
     borderWidth: 0,
     borderTopWidth: 1,
     borderColor: 'grey',
-  },
-  icon: {
-    margin: 40,
-    color: "#FFF",
   },
   item: {
     padding: 10,

@@ -18,7 +18,7 @@ import Account from './components/account';
 import Survey from './components/survey';
 import SurveysList from './components/surveysList';
 import FooterComponent from './components/footer';
-import options from './components/options';
+import Options from './components/options';
 
 
 const instructions = Platform.select({
@@ -64,12 +64,16 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <Container>
-        <Text style={styles.welcome}> Welcome to ASKem! </Text>
-        
-       
+
+      <Container style={styles.container}>
+        <View>
+
+          <Options />
+        </View>
 
       </Container>
+
+
     );
   }
 
@@ -118,33 +122,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-/* <Account />
-        <SurveysList
-          names={this.state.names}
-          selectedSurvey={this.selectedSurvey.bind(this)}
-          showHandler={this.setModalVisible.bind(this)}
-        />
-        <Survey
-          showHandler={this.setModalVisible.bind(this)}
-          visibility={this.state.modalVisible}
-          selectedSurvey={this.state.selectedSurvey}
-        />
-        
-
-        {/* anything above scrollview will look like nav bar*/
-        /*}
-        <ScrollView>
-          <View style={styles.container}>
-            <Text style={styles.instructions}>To get started, edit App.js and Server.js</Text>
-            <Text style={styles.instructions}>{instructions}</Text>
-            <SectionList
-              sections={this.state.sections}
-              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-              renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-        </ScrollView>
-
-        <FooterComponent />*/

@@ -1,61 +1,48 @@
-import * as React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
- 
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
+import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
+import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
 
-const FirstRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />
-);
-const SecondRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
-);    
 
-// export default class options extends React.Component { 
-    
-       
-      export default class TabViewExample extends React.Component {
-        state = {
-          index: 0,
-          routes: [
-            { key: 'first', title: 'First' },
-            { key: 'second', title: 'Second' },
-          ],
-        };
-       
-        render() {
-          return (
-            <TabView
-              navigationState={this.state}
-              renderScene={SceneMap({
-                first: FirstRoute,
-                second: SecondRoute,
-              })}
-              onIndexChange={index => this.setState({ index })}
-              initialLayout={{ width: Dimensions.get('window').width }}
-            />
-          );
-        }
-      }
-       
-      const styles = StyleSheet.create({
-        scene: {
-          flex: 1,
-        },
-      });
-      
-    //  constructor(props) {
-    //    super(props);
-    //    }
-    
-    //  componentDidMount() {
-       
-    //  }
-        
-    //  componentWillUnmount() {
-    //  }
-    
-    //  render() {
-    //  }
-    // }
-    
+export default class Options extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
+
+
+
+  render() {
+    return (
+      <View>
+
+        <Icon
+          name='rowing' />
+
+        <Icon
+          name='g-translate'
+          color='#00aced' />
+
+        <Icon
+          name='sc-telegram'
+          type='evilicon'
+          color='#517fa4'
+        />
+
+        <Icon
+          reverse
+          name='ios-american-football'
+          type='ionicon'
+          color='#517fa4'
+        />
+
+        <Icon
+          raised
+          name='heartbeat'
+          type='font-awesome'
+          color='#f50'
+          onPress={() => console.log('hello')} />
+      </View>
+    )
+  }
+}
