@@ -4,7 +4,7 @@ import {
   TabBarBottom,
   createAppContainer
 } from "react-navigation";
-import Ionicons from "react-native-vector-icons/Ionicons";
+// import Ionicons from "react-native-vector-icons/Ionicons";
 import { Icon } from "react-native-elements";
 
 import Home from "./components/Home";
