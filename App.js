@@ -1,145 +1,48 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from "react";
+import {
+  createBottomTabNavigator,
+  TabBarBottom,
+  createAppContainer
+} from "react-navigation";
+// import Ionicons from "react-native-vector-icons/Ionicons";
+import { Icon } from "react-native-elements";
 
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
-import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
-import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
-// use this library https://oblador.github.io/react-native-vector-icons/
-// to choose the icon from "MaterialIcons"
-import { createStackNavigator } from 'react-navigation';
+import Home from "./components/home";
+import Account from "./components/account";
+import Contact from "./components/Contact";
 
-import Account from './components/account';
-import Survey from './components/survey';
-import SurveysList from './components/surveysList';
-import FooterComponent from './components/footer';
+const TabNavigator = createBottomTabNavigator(
+  {
+    Home: Home,
+    Account: Account,
+    Contact: Contact
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === "Home") {
+          iconName = `home`;
+        } else if (routeName === "Contact") {
+          iconName = `library-books`;
+        } else if (routeName === "Account") {
+          iconName = `account-box`;
+        }
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: '',
-      names: [
-        { key: 'Isa' },
-        { key: 'Maram' },
-        { key: 'Anagreh' },
-      ],
-      sections: [
-        { title: 'Section1', data: ['Devin'] },
-        { title: 'Section2', data: ['John', 'Julie'] },
-      ],
-      modalVisible: false,
-      selectedSurvey: null,
-    }
+        return <Icon size={40} name={iconName} color={"grey"} />;
+        // return <Ionicons name={iconName} size={40} color={"skyblue"} />;
+      }
+    }),
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: "bottom",
+    tabBarOptions: {
+      activeTintColor: "blue",
+      inactiveTintColor: "gray"
+    },
+    animationEnabled: false,
+    swipeEnabled: false
   }
+);
 
-  static navigationOptions = {
-    title: 'Welcome',
-  };
-
-
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  selectedSurvey(item) {
-    this.setState({ selectedSurvey: item })
-  }
-
-  render() {
-    return (
-      <Container>
-        <Text style={styles.welcome}> Welcome to ASKem! </Text>
-        
-        <Account />
-        <SurveysList
-          names={this.state.names}
-          selectedSurvey={this.selectedSurvey.bind(this)}
-          showHandler={this.setModalVisible.bind(this)}
-        />
-        <Survey
-          showHandler={this.setModalVisible.bind(this)}
-          visibility={this.state.modalVisible}
-          selectedSurvey={this.state.selectedSurvey}
-        />
-        
-
-        {/* anything above scrollview will look like nav bar*/}
-        <ScrollView>
-          <View style={styles.container}>
-            <Text style={styles.instructions}>To get started, edit App.js and Server.js</Text>
-            <Text style={styles.instructions}>{instructions}</Text>
-            <SectionList
-              sections={this.state.sections}
-              renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-              renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-        </ScrollView>
-
-        <FooterComponent />
-
-      </Container>
-    );
-  }
-
-
-
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  footerTab: {
-    backgroundColor: "#FFF",
-    borderStyle: 'solid',
-    borderWidth: 0,
-    borderTopWidth: 1,
-    borderColor: 'grey',
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: 'left',
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 300,
-    paddingBottom: 2,
-    fontSize: 20,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
-    textAlign: 'center',
-  },
-});
+export default createAppContainer(TabNavigator);

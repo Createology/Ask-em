@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-type Props = {};
-export default class Account extends Component<Props> {
+export default class Account extends Component {
   render() {
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}> In Account Component! </Text>
-            <Text style={styles.text}>Dark from server.js: {this.state.data.dark}</Text>
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.text}> In Account Component! </Text>
+        <Text style={styles.text}>
+          Dark from server.js: {this.state.data.dark}
+        </Text>
+      </View>
     );
   }
 
   constructor(props) {
-    super(props)
-    this.state = { data: 'wait' }
+    super(props);
+    this.state = { data: "wait" };
   }
 
   componentDidMount() {
@@ -35,24 +36,14 @@ export default class Account extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white"
   },
   text: {
     padding: 10,
     fontSize: 18,
     height: 44,
-    textAlign: 'left',
-  },
+    textAlign: "left"
+  }
 });
-
-
-
-
-// this is for navigation:
-// export default createStackNavigator ({
-//     Account: {
-//         screen: Account
-//     }
-// })

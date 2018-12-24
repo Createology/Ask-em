@@ -8,7 +8,7 @@
     "test": "jest",
     "brain": "nodemon brainServer.js",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios"
   },
   "dependencies": {
     "brain.js": "^1.6.0",
@@ -22,6 +22,7 @@
     "react-native": "0.57.8",
     "react-native-elements": "^1.0.0-beta7",
     "react-native-fontawesome": "^6.0.1",
+    "react-native-gesture-handler": "^1.0.12",
     "react-native-vector-icons": "^6.1.0",
     "react-navigation": "^3.0.9"
   },
