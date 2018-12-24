@@ -22,7 +22,7 @@ export default class Account extends Component<Props> {
 
   componentDidMount() {
     // depending on where am I
-    fetch('http://192.168.0.18:3000/isa/', {
+    fetch('http://192.168.0.17:3000/isa/', {
     // fetch('http://192.168.1.156:3000/isa/', {
       method: 'GET'
     }) 
