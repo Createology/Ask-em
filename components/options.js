@@ -19,7 +19,7 @@ export default class Options extends React.Component {
 
 
       <View style={styles.container}>
-        <Button
+        <Button style={styles.button} 
   icon={
     <Icon
       name='arrow-right'
@@ -28,7 +28,7 @@ export default class Options extends React.Component {
     />
   }
   
-/><Button
+/><Button style={styles.button}
   icon={
     <Icon
       name='arrow-right'
@@ -37,7 +37,7 @@ export default class Options extends React.Component {
     />
   }
   
-/><Button
+/><Button style={styles.button}
   icon={
     <Icon
       name='arrow-right'
@@ -46,7 +46,7 @@ export default class Options extends React.Component {
     />
   }
   
-/><Button
+/><Button style={styles.button}
   icon={
     <Icon
       name='arrow-right'
@@ -55,7 +55,7 @@ export default class Options extends React.Component {
     />
   }
   
-/><Button
+/><Button style={styles.button}
   icon={
     <Icon
       name='arrow-right'
