@@ -5,10 +5,11 @@ var brain = require('./server/brain.js');
 
 var app = express();
 
-console.log('brain',brain.output)
+
 app.get('/isa', function (req, res) {
-    res.send({ dark: brain.output.dark })
+    res.send({ dark: brain.output.dark})
 })
+console.log('brain', brain.output)
 
 app.listen(3000, function () {
     console.log('listening on port 3000!');
