@@ -11,12 +11,14 @@ import Home from "./components/home";
 import Account from "./components/account";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
+import Signup from "./components/signup";
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: Home,
     Account: Account,
-    Contact: Contact
+    Contact: Contact,
+    Signup: Signup
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -29,12 +31,14 @@ const TabNavigator = createBottomTabNavigator(
           iconName = `library-books`;
         } else if (routeName === "Account") {
           iconName = `account-box`;
+        } else if (routeName === "Signup") {
+          iconName = `account-box`;
         }
 
         return <Icon size={40} name={iconName} color={"grey"} />;
-      },
+      }
     }),
-    
+
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     tabBarOptions: {
