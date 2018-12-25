@@ -12,13 +12,15 @@ import Account from "./components/account";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
 import Signup from "./components/signup";
+import Signin from "./components/signin";
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: Home,
     Account: Account,
     Contact: Contact,
-    Signup: Signup
+    Signup: Signup,
+    Signin: Signin
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -32,6 +34,8 @@ const TabNavigator = createBottomTabNavigator(
         } else if (routeName === "Account") {
           iconName = `account-box`;
         } else if (routeName === "Signup") {
+          iconName = `account-box`;
+        } else if (routeName === "Signin") {
           iconName = `account-box`;
         }
 
