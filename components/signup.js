@@ -131,7 +131,7 @@ export default class Signup extends Component {
               marginLeft: 36
             }
           }}
-          onDateChange={date => {
+           onDateChange={date => {
             this.setState({ age: date });
           }}
         />
