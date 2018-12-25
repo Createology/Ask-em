@@ -5,10 +5,12 @@ import {
   View,
   FlatList,
   SectionList,
-  ScrollView
+  ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import { Container } from "native-base";
 
+import Header from "./Header";
 import SurveyList from "./SurveyList";
 import SurveyModal from "./SurveyModal";
 
@@ -42,10 +44,15 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
+      <ScrollView>
         <View style={styles.container}>
+          <View style={styles.header}>
+            <Header />
+          </View>
+          <View style={styles.title}>
           <Text style={styles.welcome}>Welcome to ASKem! </Text>
-        </View>
-
+          </View>
+        
         <SurveyList
           names={this.state.names}
           selectedSurvey={this.selectedSurvey.bind(this)}
@@ -56,8 +63,8 @@ export default class Home extends Component {
           visibility={this.state.modalVisible}
           selectedSurvey={this.state.selectedSurvey}
         />
-
-        <View>
+        </View>
+        <View style={styles.container}>
           <SectionList
             sections={[
               { title: "Section1", data: ["Devin"] },
@@ -70,6 +77,7 @@ export default class Home extends Component {
             keyExtractor={(item, index) => index}
           />
         </View>
+        </ScrollView>
       </Container>
     );
   }
@@ -78,36 +86,35 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    top: 0,
   },
+  header: {
+    position: 'absolute',
+    flex: 1,
+    flexDirection:'column',
+    borderStyle: 'solid',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 50,
+    width: 420,
+    backgroundColor: '#5E5E5E',
+  },
+  title: {
+    marginTop: 65,
+  },  
   welcome: {
     fontSize: 20,
     textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
   },
   button: {
     color: "#000",
     margin: 10,
     fontSize: 30,
     textAlign: "left"
-  },
-  footerTab: {
-    backgroundColor: "#FFF",
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderTopWidth: 1,
-    borderColor: "grey"
-  },
-  icon: {
-    margin: 40,
-    color: "#FFF"
   },
   item: {
     padding: 10,
