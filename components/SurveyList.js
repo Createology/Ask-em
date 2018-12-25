@@ -7,6 +7,7 @@ import {
   TouchableHighlight
 } from "react-native";
 
+//props from home.js
 export default class SurveyList extends Component {
   constructor(props) {
     super(props);
