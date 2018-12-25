@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, TextInput, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
 import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
 import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
-
+var ip = require('../ip.json');
 
 // props are from App component
 export default class Header extends Component<Props> {
@@ -19,7 +19,7 @@ export default class Header extends Component<Props> {
     }
 
     onSearch() {
-        fetch('http://192.168.1.156:3000/search/', {
+        fetch(`${ip}:3000/search/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

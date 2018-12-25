@@ -4,7 +4,6 @@ import {
   Text,
   View,
   FlatList,
-  SectionList,
   ScrollView,
   KeyboardAvoidingView
 } from "react-native";
@@ -64,19 +63,6 @@ export default class Home extends Component {
           selectedSurvey={this.state.selectedSurvey}
         />
         </View>
-        <View style={styles.container}>
-          <SectionList
-            sections={[
-              { title: "Section1", data: ["Devin"] },
-              { title: "Section2", data: ["Jackson", "John", "Julie"] }
-            ]}
-            renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({ section }) => (
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-            )}
-            keyExtractor={(item, index) => index}
-          />
-        </View>
         </ScrollView>
       </Container>
     );
@@ -116,20 +102,4 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "left"
   },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: "left"
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 300,
-    paddingBottom: 2,
-    fontSize: 20,
-    fontWeight: "bold",
-    backgroundColor: "rgba(247,247,247,1.0)",
-    textAlign: "center"
-  }
 });
