@@ -87,7 +87,7 @@ export default class Signup extends Component {
         <View>
           <Picker
             selectedValue={() => this.state.gender}
-            style={{ height: 55, width: 150 }}
+            style={{ height: 60, width: 150 }}
             onValueChange={(itemValue, itemIndex) =>
               this.setState({ gender: itemValue })
             }
@@ -131,7 +131,7 @@ export default class Signup extends Component {
               marginLeft: 36
             }
           }}
-           onDateChange={date => {
+          onDateChange={date => {
             this.setState({ age: date });
           }}
         />
