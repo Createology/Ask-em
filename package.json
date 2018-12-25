@@ -8,9 +8,11 @@
     "test": "jest",
     "brain": "nodemon brainServer.js",
     "android": "react-native run-android",
-    "ios": "react-native run-ios"
+    "ios": "react-native run-ios",
+    "ip": "ifconfig |grep inet"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "brain.js": "^1.6.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",

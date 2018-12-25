@@ -14,7 +14,7 @@ network.train(trainingData, {
 });
 
 const run = network.toFunction();
-const textOutput = run( [('mouse').replace(/\s/g, ""), 33] );
+const textOutput = run( [('mouse').replace(/\s/g, ""), 50] );
 // fs.writeFileSync('./net.json', JSON.stringify(network.toJSON(), null, '  '));
 // const textOutput = network.fromJSON(JSON.parse(fs.readFileSync('./net.json', 'utf8')));
 

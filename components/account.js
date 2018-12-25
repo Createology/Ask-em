@@ -22,7 +22,7 @@ export default class Account extends Component {
 
     // change this eveytime you have a new internet connection using this command in terminal: ifconfig |grep inet
     // copy the mask ip
-    fetch('http://192.168.0.17:3000/isa/', {
+    fetch('http://192.168.1.156:3000/isa/', {
       method: 'GET'
     }) 
       .then((response) => { return response.json() })
