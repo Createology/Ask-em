@@ -3,6 +3,7 @@ var express = require('express');
 // const cors = require('cors');
 var bodyParser = require('body-parser')
 var brain = require('./server/brain.js');
+var db = require('./database/index')
 
 var app = express();
 
@@ -19,9 +20,24 @@ app.get('/isa', function (req, res) {
 
 app.post('/search', function (req, res) {
     console.log('search server', req.body)
-    res.send({ dark: "hello"})
+    res.send({})
 })
 
+app.post('/surveys', function (req, res) {
+    console.log('search server', req.body)
+    res.send({})
+})
+
+app.post('/mysurveys', function (req, res) {
+    console.log('search server', req.body)
+    res.send({})
+})
+
+app.get('/user', function (req, res) {
+    res.send({})
+})
+
+//connection for everything except for Brain
 app.listen(3000, function () {
     console.log('listening on port 3000!');
 });
