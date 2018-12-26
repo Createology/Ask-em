@@ -6,12 +6,15 @@ import {
 } from "react-navigation";
 // import Ionicons from "react-native-vector-icons/Ionicons";
 import { Icon } from "react-native-elements";
-
+// this is the library of logos: https://oblador.github.io/react-native-vector-icons/
 import Home from "./components/home";
 import Account from "./components/account";
 import Contact from "./components/Contact";
 import Options from './components/options';
 
+import Header from "./components/Header";
+import Signup from "./components/signup";
+import Signin from "./components/signin";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -19,6 +22,8 @@ const TabNavigator = createBottomTabNavigator(
     Account: Account,
     Contact: Contact,
     More : Options
+    Signup: Signup,
+    Signin: Signin
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -33,16 +38,20 @@ const TabNavigator = createBottomTabNavigator(
           iconName = `account-box`;
         } else if (routeName === "More") {
           iconName = `home`;
+        } else if (routeName === "Signup") {
+          iconName = `account-box`;
+        } else if (routeName === "Signin") {
+          iconName = `account-box`;
         }
 
         return <Icon size={40} name={iconName} color={"grey"} />;
-        // return <Ionicons name={iconName} size={40} color={"skyblue"} />;
       }
     }),
+
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     tabBarOptions: {
-      activeTintColor: "blue",
+      activeTintColor: "#3BBC9F",
       inactiveTintColor: "gray"
     },
     animationEnabled: false,

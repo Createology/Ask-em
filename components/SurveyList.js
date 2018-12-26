@@ -7,6 +7,7 @@ import {
   TouchableHighlight
 } from "react-native";
 
+//props from home.js
 export default class SurveyList extends Component {
   constructor(props) {
     super(props);
@@ -38,12 +39,11 @@ export default class SurveyList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "white"
   },
   item: {
-    padding: 10,
     fontSize: 18,
     height: 44,
     textAlign: "left"

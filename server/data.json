@@ -1,46 +1,86 @@
 [
     {
+        "name": "Ahmad",
         "text": "drive",
-        "category": "compueter engineering"
+        "age": 31,
+        "major": "computer engineering"
     },
     {
+        "name": "Amjad",
         "text": "it needs more memory",
-        "category": "compueter engineering"
+        "age": 21,
+        "major": "software engineering"
     },
     {
+        "name": "Ayham",
         "text": "code",
-        "category": "software engineering"
+        "age": 35,
+        "major": "software engineering"
     },
     {
-        "text": "CPU",
-        "category": "software engineering"
+        "name": "Basil",
+        "text": "you found some bugs in the code",
+        "age": 43,
+        "major": "software engineering"
     },
     {
+        "name": "Majid",
         "text": "I tested the databse",
-        "category": "software engineering"
+        "age": 18,
+        "major": "software engineering"
     },
     {
+        "name": "Salim",
         "text": "power supply",
-        "category": "compueter engineering"
+        "age": 27,
+        "major": "software engineering"
     },
     {
+        "name": "Raed",
         "text": "I swapped the memory",
-        "category": "compueter engineering"
+        "age": 36,
+        "major": "computer engineering"
     },
     {
+        "name": "Mohammad",
         "text": "you type",
-        "category": "software engineering"
+        "age": 20,
+        "major": "software engineering"
     },
     {
+        "name": "Zaid",
         "text": "she is playing",
-        "category": "software engineering"
+        "age": 55,
+        "major": "software engineering"
     },
     {
+        "name": "Jamal",
         "text": "he is nice",
-        "category": "compueter engineering"
+        "age": 33,
+        "major": "computer engineering"
     },
     {
+        "name": "Kamal",
         "text": "they added a new RAM",
-        "category": "compueter engineering"
+        "age": 64,
+        "major": "computer engineering"
+    },
+    {
+        "name": "Nour",
+        "text": "he bought a new keyboard",
+        "age": 42,
+        "major": "computer engineering"
+    },
+    {
+        "name": "Sanad",
+        "text": "they uses a new mouse",
+        "age": 31,
+        "major": "computer engineering"
+    },
+    {
+        "name": "Dirar",
+        "text": "she loves mouse pad",
+        "age": 31,
+        "major": "computer engineering"
     }
 ]

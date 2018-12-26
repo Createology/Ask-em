@@ -4,11 +4,12 @@ import {
   Text,
   View,
   FlatList,
-  SectionList,
-  ScrollView
+  ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import { Container } from "native-base";
 
+import Header from "./Header";
 import SurveyList from "./SurveyList";
 import SurveyModal from "./SurveyModal";
 
@@ -28,7 +29,10 @@ export default class Home extends Component {
         { title: "Section2", data: ["John", "Julie"] }
       ],
       modalVisible: false,
-      selectedSurvey: null
+      selectedSurvey: null,
+      surveyName: "",
+      surveyDescription: "",
+      surveyTargetAudience: ""
     };
   }
 
@@ -40,38 +44,58 @@ export default class Home extends Component {
     this.setState({ selectedSurvey: item });
   }
 
+  onChangeSurveyName = name => {
+    this.setState({
+      surveyName: name
+    });
+  };
+
+  onChangeSurveyDescription(description) {
+    this.setState({
+      surveyDescription: description
+    });
+  }
+
+  onChangeSurveyTargetAudience(targetAudience) {
+    this.setState({
+      surveyTargetAudience: targetAudience
+    });
+  }
+
+  onPressSubmitModal(surveyName, surveyDescription, surveyTargetAudience) {
+    [...arguments].forEach(element => {
+      this.setState({ element });
+    });
+    console.warn("surveyName: " + surveyName);
+    console.warn("surveyDescription: " + surveyDescription);
+    console.warn("surveyTargetAudience: " + surveyTargetAudience);
+  }
+
   render() {
     return (
       <Container>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to ASKem! </Text>
-          <Text style={styles.welcome}>This is from askem/server.js:</Text>
-        </View>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Header />
+            </View>
+            <View style={styles.title}>
+              <Text style={styles.welcome}>Welcome to ASKem! </Text>
+            </View>
 
-        <SurveyList
-          names={this.state.names}
-          selectedSurvey={this.selectedSurvey.bind(this)}
-          showHandler={this.setModalVisible.bind(this)}
-        />
-        <SurveyModal
-          showHandler={this.setModalVisible.bind(this)}
-          visibility={this.state.modalVisible}
-          selectedSurvey={this.state.selectedSurvey}
-        />
-
-        <View>
-          <SectionList
-            sections={[
-              { title: "Section1", data: ["Devin"] },
-              { title: "Section2", data: ["Jackson", "John", "Julie"] }
-            ]}
-            renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-            renderSectionHeader={({ section }) => (
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-            )}
-            keyExtractor={(item, index) => index}
-          />
-        </View>
+            <SurveyList
+              names={this.state.names}
+              selectedSurvey={this.selectedSurvey.bind(this)}
+              showHandler={this.setModalVisible.bind(this)}
+            />
+            <SurveyModal
+              showHandler={this.setModalVisible.bind(this)}
+              visibility={this.state.modalVisible}
+              selectedSurvey={this.state.selectedSurvey}
+              submitModalHandler={this.onPressSubmitModal.bind(this)}
+            />
+          </View>
+        </ScrollView>
       </Container>
     );
   }
@@ -80,51 +104,34 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    flexDirection: "column",
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    top: 0
+  },
+  header: {
+    position: "absolute",
+    flex: 1,
+    flexDirection: "column",
+    borderStyle: "solid",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 50,
+    width: 420,
+    backgroundColor: "#5E5E5E"
+  },
+  title: {
+    marginTop: 65
   },
   welcome: {
     fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
+    textAlign: "center"
   },
   button: {
     color: "#000",
     margin: 10,
     fontSize: 30,
     textAlign: "left"
-  },
-  footerTab: {
-    backgroundColor: "#FFF",
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderTopWidth: 1,
-    borderColor: "grey"
-  },
-  icon: {
-    margin: 40,
-    color: "#FFF"
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: "left"
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 300,
-    paddingBottom: 2,
-    fontSize: 20,
-    fontWeight: "bold",
-    backgroundColor: "rgba(247,247,247,1.0)",
-    textAlign: "center"
   }
 });
