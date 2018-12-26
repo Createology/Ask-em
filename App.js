@@ -13,6 +13,7 @@ import Contact from "./components/Contact";
 import Header from "./components/Header";
 import Signup from "./components/signup";
 import Signin from "./components/signin";
+import Options from "./components/options";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -20,7 +21,8 @@ const TabNavigator = createBottomTabNavigator(
     Account: Account,
     Contact: Contact,
     Signup: Signup,
-    Signin: Signin
+    Signin: Signin,
+    More : Options
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -37,6 +39,8 @@ const TabNavigator = createBottomTabNavigator(
           iconName = `account-box`;
         } else if (routeName === "Signin") {
           iconName = `account-box`;
+        }else if (routeName === "More") {
+          iconName = `home`;
         }
 
         return <Icon size={40} name={iconName} color={"grey"} />;

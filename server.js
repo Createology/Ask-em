@@ -63,7 +63,7 @@ app.post("/signup", function(req, res) {
   });
 });
 
-app.post("login",function(req,res)){
+app.post("login",function(req,res){
 
   // var username = req.body.username;
   // var password = req.body.password;
@@ -84,7 +84,7 @@ app.post("login",function(req,res)){
   //   }
   // })
 
-}
+});
 
 //connection for everything except for Brain
 app.listen(3000, function() {
