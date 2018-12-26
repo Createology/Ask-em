@@ -4,18 +4,19 @@ CREATE DATABASE ask;
 
 USE ask;
 
+-- database tables 
+-- +---------------+
+-- | answers       |
+-- | questions     |
+-- | surveys       |
+-- | users         |
+-- +---------------+
 
--- ---
--- Globals
--- ---
-
--- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
--- SET FOREIGN_KEY_CHECKS=0;
-
--- ---
--- Table 'users'
--- users info tables
--- ---
+-- INSERT INTO `users` (`
+-- id`,
+-- `username
+-- `, `firstname`, `midname`, `lastname`, `birthday`, `gender`, `country`, `email`, `password`, `createdAt`) VALUES
+-- (NULL, 'Mohannad', 'Mohannad', 'Bahaa', 'Al-musa', '2018-12-17', '0', 'Amman', 'mohbah026@gmail.com', '12345678', CURRENT_TIMESTAMP);
 
 DROP TABLE IF EXISTS `users`;
 
@@ -75,7 +76,7 @@ DROP TABLE IF EXISTS `questions`;
 
 CREATE TABLE `questions`
 (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `id` INTEGER  AUTO_INCREMENT NOT NULL,
   `id_surveys` INTEGER NOT NULL,
   `id_users` INTEGER NOT NULL,
   `question` VARCHAR
@@ -94,7 +95,7 @@ DROP TABLE IF EXISTS `answers`;
 
 CREATE TABLE `answers`
 (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `id` INTEGER  AUTO_INCREMENT NOT NULL ,
   `agree` INTEGER NOT NULL DEFAULT 0,
   `disagree` INTEGER NOT NULL DEFAULT 0,
   `id_questions` INTEGER NULL DEFAULT NULL,
@@ -132,3 +133,11 @@ ALTER TABLE `answers`
 ADD FOREIGN KEY
 (id_surveys) REFERENCES `surveys`
 (`id`);
+
+
+
+-- INSERT INTO `users` (`
+-- id`,
+-- `username
+-- `, `firstname`, `midname`, `lastname`, `birthday`, `gender`, `country`, `email`, `password`, `createdAt`) VALUES
+-- (NULL, 'Mohannad', 'Mohannad', 'Bahaa', 'Al-musa', '2018-12-17', '0', 'Amman', 'mohbah026@gmail.com', '12345678', CURRENT_TIMESTAMP);

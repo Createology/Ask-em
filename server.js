@@ -63,28 +63,28 @@ app.post("/signup", function(req, res) {
   });
 });
 
-app.post("login",function(req,res)){
+// app.post("login",function(req,res)){
 
-  // var username = req.body.username;
-  // var password = req.body.password;
+//   // var username = req.body.username;
+//   // var password = req.body.password;
 
-  // var query = `select * from users where username=\"${username}\"`;
-  // // 0 -> no username 
-  // db.dbConnection.query(query,function(err,result){
-  //   if(result){
-  //       // make compare 
-  //       // //  bcrypt.compare(password, result[0].password, function(err, data) {
-  //         if (data) {
-  //       //     var userId = result[0].id
-  //       //     var user = result[0]
-  //       //     var username=result[0].username
-  //       //     console.log('User info-->',username)
-  //   } else {
-  //     res.send('0');
-  //   }
-  // })
+//   // var query = `select * from users where username=\"${username}\"`;
+//   // // 0 -> no username
+//   // db.dbConnection.query(query,function(err,result){
+//   //   if(result){
+//   //       // make compare
+//   //       // //  bcrypt.compare(password, result[0].password, function(err, data) {
+//   //         if (data) {
+//   //       //     var userId = result[0].id
+//   //       //     var user = result[0]
+//   //       //     var username=result[0].username
+//   //       //     console.log('User info-->',username)
+//   //   } else {
+//   //     res.send('0');
+//   //   }
+//   // })
 
-}
+// }
 
 //connection for everything except for Brain
 app.listen(3000, function() {
