@@ -33,7 +33,7 @@ app.post("/mysurveys", function(req, res) {
 
 //NOTE: 0-->(Not save) 1-->(save correctly)
 app.get("/user", function(req, res) {
-  res.send({});
+  res.status(200).send({});
 });
 
 app.post("/signup", function(req, res) {
@@ -47,8 +47,6 @@ app.post("/signup", function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
-  bcrypt.hash(password, 12);
-
   bcrypt.hash(password, 12).then(function(hashedPassword) {
     console.log("hashed password", hashedPassword);
     var query = `insert into users values(null,\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${username}\",\"${hashedPassword}\",null)`;
@@ -57,13 +55,13 @@ app.post("/signup", function(req, res) {
         res.send("1");
       } else {
         console.log(err);
-        res.send("0");
+        res.status(404).send("0");
       }
     });
   });
 });
 
-app.post("login",function(req,res)){
+app.post("login",function(req,res){
 
   // var username = req.body.username;
   // var password = req.body.password;
@@ -84,7 +82,7 @@ app.post("login",function(req,res)){
   //   }
   // })
 
-}
+})
 
 //connection for everything except for Brain
 app.listen(3000, function() {

@@ -14,7 +14,7 @@ export default class Header extends Component<Props> {
         super(props);
         this.state = {
             text: "init",
-            data: "init"
+            data: null
         };
     }
 
@@ -28,8 +28,9 @@ export default class Header extends Component<Props> {
         })
             .then((response) => { return response.json() })
             .then((res) => {
+                console.warn(`this is the new data: ${this.state.data}`)
                 this.setState({
-                    data: res.dark
+                    data: res
                 })
                 console.warn(`this is the new data: ${this.state.data}`)
             }).done()

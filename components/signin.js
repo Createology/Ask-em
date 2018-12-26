@@ -7,8 +7,10 @@ import {
   Button,
   TouchableHighlight,
   Image,
-  Alert
+  Alert,
+  AsyncStorage
 } from "react-native";
+var ip = require('../ip.json');
 
 export default class Signin extends Component {
   constructor(props) {
@@ -19,9 +21,41 @@ export default class Signin extends Component {
     };
   }
 
-  onClickListener = viewId => {
-    Alert.alert("Alert", "Button pressed " + viewId);
-  };
+  onLoginPressed () {
+    this.setState({showProgress: true})
+    fetch(`http://${ip}:3000/login`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        session:{
+          email: this.state.email,
+          password: this.state.password,
+        }
+      })
+    })
+    .then((response) => { return response.json() })
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        //Handle success
+        let accessToken = res.id;
+        console.log(accessToken);
+        //On success we will store the access_token in the AsyncStorage
+        this.storeToken(accessToken);
+        this.redirect('home');
+      } else {
+          //Handle error
+          let error = res;
+          throw error;
+      }
+    })
+  }
+
+  storeToken(accessToken) {
+    AsyncStorage.setItem(accessToken, accessToken);
+  }
 
   render() {
     return (
@@ -60,7 +94,7 @@ export default class Signin extends Component {
 
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.onClickListener("login")}
+          onPress={() => this.onLoginPressed.bind(this)}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
@@ -80,7 +114,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#DCDCDC"
+    //backgroundColor: "#DCDCDC"
+    backgroundColor: "white"
   },
   inputContainer: {
     borderBottomColor: "#F5FCFF",
@@ -91,13 +126,14 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    borderWidth: 1
   },
   inputs: {
     height: 45,
     marginLeft: 16,
     borderBottomColor: "#FFFFFF",
-    flex: 1
+    flex: 1,
   },
   inputIcon: {
     width: 30,
@@ -110,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
     width: 250,
     borderRadius: 30
   },

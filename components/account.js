@@ -29,7 +29,6 @@ export default class Account extends Component {
         })
       }).done()
   }
-
   
   setUser() {
     //search for user session
