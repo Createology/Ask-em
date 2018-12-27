@@ -6,8 +6,8 @@ import {
   FlatList,
   TouchableHighlight
 } from "react-native";
+import PropTypes from "prop-types";
 
-//props from home.js
 export default class SurveyList extends Component {
   constructor(props) {
     super(props);
@@ -52,3 +52,9 @@ const styles = StyleSheet.create({
     fontSize: 25
   }
 });
+
+SurveyList.propTypes = {
+  names: PropTypes.array,
+  selectedSurvey: PropTypes.func,
+  showHandler: PropTypes.func
+};
