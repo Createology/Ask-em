@@ -8,7 +8,8 @@ import {
   TouchableHighlight,
   Image,
   Alert,
-  Picker
+  Picker,
+  ScrollView
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 
@@ -36,37 +37,38 @@ export default class Signup extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="First Name"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={firstname => this.setState({ firstname })}
-          />
-        </View>
+        <ScrollView>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{
+                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
+              }}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="First Name"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={firstname => this.setState({ firstname })}
+            />
+          </View>
 
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Midlle name"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={midname => this.setState({ midname })}
-          />
-        </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{
+                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
+              }}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Midlle name"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={midname => this.setState({ midname })}
+            />
+          </View>
 
         <View style={styles.inputContainer}>
           <Image
@@ -152,54 +154,67 @@ export default class Signup extends Component {
             source={{
               uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
             }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Username"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={username => this.setState({ username })}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
+            onDateChange={date => {
+              this.setState({ age: date });
             }}
           />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({ email })}
-          />
-        </View>
 
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/key-2/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            secureTextEntry={true}
-            underlineColorAndroid="transparent"
-            onChangeText={password => this.setState({ password })}
-          />
-        </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{
+                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
+              }}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Username"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={username => this.setState({ username })}
+            />
+          </View>
 
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.signupBtn]}
-          onPress={() => this.onClickListener("SignUp")}
-        >
-          <Text style={styles.signupText}>Signup</Text>
-        </TouchableHighlight>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={{
+                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
+              }}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Email"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={email => this.setState({ email })}
+            />
+          </View>
+
+            <View style={styles.inputContainer}>
+              <Image
+                style={styles.inputIcon}
+                source={{
+                  uri: "https://png.icons8.com/key-2/ultraviolet/50/3498db"
+                }}
+              />
+              <TextInput
+                style={styles.inputs}
+                placeholder="Password"
+                secureTextEntry={true}
+                underlineColorAndroid="transparent"
+                onChangeText={password => this.setState({ password })}
+              />
+            </View>
+
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.signupBtn]}
+              onPress={() => this.onClickListener("SignUp")}
+            >
+              <Text style={styles.signupText}>Signup</Text>
+            </TouchableHighlight>
+          </View>
+        </ScrollView>
       </View>
     );
   }

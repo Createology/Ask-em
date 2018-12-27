@@ -33,5 +33,10 @@ const selectAllAnsweredSurveys = function(userID, callback) {
   })
 };
 
+/*
+get id from users table using email
+get answers
+*/
+
 module.exports.selectAll = selectAll;
 module.exports.selectAllSurveys = selectAllSurveys;

@@ -90,17 +90,11 @@ export default class SurveyModal extends Component {
                     full
                     block
                     onPress={() => {
-                      // let name = this.state.surveyName;
-                      // let desc = this.state.surveyDescription;
-                      // let aud = this.state.surveyAudience;
                       this.props.submitModalHandler(
                         this.state.surveyName,
                         this.state.surveyDescription,
                         this.state.surveyAudience
                       );
-                      // console.warn("name: " + this.state.surveyName);
-                      // console.warn("desc: " + this.state.surveyDescription);
-                      // console.warn("aud: " + this.state.surveyAudience);
                     }}
                   >
                     {/* need to changeicon color */}

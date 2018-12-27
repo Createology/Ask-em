@@ -12,6 +12,7 @@ import { Container } from "native-base";
 import Header from "./Header";
 import SurveyList from "./SurveyList";
 import SurveyModal from "./SurveyModal";
+let ip = require("../ip.json");
 
 export default class Home extends Component {
   static navigationOptions = {
@@ -49,25 +50,37 @@ export default class Home extends Component {
     });
   };
 
-  onChangeSurveyDescription(description) {
+  onChangeSurveyDescription = description => {
     this.setState({
       surveyDescription: description
     });
-  }
+  };
 
-  onChangeSurveyTargetAudience(targetAudience) {
+  onChangeSurveyTargetAudience = targetAudience => {
     this.setState({
       surveyTargetAudience: targetAudience
     });
-  }
+  };
 
   onPressSubmitModal(surveyName, surveyDescription, surveyTargetAudience) {
     [...arguments].forEach(element => {
       this.setState({ element });
     });
-    console.warn("surveyName: " + surveyName);
-    console.warn("surveyDescription: " + surveyDescription);
-    console.warn("surveyTargetAudience: " + surveyTargetAudience);
+
+    fetch(`${ip}:3000/surveys`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        surveyName: surveyName,
+        surveyDescription: surveyDescription,
+        surveyTargetAudience: surveyTargetAudience
+      })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ modalVisible: false });
+        console.warn(res);
+      });
   }
 
   render() {
