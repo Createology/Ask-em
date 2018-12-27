@@ -1,129 +1,108 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
-import { Container, Footer, Title, FooterTab, Content } from 'native-base';
-import { List, ListItem, Icon, Button, parseIconName } from 'react-native-elements';
+import { Container, Header, Content, List, ListItem, Left, Body, Right, Switch } from 'native-base';
+import {Icon, Button, parseIconName } from 'react-native-elements';
+import {
+  DrawerItems,
+  SafeAreaView,
+  TabBarBottom,
+  createAppContainer
+} from "react-navigation";
+import Home from "./home";
+import Signup from "./signup";
+import Signin from "./signin";
 
-
-export default class Options extends React.Component {
+export default class Options extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      data: "",
+      modalVisible: false
+     
+    };
   }
 
-
+  handlePress(visible) {
+    this.props.navigateForward(item.sceneId);
+  this.props.closeDrawer();
+    this.setState({ modalVisible: visible });
+  }
 
   render() {
     return (
-
-
-
-
-      <View style={styles.container}>
-        <Button
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/>
-        
-      </View>
-
-
-
-    )
+      <Container>
+        <Header />
+        <Content>
+          <ListItem icon>
+            <Left>
+              <Button  onPress={this.handlePress} title='' style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="plane" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>My Profile</Text>
+            </Body>
+            <Right>
+            <Icon active name="arrow-forward" />
+              {/* <Switch value={false} /> */}
+            </Right>
+          </ListItem>
+          <ListItem icon>
+            <Left>
+              <Button onPress={this.handlePress}  title='' style={{ backgroundColor: "#007AFF" }}>
+                <Icon active name="wifi" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>Sign In</Text>
+            </Body>
+            <Right>
+              <Text></Text>
+              <Icon active name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem icon>
+            <Left>
+              <Button onPress={this.handlePress}  title='' style={{ backgroundColor: "#007AFF" }}>
+                <Icon active name="bluetooth" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>Sign Up</Text>
+            </Body>
+            <Right>
+              <Text></Text>
+              <Icon active name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem icon>
+            <Left>
+              <Button onPress={this.handlePress}  title='' style={{ backgroundColor: "#007AFF" }}>
+                <Icon active name="bluetooth" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>Log Out</Text>
+            </Body>
+            <Right>
+              <Text></Text>
+              <Icon active name="arrow-forward" />
+            </Right>
+          </ListItem>
+        </Content>
+      </Container>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
-    padding : 30
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  },
-  button: {
-    color: "#000",
-    margin: 10,
-    fontSize: 30,
-    textAlign: "left"
-  },
-  footerTab: {
-    backgroundColor: "#FFF",
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderTopWidth: 1,
-    borderColor: "grey"
-  },
-  icon: {
-    margin: 40,
-    color: "#FFF"
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: "left"
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 300,
-    paddingBottom: 2,
-    fontSize: 20,
-    fontWeight: "bold",
-    backgroundColor: "rgba(247,247,247,1.0)",
-    textAlign: "center"
+    top: 0
   }
-});
-
+})
