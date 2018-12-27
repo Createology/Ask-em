@@ -16,14 +16,14 @@ import DatePicker from "react-native-datepicker";
 export default class Signup extends Component {
   constructor(props) {
     super(props);
-    state = {
+    this.state = {
       firsname: "",
       midname: "",
       lastname: "",
       gender: "",
       country: "",
       region: "",
-      age: "25",
+      age: "01-01-1980",
       username: "",
       email: "",
       password: ""
@@ -70,68 +70,89 @@ export default class Signup extends Component {
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={{
-                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-              }}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Last name"
-              keyboardType="email-address"
-              underlineColorAndroid="transparent"
-              onChangeText={lastname => this.setState({ lastname })}
-            />
-          </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={{
+              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
+            }}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder="Last name"
+            keyboardType="email-address"
+            underlineColorAndroid="transparent"
+            onChangeText={lastname => this.setState({ lastname })}
+          />
+        </View>
 
-          <View>
-            <Picker
-              selectedValue={() => this.state.gender}
-              style={{ height: 60, width: 150 }}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ gender: itemValue })
-              }
-            >
-              <Picker.Item label="Male" value="0" />
-              <Picker.Item label="Female" value="1" />
-            </Picker>
-          </View>
+        <View>
+          <Picker
+            selectedValue={() => this.state.gender}
+            style={{ height: 60, width: 150, marginTop: -20}}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ gender: itemValue })
+            }
+          >
+            <Picker.Item label="Male" value="0" />
+            <Picker.Item label="Female" value="1" />
+          </Picker>
+        </View>
 
-          <View>
-            <Picker
-              selectedValue={() => this.state.country}
-              style={{ height: 55, width: 200 }}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ country: itemValue })
-              }
-            >
-              <Picker.Item label="Amman" value="Amman" />
-              <Picker.Item label="Irbid" value="Irbid" />
-            </Picker>
-          </View>
+        <View>
+          <Picker
+            selectedValue={() => this.state.country}
+            style={{ height: 55, width: 200, marginTop: -20 }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ country: itemValue })
+            }
+          >
+            <Picker.Item label="Amman" value="Amman" />
+            <Picker.Item label="Irbid" value="Irbid" />
+          </Picker>
+        </View>
 
+        <View style={styles.inputContainer}>
           <DatePicker
-            style={{ height: 55, width: 150 }}
-            date={date => this.state.age}
+            style={{width: 250, padding: 10, marginLeft: 0 }}
+            date={this.state.age}
             mode="date"
             placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate="1900-01-01"
-            maxDate="2050-01-01"
+            format="DD-MM-YYYY"
+            minDate="01-01-1900"
+            maxDate="01-01-2050"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             customStyles={{
               dateIcon: {
                 position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0
+                left: -8,
+                top: 3.5,
+                marginLeft: 10,
               },
               dateInput: {
-                marginLeft: 36
-              }
+                marginLeft: 25,
+                borderRadius: 20,
+                width: 50,
+                height: 45,
+                borderWidth: 0,
+              },
+              dateText: {
+                color: 'grey',
+                fontSize: 17,
+                marginLeft: -40,
+              },
+            }}
+            onDateChange={date => {
+              this.setState({ age: date });
+            }}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={{
+              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
             }}
             onDateChange={date => {
               this.setState({ age: date });
@@ -170,28 +191,29 @@ export default class Signup extends Component {
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={{
-                uri: "https://png.icons8.com/key-2/ultraviolet/50/3498db"
-              }}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Password"
-              secureTextEntry={true}
-              underlineColorAndroid="transparent"
-              onChangeText={password => this.setState({ password })}
-            />
-          </View>
+            <View style={styles.inputContainer}>
+              <Image
+                style={styles.inputIcon}
+                source={{
+                  uri: "https://png.icons8.com/key-2/ultraviolet/50/3498db"
+                }}
+              />
+              <TextInput
+                style={styles.inputs}
+                placeholder="Password"
+                secureTextEntry={true}
+                underlineColorAndroid="transparent"
+                onChangeText={password => this.setState({ password })}
+              />
+            </View>
 
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.signupBtn]}
-            onPress={() => this.onClickListener("SignUp")}
-          >
-            <Text style={styles.signupText}>Signup</Text>
-          </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.signupBtn]}
+              onPress={() => this.onClickListener("SignUp")}
+            >
+              <Text style={styles.signupText}>Signup</Text>
+            </TouchableHighlight>
+          </View>
         </ScrollView>
       </View>
     );
@@ -203,7 +225,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#DCDCDC"
+    // backgroundColor: "#DCDCDC"
+    backgroundColor: "white"
   },
   inputContainer: {
     borderBottomColor: "#F5FCFF",
@@ -212,9 +235,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: 250,
     height: 45,
-    marginBottom: 20,
+    marginBottom: 15,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    borderWidth: 1
   },
   inputs: {
     height: 45,

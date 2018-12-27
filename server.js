@@ -30,7 +30,7 @@ app.post("/mysurveys", function(req, res) {
 
 //NOTE: 0-->(Not save) 1-->(save correctly)
 app.get("/user", function(req, res) {
-  res.send({});
+  res.status(200).send({});
 });
 
 app.post("/signup", function(req, res) {
@@ -52,7 +52,7 @@ app.post("/signup", function(req, res) {
         res.send("1");
       } else {
         console.log(err);
-        res.send("0");
+        res.status(404).send("0");
       }
     });
   });
