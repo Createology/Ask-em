@@ -32,7 +32,7 @@ export default class Home extends Component {
       selectedSurvey: null,
       surveyName: "",
       surveyDescription: "",
-      surveyTargetAudience: ""
+      surveyCategory: ""
     };
   }
 
@@ -56,13 +56,13 @@ export default class Home extends Component {
     });
   };
 
-  onChangeSurveyTargetAudience = targetAudience => {
+  onChangeSurveyCategory = category => {
     this.setState({
-      surveyTargetAudience: targetAudience
+      surveyCategory: category
     });
   };
 
-  onPressSubmitModal(surveyName, surveyDescription, surveyTargetAudience) {
+  onPressSubmitModal(surveyName, surveyDescription, surveyCategory) {
     [...arguments].forEach(element => {
       this.setState({ element });
     });
@@ -73,7 +73,7 @@ export default class Home extends Component {
       body: JSON.stringify({
         surveyName: surveyName,
         surveyDescription: surveyDescription,
-        surveyTargetAudience: surveyTargetAudience
+        surveyCategory: surveyCategory
       })
     })
       .then(response => response.json())

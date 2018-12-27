@@ -1,32 +1,33 @@
-const db = require("../database/index");
+let DB = require("../database/index");
 
-const insertSurvey = (req, res) => {
-  res.send({ status: "[----Success: Insert Survey!" });
-  //   let surveyName = req.body.surveyName;
-  //   let surveyDescription = req.body.surveyDescription;
-  //   let surveyTargetAudience = req.body.surveyTargetAudience;
-
-  //   let query = `INSERT INTO SURVEYS(name, category, description) VALUES(\"${surveyName}\",\"${surveyDescription}\",\"${surveyDescription}\")`;
-  //   db.dbConnection.query(query, (err, result) => {
-  //     if (result) {
-  //       res.send({ status: "[----Success: Insert Survey!" });
-  //     } else {
-  //       console.log(err);
-  //       res.send({ status: "[----Error: Insert Survey!" });
-  //     }
-  //   });
+const saveSurvey = (req, res) => {
+  let surveyName = req.body.surveyName;
+  let surveyDescription = req.body.surveyDescription;
+  let surveyCategory = req.body.surveyCategory;
+  DB.insertSurvey(
+    surveyName,
+    surveyDescription,
+    surveyCategory,
+    (err, result) => {
+      if (result) {
+        res.send(result);
+      } else {
+        res.send(result);
+      }
+    }
+  );
 };
 
-const selectAllSurveys = function(callback) {
-  res.send({ status: "[----Success: Selected Surveys!" });
-  //   db.dbConnection.query(`SELECT * FROM SURVEYS`, (err, results) => {
-  //     if (err) {
-  //       callback(err, null);
-  //     } else {
-  //       callback(null, results);
-  //     }
-  //   });
+getAllSurveys = (req, res) => {
+  let userID = req.userID;
+  DB.selectAllSurveys(userID, (err, result) => {
+    if (result) {
+      res.send(result);
+    } else {
+      res.send(result);
+    }
+  });
 };
 
-module.exports.selectAllSurveys = selectAllSurveys;
-module.exports.insertSurvey = insertSurvey;
+module.exports.saveSurvey = saveSurvey;
+module.exports.getAllSurveys = getAllSurveys;

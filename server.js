@@ -19,9 +19,9 @@ app.post("/search", function(req, res) {
   res.status(200).send({});
 });
 
-app.get("/surveys", surveyHelpers.selectAllSurveys);
+app.get("/surveys", surveyHelpers.getAllSurveys);
 
-app.post("/surveys", surveyHelpers.insertSurvey);
+app.post("/surveys", surveyHelpers.saveSurvey);
 
 app.post("/mysurveys", function(req, res) {
   console.log("search server", req.body);
