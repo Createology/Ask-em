@@ -11,12 +11,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/isa", function(req, res) {
-  res.send({ dark: brain.output.dark });
+  res.status(200).send({ dark: brain.output.dark });
 });
 
 app.post("/search", function(req, res) {
   console.log("search server", req.body);
-  res.send({});
+  res.status(200).send({});
 });
 
 app.get("/surveys", surveyHelpers.selectAllSurveys);
@@ -25,7 +25,7 @@ app.post("/surveys", surveyHelpers.insertSurvey);
 
 app.post("/mysurveys", function(req, res) {
   console.log("search server", req.body);
-  res.send({});
+  res.status(200).send({});
 });
 
 //NOTE: 0-->(Not save) 1-->(save correctly)
@@ -49,10 +49,10 @@ app.post("/signup", function(req, res) {
     var query = `insert into users values(null,\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${username}\",\"${hashedPassword}\",null)`;
     db.dbConnection.query(query, function(err, result) {
       if (result) {
-        res.send("1");
+        res.status(200).send("1");
       } else {
         console.log(err);
-        res.status(404).send("0");
+        res.status(404).send("");
       }
     });
   });
@@ -80,6 +80,11 @@ app.post("/signup", function(req, res) {
 //   // })
 
 // }
+
+
+app.get('/*', (req, res) => {
+  res.status(404).send('');
+ });
 
 //connection for everything except for Brain
 app.listen(3000, function() {

@@ -16,7 +16,6 @@ describe('Server Test', function () {
 });
 
 describe('POST', function () {
-
     it('should register users ', function (done) {
         request(`${ip}:3000`).post('/signup').expect(200).send({
             firsname: "Someone",
@@ -36,20 +35,8 @@ describe('POST', function () {
 })
 
 
-describe('save records to the db', function(){
-    it('saves a record to the database',function(done){
-        var workers = new db.worker({
-            name: 'DANA',
-            major: 'Carpenter',
-            rating: 5,
-            email: 'd@gmail.com',
-            username: 'Da',
-            password: 12345,
-        });
-        workers.save().then(function(){
-            assert(workers.isNew === false);
-            done();
-
-        });
-    });
-});
+describe('GET', function () {
+    it('should register users ', function (done) {
+        request(`${ip}:4000`).get('/textbrain').expect(200, done)
+    })
+})
