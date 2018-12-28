@@ -18,9 +18,9 @@ const saveSurvey = (req, res) => {
   );
 };
 
-getAllSurveys = (req, res) => {
+getAllSurveysOfUser = (req, res) => {
   let userID = req.userID;
-  DB.selectAllSurveys(userID, (err, result) => {
+  DB.selectAllSurveysOfUser(userID, (err, result) => {
     if (result) {
       res.send(result);
     } else {
@@ -29,5 +29,16 @@ getAllSurveys = (req, res) => {
   });
 };
 
+getAllSurveys = (req, res) => {
+  DB.selectAll("surveys", (err, result) => {
+    if (result) {
+      res.send(result);
+    } else {
+      res.send("----Error in: surveyHelpers- getAllSurveys");
+    }
+  });
+};
+
 module.exports.saveSurvey = saveSurvey;
 module.exports.getAllSurveys = getAllSurveys;
+module.exports.getAllSurveysOfUser = getAllSurveysOfUser;
