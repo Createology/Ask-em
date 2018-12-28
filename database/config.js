@@ -8,4 +8,4 @@ var dbConnection = mysql.createConnection({
   database: "askem_77"
 });
 
-module.exports = dbConnection;
+module.exports.dbConnection = dbConnection;
