@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { StyleSheet, SectionList, Text, View, Modal, TouchableHighlight } from "react-native";
 import SurveyModal from "./SurveyModal";
 var ip = require('../ip.json');
+// import IP from 'ip';
+// ip = IP.mask()
 
 export default class Account extends Component {
   constructor(props) {

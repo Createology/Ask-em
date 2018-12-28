@@ -15,6 +15,19 @@ import DatePicker from "react-native-datepicker";
 
 var ip = require("../ip.json");
 
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDc0MrwW4j1k-RP6Xg9eWA2n1DKvEf8pUU",
+  authDomain: "askem-f1ff4.firebaseapp.com",
+  databaseURL: "https://askem-f1ff4.firebaseio.com",
+  projectId: "askem-f1ff4",
+  storageBucket: "askem-f1ff4.appspot.com"
+  //messagingSenderId: "145750228870"
+}
+
+firebase.initializeApp(firebaseConfig)
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -22,9 +35,9 @@ export default class Signup extends Component {
       firstname: "",
       midname: "",
       lastname: "",
-      gender: 0,
-      country: "Amman",
-      age: "1980-01-01",
+      gender: 0, // default value
+      country: "Amman", // default value
+      age: "1980-01-01", // default value
       username: "",
       email: "",
       password: ""
@@ -33,12 +46,29 @@ export default class Signup extends Component {
 
   onClickListener() {
     //this.setState({ showProgress: true });
-    
+
+    // this is to transform gender into number
     if (this.state.gender == "Female") {
       this.setState({ gender: 1 });
     } else {
-        this.setState({ gender: 0 });
+      this.setState({ gender: 0 });
     }
+
+    // this is to make a firebase account
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.warn(error);
+      });
+
+    // this is to make a mysql account
     fetch(`${ip}:3000/signup`, {
       method: "POST",
       headers: {
@@ -62,8 +92,8 @@ export default class Signup extends Component {
       .then(response => {
         alert(`Please ${this.state.username} login now`);
       })
-      .catch(error => {
-        console.warn('catch', error);
+      .catch(error => { // catch is a must for every fetch
+        console.warn('mySQL error:', error);
       })
   }
 
