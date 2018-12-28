@@ -7,13 +7,14 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TouchableHighlight,
-  AsyncStorage,
+  AsyncStorage
 } from "react-native";
-import { Container } from "native-base";
+import { Container, Header, Text as Textbase } from "native-base";
 
-import Header from "./Header";
-import SurveyList from "./SurveyList";
+// import Header from "./Header";
+// import SurveyList from "./SurveyList";
 import SurveyModal from "./SurveyModal";
+import SurveyListThumbnails from "./SurveyListThumbnails";
 let ip = require("../ip.json");
 
 export default class Home extends Component {
@@ -25,38 +26,57 @@ export default class Home extends Component {
     super(props);
     this.state = {
       data: "",
-      names: [{ key: "Isa" }, { key: "Maram" }, { key: "Anagreh" }],
-      sections: [
-        { title: "Section1", data: ["Devin"] },
-        { title: "Section2", data: ["John", "Julie"] }
+      names: [
+        {
+          key: "Isa",
+          imageURI:
+            "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png"
+        },
+        {
+          key: "Maram",
+          imageURI:
+            "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg"
+        },
+        {
+          key: "Anagreh",
+          imageURI:
+            "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
+        }
       ],
       modalVisible: false,
       selectedSurvey: null,
       surveyName: "",
       surveyDescription: "",
       surveyCategory: "",
-      loggedin: ""
+      loggedin: "",
+      allSurveysInfo: [],
+      images: [
+        "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png",
+        "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
+        "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
+      ]
     };
   }
 
   componentDidMount = async () => {
+    this.showAllSurveys();
     try {
-      const value = await AsyncStorage.getItem('userID');
+      const value = await AsyncStorage.getItem("userID");
       if (value !== null) {
         // We have data!!
         var token = JSON.parse(value);
         this.setState({
           loggedin: `${token.userName} `
-        })
+        });
       } else {
         this.setState({
-          loggedin: ''
-        })
+          loggedin: ""
+        });
       }
     } catch (error) {
       // Error retrieving data
     }
-  }
+  };
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -105,31 +125,44 @@ export default class Home extends Component {
       });
   }
 
+  showAllSurveys = () => {
+    fetch(`${ip}:3000/surveys/`, {
+      method: "GET"
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(res => {
+        this.setState({
+          allSurveysInfo: res
+        });
+      })
+      .done();
+  };
+
   render() {
     return (
       <Container>
+        <Header>
+          <Text style={styles.headerStyle}>
+            Welcome {this.state.loggedin} to ASKem!
+          </Text>
+        </Header>
+
         <ScrollView>
-          <View style={styles.container}>
-
-            <View style={styles.header}>
-              <Header />
-            </View>
-            <View style={styles.title}>
-              <Text style={styles.welcome}>Welcome {this.state.loggedin}to ASKem! </Text>
-            </View>
-
-            <SurveyList
-              names={this.state.names}
-              selectedSurvey={this.selectedSurvey.bind(this)}
-              showHandler={this.setModalVisible.bind(this)}
-            />
+          <View>
             <SurveyModal
               showHandler={this.setModalVisible.bind(this)}
               visibility={this.state.modalVisible}
               selectedSurvey={this.state.selectedSurvey}
               submitModalHandler={this.onPressSubmitModal.bind(this)}
             />
-
+            <SurveyListThumbnails
+              allSurveys={this.state.allSurveysInfo}
+              selectedSurvey={this.selectedSurvey.bind(this)}
+              showHandler={this.setModalVisible.bind(this)}
+              surveyImages={this.state.images}
+            />
           </View>
         </ScrollView>
       </Container>
@@ -146,16 +179,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     top: 0
   },
-  header: {
-    position: "absolute",
+  headerStyle: {
     flex: 1,
     flexDirection: "column",
-    borderStyle: "solid",
     alignItems: "center",
-    justifyContent: "space-between",
-    height: 50,
-    width: 420,
-    backgroundColor: "#5E5E5E"
+    justifyContent: "center",
+    textAlignVertical: "center",
+    textAlign: "center",
+    color: "white",
+    fontSize: 22
   },
   title: {
     marginTop: 65
