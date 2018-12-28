@@ -34,6 +34,8 @@ app.get("/user", function(req, res) {
 });
 
 app.post("/signup", function(req, res) {
+  console.log("===signup===");
+
   let firstName = req.body.firstName;
   let midname = req.body.midname;
   let lastName = req.body.lastName;
@@ -43,19 +45,42 @@ app.post("/signup", function(req, res) {
   let email = req.body.email;
   let username = req.body.username;
   let password = req.body.password;
+  let hashedPassword = bcrypt.hashSync(req.body.password);
 
-  bcrypt.hash(password, 12).then(function(hashedPassword) {
-    console.log("hashed password", hashedPassword);
-    var query = `insert into users values(null,\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${username}\",\"${hashedPassword}\",null)`;
-    db.dbConnection.query(query, function(err, result) {
-      if (result) {
-        res.status(200).send("1");
-      } else {
-        console.log(err);
-        res.status(404).send("");
-      }
-    });
+  console.log(
+    firstName,
+    midname,
+    lastName,
+    age,
+    gender,
+    country,
+    email,
+    username,
+    hashedPassword
+  );
+
+  var query = `insert into users values(null,\"${username}\",\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${hashedPassword}\",CURRENT_TIMESTAMP)`;
+  db.dbConnection.query(query, function(err, result) {
+    if (result) {
+      res.status(200).send("");
+    } else {
+      console.log(err);
+      res.status(404).send("");
+    }
   });
+
+  // bcrypt.hash(password, 12).then(function(hashedPassword) {
+  //   console.log("hashed password", hashedPassword);
+  //   var query = `insert into users values(null,\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${username}\",\"${hashedPassword}\",CURRENT_TIMESTAMP)`;
+  //   db.dbConnection.query(query, function(err, result) {
+  //     if (result) {
+  //       res.status(200).send("");
+  //     } else {
+  //       console.log(err);
+  //       res.status(404).send("");
+  //     }
+  //   });
+  // });
 });
 
 app.post("/login", function(req, res) {
