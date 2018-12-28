@@ -90,23 +90,24 @@ app.post("/login", function(req, res) {
   var query = `select * from users where username=\"${username}\"`;
   console.log(query);
   db.dbConnection.query(query, function(err, result) {
-    console.log(result);
+    console.log("result", result);
     if (result) {
       bcrypt.compare(password, result[0].password, function(
         err,
         matchPassword
       ) {
+        console.log("matchPassword", matchPassword)
         if (matchPassword) {
           var userId = result[0].id;
           var username = result[0].username;
           var userEmail = result[0].email;
-          res.status(200).send([
+          res.status(200).send(
             {
               userId: userId,
               username: username,
               userEmail: userEmail
             }
-          ]);
+          );
         } else {
           res.status(404).send("username or password is wrong");
         }
