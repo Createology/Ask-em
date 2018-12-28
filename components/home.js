@@ -5,7 +5,9 @@ import {
   View,
   FlatList,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableHighlight,
+  AsyncStorage,
 } from "react-native";
 import { Container } from "native-base";
 
@@ -32,8 +34,28 @@ export default class Home extends Component {
       selectedSurvey: null,
       surveyName: "",
       surveyDescription: "",
-      surveyCategory: ""
+      surveyCategory: "",
+      loggedin: ""
     };
+  }
+
+  componentDidMount = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userID');
+      if (value !== null) {
+        // We have data!!
+        var token = JSON.parse(value);
+        this.setState({
+          loggedin: `${token.userName} `
+        })
+      } else {
+        this.setState({
+          loggedin: ''
+        })
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
   }
 
   setModalVisible(visible) {
@@ -88,11 +110,12 @@ export default class Home extends Component {
       <Container>
         <ScrollView>
           <View style={styles.container}>
+
             <View style={styles.header}>
               <Header />
             </View>
             <View style={styles.title}>
-              <Text style={styles.welcome}>Welcome to ASKem! </Text>
+              <Text style={styles.welcome}>Welcome {this.state.loggedin}to ASKem! </Text>
             </View>
 
             <SurveyList
@@ -106,6 +129,7 @@ export default class Home extends Component {
               selectedSurvey={this.state.selectedSurvey}
               submitModalHandler={this.onPressSubmitModal.bind(this)}
             />
+
           </View>
         </ScrollView>
       </Container>

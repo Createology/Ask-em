@@ -15,56 +15,126 @@ var ip = require("../ip.json");
 export default class Signin extends Component {
   constructor(props) {
     super(props);
-    state = {
-      username: "",
-      password: ""
+    this.state = {
+      username: "DEFAULT",
+      password: "DEFAULT",
+      loggedin: 'Login'
     };
   }
 
+  componentDidMount = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userID');
+      if (value !== null) {
+        // We have data!!
+        var token = JSON.parse(value);
+        this.setState({
+          loggedin: `Welcome ${token.userName}!`
+        })
+      } 
+    } catch (error) {
+      // Error retrieving data
+    }
+  }
+
   onLoginPressed() {
-    this.setState({ showProgress: true });
-    fetch(`http://${ip}:3000/login`, {
+    if (this.state.username && this.state.password) {
+      this.onLogin()
+    } else {
+      alert("Please fill username and password!")
+    }
+  }
+
+  onLogin() {
+    //this.setState({ showProgress: true });
+    this.setState({
+      loggedin: `You will recieve your data recently, please wait!`
+    })
+
+    fetch(`${ip}:3000/login`, {
       method: "POST",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        session: {
-          username: this.state.username,
-          password: this.state.password
-        }
+        username: this.state.username,
+        password: this.state.password
       })
     })
       .then(response => {
         return response.json();
       })
       .then(response => {
-        if (response.status >= 200 && response.status < 300) {
+        if (typeof response === "object") {
           //Handle success
           let accessToken = {
-            user_id: response[0].id,
-            username: response[0].username
+            user_id: response.userId,
+            userName: response.username,
+            userEmail: response.userEmail
           };
 
-          console.log(accessToken);
           //On success we will store the access_token in the AsyncStorage
           this.storeToken(accessToken);
+
+          this.setState({
+            loggedin: `Welcome ${response.username}!`
+          })
+
         } else {
           //Handle error
           let error = response;
-          throw error;
+          console.warn("response error", response.status)
         }
-      });
+      })
+      .catch(error => { // catch is a must for every fetch
+        console.warn('Wrong username or password');
+      })
   }
 
-  storeToken(accessToken) {
-    AsyncStorage.setItem(accessToken, accessToken);
+  storeToken = async (accessToken) => {
+    try {
+      await AsyncStorage.setItem('userID', JSON.stringify(accessToken));
+    } catch (error) {
+      console.warn('storeToken error:', error)
+    }
+  }
+
+  checkLoggedIn = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userID');
+      if (value === null) {
+        // We have data!!
+        this.onLoginPressed()
+      } else {
+        console.warn('You are logged in!');
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.warn('Please fill out username and password');
+    }
+  }
+
+  logoutBottun = async () => {
+    try {
+      const value = await AsyncStorage.removeItem('userID');
+      if (value !== null) {
+        // We have data!!
+        console.warn('You are not Logged out, try again');
+      } else {
+        this.setState({
+          loggedin: `Login`
+        })
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.warn('error', error);
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.welcome}>{this.state.loggedin}</Text>
         <View style={styles.inputContainer}>
           <Image
             style={styles.inputIcon}
@@ -99,15 +169,16 @@ export default class Signin extends Component {
 
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.onLoginPressed.bind(this)}
+          onPress={() => this.checkLoggedIn()}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
+
         <TouchableHighlight
           style={styles.buttonContainer}
-          onPress={() => this.onClickListener("register")}
+          onPress={() => this.logoutBottun()}
         >
-          <Text>Register</Text>
+          <Text>Logout</Text>
         </TouchableHighlight>
       </View>
     );
@@ -160,5 +231,11 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white"
-  }
+  },
+  welcome: {
+    fontSize: 30,
+    textAlign: "center",
+    marginTop: -100,
+    marginBottom: 100
+  },
 });
