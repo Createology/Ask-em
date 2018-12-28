@@ -10,7 +10,7 @@ import {
   Alert,
   AsyncStorage
 } from "react-native";
-var ip = require('../ip.json');
+var ip = require("../ip.json");
 
 export default class Signin extends Component {
   constructor(props) {
@@ -21,36 +21,41 @@ export default class Signin extends Component {
     };
   }
 
-  onLoginPressed () {
-    this.setState({showProgress: true})
+  onLoginPressed() {
+    this.setState({ showProgress: true });
     fetch(`http://${ip}:3000/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        session:{
-          email: this.state.email,
-          password: this.state.password,
+        session: {
+          username: this.state.username,
+          password: this.state.password
         }
       })
     })
-    .then((response) => { return response.json() })
-    .then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        //Handle success
-        let accessToken = res.id;
-        console.log(accessToken);
-        //On success we will store the access_token in the AsyncStorage
-        this.storeToken(accessToken);
-        this.redirect('home');
-      } else {
+      .then(response => {
+        return response.json();
+      })
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          //Handle success
+          let accessToken = {
+            user_id: response[0].id,
+            username: response[0].username
+          };
+
+          console.log(accessToken);
+          //On success we will store the access_token in the AsyncStorage
+          this.storeToken(accessToken);
+        } else {
           //Handle error
-          let error = res;
+          let error = response;
           throw error;
-      }
-    })
+        }
+      });
   }
 
   storeToken(accessToken) {
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 16,
     borderBottomColor: "#FFFFFF",
-    flex: 1,
+    flex: 1
   },
   inputIcon: {
     width: 30,

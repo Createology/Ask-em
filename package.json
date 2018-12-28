@@ -13,6 +13,7 @@
     "serverTest": "backend.js"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "brain.js": "^1.6.0",
     "chai": "^4.2.0",

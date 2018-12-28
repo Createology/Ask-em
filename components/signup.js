@@ -13,16 +13,17 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 
+var ip = require("../ip.json");
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firsname: "",
+      firstname: "",
       midname: "",
       lastname: "",
       gender: "",
       country: "",
-      region: "",
       age: "01-01-1980",
       username: "",
       email: "",
@@ -30,9 +31,33 @@ export default class Signup extends Component {
     };
   }
 
-  onClickListener = viewId => {
-    Alert.alert("Alert", "Button pressed " + viewId);
-  };
+  onClickListener() {
+    //this.setState({ showProgress: true });
+    console.warn("insign");
+    fetch(`${ip}:3000/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+        firstName: this.state.firstname,
+        midname: this.state.midname,
+        lastName: this.state.lastname,
+        gender: this.state.gender,
+        country: this.state.country,
+        age: this.state.age,
+        email: this.state.email
+      })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(response => {
+        console.warn("res", response);
+      });
+  }
 
   render() {
     return (
@@ -90,9 +115,13 @@ export default class Signup extends Component {
             <Picker
               selectedValue={() => this.state.gender}
               style={{ height: 60, width: 150, marginTop: -20 }}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ gender: itemValue })
-              }
+              onValueChange={(itemValue, itemIndex) => {
+                if (itemValue === "Male") {
+                  this.setState({ gender: 0 });
+                } else {
+                  this.setState({ gender: 1 });
+                }
+              }}
             >
               <Picker.Item label="Male" value="0" />
               <Picker.Item label="Female" value="1" />
@@ -118,7 +147,7 @@ export default class Signup extends Component {
               date={this.state.age}
               mode="date"
               placeholder="select date"
-              format="DD-MM-YYYY"
+              format="YYYY-MM-DD"
               minDate="01-01-1900"
               maxDate="01-01-2050"
               confirmBtnText="Confirm"
@@ -128,20 +157,20 @@ export default class Signup extends Component {
                   position: "absolute",
                   left: -8,
                   top: 3.5,
-                  marginLeft: 10,
+                  marginLeft: 10
                 },
                 dateInput: {
                   marginLeft: 25,
                   borderRadius: 20,
                   width: 50,
                   height: 45,
-                  borderWidth: 0,
+                  borderWidth: 0
                 },
                 dateText: {
-                  color: 'grey',
+                  color: "grey",
                   fontSize: 17,
-                  marginLeft: -40,
-                },
+                  marginLeft: -40
+                }
               }}
               onDateChange={date => {
                 this.setState({ age: date });
@@ -209,7 +238,7 @@ export default class Signup extends Component {
 
           <TouchableHighlight
             style={[styles.buttonContainer, styles.signupBtn]}
-            onPress={() => this.onClickListener("SignUp")}
+            onPress={() => this.onClickListener()}
           >
             <Text style={styles.signupText}>Signup</Text>
           </TouchableHighlight>
