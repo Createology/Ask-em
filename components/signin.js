@@ -62,6 +62,15 @@ export default class Signin extends Component {
     AsyncStorage.setItem(accessToken, accessToken);
   }
 
+  checkLoggedIn() {
+    var user = AsyncStorage.getItem(accessToken);
+    alert(user)
+  }
+
+  logoutBottun() {
+    AsyncStorage.removeItem(accessToken);
+  }
+
   render() {
     return (
       <View style={styles.container}>
