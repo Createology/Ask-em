@@ -11,7 +11,7 @@ const selectAll = (tableName, callback) => {
   });
 };
 
-const selectAllSurveys = (userID, callback) => {
+const selectAllSurveysOfUser = (userID, callback) => {
   dbconnection.query(
     `SELECT * FROM surveys where id_users = ${userID}`,
     (err, results) => {
@@ -68,5 +68,5 @@ get answers
 */
 
 module.exports.selectAll = selectAll;
-module.exports.selectAllSurveys = selectAllSurveys;
+module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
