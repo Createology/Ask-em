@@ -84,10 +84,13 @@ app.post("/signup", function(req, res) {
 });
 
 app.post("/login", function(req, res) {
+  console.log("===login===");
   var username = req.body.username;
   var password = req.body.password;
   var query = `select * from users where username=\"${username}\"`;
+  console.log(query);
   db.dbConnection.query(query, function(err, result) {
+    console.log(result);
     if (result) {
       bcrypt.compare(password, result[0].password, function(
         err,
@@ -105,11 +108,11 @@ app.post("/login", function(req, res) {
             }
           ]);
         } else {
-          res.status(404).send("");
+          res.status(404).send("username or password is wrong");
         }
       });
     } else {
-      res.status(404).send("");
+      res.status(404).send("invalid login");
     }
   });
 });

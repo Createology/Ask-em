@@ -147,7 +147,7 @@ export default class Signup extends Component {
               date={this.state.age}
               mode="date"
               placeholder="select date"
-              format="DD-MM-YYYY"
+              format="YYYY-MM-DD"
               minDate="01-01-1900"
               maxDate="01-01-2050"
               confirmBtnText="Confirm"
