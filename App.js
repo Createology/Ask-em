@@ -14,6 +14,19 @@ import Header from "./components/Header";
 import Signup from "./components/signup";
 import Signin from "./components/signin";
 
+// import * as firebase from 'firebase';
+
+// const firebaseConfig = {
+//   apikey: "AIzaSyDc0MrwW4j1k-RP6Xg9eWA2n1DKvEf8pUU",
+//   authDomain: "askem-f1ff4.firebaseapp.com",
+//   databaseURL: "https://askem-f1ff4.firebaseio.com",
+//   projectId: "askem-f1ff4",
+//   sotrageBucket: "askem-f1ff4.appspot.com",
+//   messagingSenderId: "145750228870"
+// }
+
+// firebase.initializeApp(firebaseConfig)
+
 const TabNavigator = createBottomTabNavigator(
   {
     Home: Home,

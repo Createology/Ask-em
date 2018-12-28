@@ -15,6 +15,19 @@ import DatePicker from "react-native-datepicker";
 
 var ip = require("../ip.json");
 
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDc0MrwW4j1k-RP6Xg9eWA2n1DKvEf8pUU",
+  authDomain: "askem-f1ff4.firebaseapp.com",
+  databaseURL: "https://askem-f1ff4.firebaseio.com",
+  projectId: "askem-f1ff4",
+  storageBucket: "askem-f1ff4.appspot.com"
+  //messagingSenderId: "145750228870"
+}
+
+firebase.initializeApp(firebaseConfig)
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -22,9 +35,9 @@ export default class Signup extends Component {
       firstname: "",
       midname: "",
       lastname: "",
-      gender: "",
-      country: "",
-      age: "01-01-1980",
+      gender: 0, // default value
+      country: "Amman", // default value
+      age: "1980-01-01", // default value
       username: "",
       email: "",
       password: ""
@@ -33,7 +46,29 @@ export default class Signup extends Component {
 
   onClickListener() {
     //this.setState({ showProgress: true });
-    console.warn("insign");
+
+    // this is to transform gender into number
+    if (this.state.gender == "Female") {
+      this.setState({ gender: 1 });
+    } else {
+      this.setState({ gender: 0 });
+    }
+
+    // this is to make a firebase account
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.warn(error);
+      });
+
+    // this is to make a mysql account
     fetch(`${ip}:3000/signup`, {
       method: "POST",
       headers: {
@@ -55,8 +90,11 @@ export default class Signup extends Component {
         return response.json();
       })
       .then(response => {
-        console.warn("res", response);
-      });
+        alert(`Please ${this.state.username} login now`);
+      })
+      .catch(error => { // catch is a must for every fetch
+        console.warn('mySQL error:', error);
+      })
   }
 
   render() {
@@ -113,13 +151,13 @@ export default class Signup extends Component {
 
           <View>
             <Picker
-              selectedValue={() => this.state.gender}
+              selectedValue={this.state.gender}
               style={{ height: 60, width: 150, marginTop: -20 }}
               onValueChange={(itemValue, itemIndex) => {
                 if (itemValue === "Male") {
-                  this.setState({ gender: 0 });
+                  this.setState({ gender: itemValue });
                 } else {
-                  this.setState({ gender: 1 });
+                  this.setState({ gender: itemValue });
                 }
               }}
             >
@@ -130,7 +168,7 @@ export default class Signup extends Component {
 
           <View>
             <Picker
-              selectedValue={() => this.state.country}
+              selectedValue={this.state.country}
               style={{ height: 55, width: 200, marginTop: -20 }}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ country: itemValue })
@@ -148,8 +186,8 @@ export default class Signup extends Component {
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
-              minDate="01-01-1900"
-              maxDate="01-01-2050"
+              minDate="1900-01-01"
+              maxDate="2050-01-01"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{

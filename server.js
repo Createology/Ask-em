@@ -62,7 +62,7 @@ app.post("/signup", function(req, res) {
   var query = `insert into users values(null,\"${username}\",\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${hashedPassword}\",CURRENT_TIMESTAMP)`;
   db.dbConnection.query(query, function(err, result) {
     if (result) {
-      res.status(200).send("");
+      res.status(200).send({done: 1});
     } else {
       console.log(err);
       res.status(404).send("");
