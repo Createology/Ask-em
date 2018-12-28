@@ -2,9 +2,9 @@ const express = require("express");
 // const cors = require('cors');
 const bodyParser = require("body-parser");
 const brain = require("./server/brain.js");
-const db = require("./database/index");
+const db = require("./database/config");
 const surveyHelpers = require("./server/surveyHelpers");
-
+const bcrypt = require("bcrypt-nodejs");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
