@@ -60,9 +60,9 @@ app.post("/signup", function(req, res) {
   );
 
   var query = `insert into users values(null,\"${username}\",\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${hashedPassword}\",CURRENT_TIMESTAMP)`;
-  db.dbConnection.query(query, function(err, result) {
+  db.query(query, function(err, result) {
     if (result) {
-      res.status(200).send({done: 1});
+      res.status(200).send({ done: 1 });
     } else {
       console.log(err);
       res.status(404).send("");
@@ -72,7 +72,7 @@ app.post("/signup", function(req, res) {
   // bcrypt.hash(password, 12).then(function(hashedPassword) {
   //   console.log("hashed password", hashedPassword);
   //   var query = `insert into users values(null,\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${username}\",\"${hashedPassword}\",CURRENT_TIMESTAMP)`;
-  //   db.dbConnection.query(query, function(err, result) {
+  //   db.query(query, function(err, result) {
   //     if (result) {
   //       res.status(200).send("");
   //     } else {
@@ -89,25 +89,23 @@ app.post("/login", function(req, res) {
   var password = req.body.password;
   var query = `select * from users where username=\"${username}\"`;
   console.log(query);
-  db.dbConnection.query(query, function(err, result) {
+  db.query(query, function(err, result) {
     console.log("result", result);
     if (result) {
       bcrypt.compare(password, result[0].password, function(
         err,
         matchPassword
       ) {
-        console.log("matchPassword", matchPassword)
+        console.log("matchPassword", matchPassword);
         if (matchPassword) {
           var userId = result[0].id;
           var username = result[0].username;
           var userEmail = result[0].email;
-          res.status(200).send(
-            {
-              userId: userId,
-              username: username,
-              userEmail: userEmail
-            }
-          );
+          res.status(200).send({
+            userId: userId,
+            username: username,
+            userEmail: userEmail
+          });
         } else {
           res.status(404).send("username or password is wrong");
         }
