@@ -22,9 +22,9 @@ export default class Signup extends Component {
       firstname: "",
       midname: "",
       lastname: "",
-      gender: "",
-      country: "",
-      age: "01-01-1980",
+      gender: 0,
+      country: "Amman",
+      age: "1980-01-01",
       username: "",
       email: "",
       password: ""
@@ -33,7 +33,12 @@ export default class Signup extends Component {
 
   onClickListener() {
     //this.setState({ showProgress: true });
-    console.warn("insign");
+    
+    if (this.state.gender == "Female") {
+      this.setState({ gender: 1 });
+    } else {
+        this.setState({ gender: 0 });
+    }
     fetch(`${ip}:3000/signup`, {
       method: "POST",
       headers: {
@@ -55,8 +60,11 @@ export default class Signup extends Component {
         return response.json();
       })
       .then(response => {
-        console.warn("res", response);
-      });
+        alert(`Please ${this.state.username} login now`);
+      })
+      .catch(error => {
+        console.warn('catch', error);
+      })
   }
 
   render() {
@@ -113,13 +121,13 @@ export default class Signup extends Component {
 
           <View>
             <Picker
-              selectedValue={() => this.state.gender}
+              selectedValue={this.state.gender}
               style={{ height: 60, width: 150, marginTop: -20 }}
               onValueChange={(itemValue, itemIndex) => {
                 if (itemValue === "Male") {
-                  this.setState({ gender: 0 });
+                  this.setState({ gender: itemValue });
                 } else {
-                  this.setState({ gender: 1 });
+                  this.setState({ gender: itemValue });
                 }
               }}
             >
@@ -130,7 +138,7 @@ export default class Signup extends Component {
 
           <View>
             <Picker
-              selectedValue={() => this.state.country}
+              selectedValue={this.state.country}
               style={{ height: 55, width: 200, marginTop: -20 }}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ country: itemValue })
@@ -148,8 +156,8 @@ export default class Signup extends Component {
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
-              minDate="01-01-1900"
-              maxDate="01-01-2050"
+              minDate="1900-01-01"
+              maxDate="2050-01-01"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
