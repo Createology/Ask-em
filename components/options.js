@@ -1,108 +1,55 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
+import { Platform, StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, SectionList ,Image, ScrollView, Modal, TouchableHighlight } from 'react-native';
 import { Container, Header, Content, List, ListItem, Left, Body, Right, Switch } from 'native-base';
 import {Icon, Button, parseIconName } from 'react-native-elements';
+
 import {
+  createDrawerNavigator,
   DrawerItems,
-  SafeAreaView,
   TabBarBottom,
-  createAppContainer
+  createAppContainer,
+  createStackNavigator
 } from "react-navigation";
 import Home from "./home";
 import Signup from "./signup";
 import Signin from "./signin";
+import LogOut from "./logout";
+import Header1 from "./Header";
 
-export default class Options extends Component {
+ 
+export class Options extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: "",
-      modalVisible: false
-     
-    };
-  }
-
-  handlePress(visible) {
-    this.props.navigateForward(item.sceneId);
-  this.props.closeDrawer();
-    this.setState({ modalVisible: visible });
-  }
-
-  render() {
+  render(){
     return (
-      <Container>
-        <Header />
-        <Content>
-          <ListItem icon>
-            <Left>
-              <Button  onPress={this.handlePress} title='' style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="plane" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>My Profile</Text>
-            </Body>
-            <Right>
-            <Icon active name="arrow-forward" />
-              {/* <Switch value={false} /> */}
-            </Right>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Button onPress={this.handlePress}  title='' style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="wifi" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Sign In</Text>
-            </Body>
-            <Right>
-              <Text></Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Button onPress={this.handlePress}  title='' style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="bluetooth" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Sign Up</Text>
-            </Body>
-            <Right>
-              <Text></Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Button onPress={this.handlePress}  title='' style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="bluetooth" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>Log Out</Text>
-            </Body>
-            <Right>
-              <Text></Text>
-              <Icon active name="arrow-forward" />
-            </Right>
-          </ListItem>
-        </Content>
-      </Container>
+      <AppDrawerNavigator  />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "white",
-    top: 0
-  }
-})
+const CustumDrawerComponent = (props) =>(
+  <SafeAreaView style={{flex:1}}>
+    <View style={{height : 150 , backgroundColor:white , alignItems : center , justifyContent : center}}>
+    <Image source = { require ('./download.png')} style={{height:120 , width:120 , borderRadius:60}} />
+    </View>
+
+
+    <ScrollView>
+      <DrawerItems {...props} />
+    </ScrollView>
+
+  </SafeAreaView>
+)
+
+const AppDrawerNavigator = createDrawerNavigator ({
+  Home : Home,
+  Signin:Signin,
+  Signup :Signup,
+  LogOut : LogOut
+
+},
+{ ContentComponent : CustumDrawerComponent }
+)
+ 
+export default createAppContainer(AppDrawerNavigator);
+
+

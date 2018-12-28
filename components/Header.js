@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Platform, TextInput, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
-import { Container, Footer, Title, Button, FooterTab, Content } from 'native-base';
+import { Container, Footer, Title, Button, FooterTab, Content, Header, Left } from 'native-base';
 import { List, ListItem, Icon, parseIconName } from 'react-native-elements';
 var ip = require('../ip.json');
 
 // props are from App component
-export default class Header extends Component<Props> {
+export default class Header1 extends Component<Props> {
     static navigationOptions = {
         title: 'Home',
     };
@@ -24,7 +24,7 @@ export default class Header extends Component<Props> {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({text: this.state.text})
+            body: JSON.stringify({ text: this.state.text })
         })
             .then((response) => { return response.json() })
             .then((res) => {
@@ -38,7 +38,12 @@ export default class Header extends Component<Props> {
 
     render() {
         return (
+
             <View style={styles.inner}>
+                <Left>
+                    <Icon name='menu' onPress={() => this.props.navigation.openDrawer()} />
+                    {console.warn(this.props)}
+                </Left>
                 <TextInput
                     style={styles.TextInput}
                     editable={true}

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Container } from "native-base";
 
-import Header from "./Header";
+import Header1 from "./Header";
 import SurveyList from "./SurveyList";
 import SurveyModal from "./SurveyModal";
 
@@ -65,9 +65,6 @@ export default class Home extends Component {
     [...arguments].forEach(element => {
       this.setState({ element });
     });
-    console.warn("surveyName: " + surveyName);
-    console.warn("surveyDescription: " + surveyDescription);
-    console.warn("surveyTargetAudience: " + surveyTargetAudience);
   }
 
   render() {
@@ -76,12 +73,11 @@ export default class Home extends Component {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.header}>
-              <Header />
+              <Header1 />
             </View>
             <View style={styles.title}>
               <Text style={styles.welcome}>Welcome to ASKem! </Text>
             </View>
-
             <SurveyList
               names={this.state.names}
               selectedSurvey={this.selectedSurvey.bind(this)}

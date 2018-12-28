@@ -10,19 +10,19 @@ import { Icon } from "react-native-elements";
 import Home from "./components/home";
 import Account from "./components/account";
 import Contact from "./components/Contact";
-import Header from "./components/Header";
+import Header1 from "./components/Header";
 import Signup from "./components/signup";
 import Signin from "./components/signin";
 import Options from "./components/options";
+import { Left } from "native-base";
+
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Home: Home,
+    Home: Options,
     Account: Account,
-    Contact: Contact,
-    Signup: Signup,
-    Signin: Signin,
-    More : Options
+    Contact: Contact
+      
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -35,14 +35,7 @@ const TabNavigator = createBottomTabNavigator(
           iconName = `library-books`;
         } else if (routeName === "Account") {
           iconName = `account-box`;
-        } else if (routeName === "Signup") {
-          iconName = `account-box`;
-        } else if (routeName === "Signin") {
-          iconName = `account-box`;
-        }else if (routeName === "More") {
-          iconName = `home`;
-        }
-
+        } 
         return <Icon size={40} name={iconName} color={"grey"} />;
       }
     }),
