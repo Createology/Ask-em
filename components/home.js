@@ -8,6 +8,8 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { Container } from "native-base";
+import {Icon} from 'react-native-elements';
+
 
 import Header1 from "./Header";
 import SurveyList from "./SurveyList";
@@ -15,7 +17,10 @@ import SurveyModal from "./SurveyModal";
 
 export default class Home extends Component {
   static navigationOptions = {
-    title: "Home"
+    title: "Home",
+    drawerIcon : ({tintColor})=>(
+      <Icon name='home' style={{fontSize : 30 }} />
+  )
   };
 
   constructor(props) {

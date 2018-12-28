@@ -11,8 +11,15 @@ import {
   Picker
 } from "react-native";
 import DatePicker from "react-native-datepicker";
+import {Icon} from 'react-native-elements';
+
 
 export default class Signup extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='add' style={{fontSize : 24 }} />
+    )
+};
   constructor(props) {
     super(props);
     state = {

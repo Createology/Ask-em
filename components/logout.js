@@ -6,6 +6,11 @@ import {Icon, Button, parseIconName } from 'react-native-elements';
 
 
 export default class LogOut extends Component {
+    static navigationOptions = {
+        drawerIcon : ({tintColor})=>(
+            <Icon name='close' style={{fontSize : 24 }} />
+        )
+    };
 
   render() {
     return (

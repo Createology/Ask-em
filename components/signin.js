@@ -9,8 +9,16 @@ import {
   Image,
   Alert
 } from "react-native";
+import {Icon} from 'react-native-elements';
+
+
 
 export default class Signin extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='star' style={{fontSize : 24 }} />
+    )
+};
   constructor(props) {
     super(props);
     state = {

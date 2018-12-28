@@ -47,7 +47,12 @@ const AppDrawerNavigator = createDrawerNavigator ({
   LogOut : LogOut
 
 },
-{ ContentComponent : CustumDrawerComponent }
+{ ContentComponent : CustumDrawerComponent,
+  contentOptions : {
+    // activeTintColor : 'orange'
+  }
+
+ }
 )
  
 export default createAppContainer(AppDrawerNavigator);
