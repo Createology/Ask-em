@@ -24,7 +24,7 @@ export default class SurveyModal extends Component {
       servey: this.props.selectedSurvey,
       surveyName: "",
       surveyDescription: "",
-      surveyAudience: ""
+      surveyCategory: ""
     };
   }
 
@@ -42,8 +42,8 @@ export default class SurveyModal extends Component {
     this.setState({ surveyDescription: description });
   };
 
-  handleSurveyTargetAudienceChange = audience => {
-    this.setState({ surveyAudience: audience });
+  handleSurveyCategoryChange = category => {
+    this.setState({ surveyCategory: category });
   };
 
   render() {
@@ -76,10 +76,10 @@ export default class SurveyModal extends Component {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Target Audience"
+                placeholder="Survey Category"
                 placeholderTextColor="rgba(255, 255, 255, 0.7)"
-                onChangeText={surveyAudience => {
-                  this.handleSurveyTargetAudienceChange(surveyAudience);
+                onChangeText={surveyCategory => {
+                  this.handleSurveyCategoryChange(surveyCategory);
                 }}
               />
 
@@ -93,7 +93,7 @@ export default class SurveyModal extends Component {
                       this.props.submitModalHandler(
                         this.state.surveyName,
                         this.state.surveyDescription,
-                        this.state.surveyAudience
+                        this.state.surveyCategory
                       );
                     }}
                   >
