@@ -5,11 +5,13 @@ import {
   Text,
   View,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage,
+  ScrollView
 } from "react-native";
 import { Container, Header, Text as Textbase, Left } from "native-base";
 import { Icon } from 'react-native-elements';
-
+import SurveyListThumbnails from "./SurveyListThumbnails";
 import SurveyModal from "./SurveyModal";
 const ip = require("../ip.json");
 // import IP from 'ip';
@@ -17,43 +19,117 @@ const ip = require("../ip.json");
 
 export default class Account extends Component {
   static navigationOptions = {
-    drawerIcon : ({tintColor})=>(
-        <Icon name='account-box' style={{fontSize : 30 }} />
+    drawerIcon: ({ tintColor }) => (
+      <Icon name='account-box' style={{ fontSize: 30 }} />
     )
-};
+  };
   constructor(props) {
     super(props);
     this.state = {
-      data: "wait",
-      user: "",
-      surveysNames: [],
-      ownSurveysNames: [],
+      data: "",
+      names: [
+        {
+          key: "Isa",
+          imageURI:
+            "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png"
+        },
+        {
+          key: "Maram",
+          imageURI:
+            "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg"
+        },
+        {
+          key: "Anagreh",
+          imageURI:
+            "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
+        }
+      ],
       modalVisible: false,
-      selectedSurvey: null
+      selectedSurvey: null,
+      surveyName: "",
+      surveyDescription: "",
+      surveyCategory: "",
+      loggedin: "",
+      allSurveysInfo: [],
+      images: [
+        "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png",
+        "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
+        "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
+      ]
     };
   }
 
-  componentDidMount() {
-    // change this eveytime you have a new internet connection using this command in terminal: ifconfig |grep inet
-    // copy the mask ip
-    fetch(`${ip}:3000/isa/`, {
-      method: "GET"
-
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(res => {
+  componentDidMount = async () => {
+    this.showAllSurveys();
+    try {
+      const value = await AsyncStorage.getItem("userID");
+      if (value !== null) {
+        // We have data!!
+        const token = JSON.parse(value);
         this.setState({
-          data: res
+          loggedin: ` ${token.userName} `
         });
+      } else {
+        this.setState({
+          loggedin: ""
+        });
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.warn("Login Please!")
+    }
+  };
+
+  setModalVisible = visible => {
+    this.setState({ modalVisible: visible });
+  };
+
+  selectedSurvey = item => {
+    this.setState({ selectedSurvey: item });
+  };
+
+  onChangeSurveyName = name => {
+    this.setState({
+      surveyName: name
+    });
+  };
+
+  onChangeSurveyDescription = description => {
+    this.setState({
+      surveyDescription: description
+    });
+  };
+
+  onChangeSurveyCategory = category => {
+    this.setState({
+      surveyCategory: category
+    });
+  };
+
+  onPressSubmitModal(surveyName, surveyDescription, surveyCategory) {
+    [...arguments].forEach(element => {
+      this.setState({ element });
+    });
+
+    fetch(`${ip}:3000/surveys`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        surveyName: surveyName,
+        surveyDescription: surveyDescription,
+        surveyCategory: surveyCategory
+      })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ modalVisible: false });
+        console.warn(res);
       })
       .done();
   }
 
-  setUser() {
-    //search for user session
-    fetch(`${ip}:3000/user/`, {
+  showAllSurveys = () => {
+    fetch(`${ip}:3000/surveys/`, {
       method: "GET"
     })
       .then(response => {
@@ -61,61 +137,19 @@ export default class Account extends Component {
       })
       .then(res => {
         this.setState({
-          user: res
+          allSurveysInfo: res
         });
       })
-      .then(() => {
-        //bring user's voted surveys
-        fetch(`${ip}:3000/surveys/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ user: this.state.user })
-        })
-          .then(response => {
-            return response.json();
-          })
-          .then(res => {
-            this.setState({
-              surveysNames: res
-            });
-          })
-          .then(() => {
-            //bring user's own surveys
-            fetch(`${ip}:3000/mysurveys/`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({ user: this.state.user })
-            })
-              .then(response => {
-                return response.json();
-              })
-              .then(res => {
-                this.setState({
-                  ownSurveysNames: res
-                });
-              })
-              .done();
-          });
-      });
-  }
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  selectedSurveyFunc(item) {
-    this.setState({ selectedSurvey: item });
-  }
+      .done();
+  };
 
   render() {
     const {
       data: { dark },
       modalVisible,
-      selectedSurvey
+      selectedSurvey,
+      allSurveysInfo,
+      images
     } = this.state;
     return (
       <View>
@@ -123,39 +157,25 @@ export default class Account extends Component {
           <Left>
             <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
           </Left>
-          <Text style={styles.headerStyle}>Welcome to ASKem!</Text>
+          <Text style={styles.headerStyle}>Account</Text>
         </Header>
-        <View style={styles.container}>
-          <Text style={styles.text}> In Account Component! </Text>
-          <Text style={styles.text}>Dark from server.js: {dark}</Text>
-          <SectionList
-            sections={[
-              { title: "Your surveys", data: ["Devin"] },
-              { title: "Surveys you filled", data: ["Jackson", "John", "Julie"] }
-            ]}
-            renderItem={({ item }) => {
-              return (
-                <TouchableHighlight
-                  onPress={() => {
-                    this.selectedSurveyFunc.bind(this)(item);
-                    this.setModalVisible.bind(this)(true);
-                  }}
-                >
-                  <Text style={styles.item}>{item}</Text>
-                </TouchableHighlight>
-              );
-            }}
-            renderSectionHeader={({ section }) => (
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-            )}
-            keyExtractor={(item, index) => index}
-          />
-          <SurveyModal
-            showHandler={this.setModalVisible.bind(this)}
-            visibility={modalVisible}
-            selectedSurvey={selectedSurvey}
-          />
-        </View>
+
+        <ScrollView>
+          <View>
+            <SurveyModal
+              showHandler={this.setModalVisible.bind(this)}
+              visibility={modalVisible}
+              selectedSurvey={selectedSurvey}
+              submitModalHandler={this.onPressSubmitModal.bind(this)}
+            />
+            <SurveyListThumbnails
+              allSurveys={allSurveysInfo}
+              selectedSurvey={this.selectedSurvey.bind(this)}
+              showHandler={this.setModalVisible.bind(this)}
+              surveyImages={images}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -198,6 +218,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     backgroundColor: "rgba(247,247,247,1.0)",
+    textAlign: "left"
+  },
+  icon: {
+    color: "#000",
+    margin: 10,
+    fontSize: 100,
     textAlign: "left"
   }
 });
