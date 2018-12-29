@@ -7,6 +7,8 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
+import { Container, Header, Text as Textbase, Left } from "native-base";
+import { Icon } from 'react-native-elements';
 
 export default class Contact extends Component {
   constructor(props) {
@@ -15,23 +17,39 @@ export default class Contact extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}> In Contact Component!</Text>
+      <View>
+        <Header>
+          <Left>
+            <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+          </Left>
+          <Text style={styles.headerStyle}>Welcome to ASKem!</Text>
+        </Header>
+        <View style={styles.container}>
+          <Text style={styles.text}> In Contact Component!</Text>
 
-        <TextInput />
-
-      </View>
+          <TextInput />
+        </View >
+      </View >
     );
   }
 }
 
 const styles = StyleSheet.create({
-   container: {
-    flex: 1,    
+  container: {
+    flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "white",
-    padding : 30
+    backgroundColor: "white"
+    },
+  headerStyle: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlignVertical: "center",
+    textAlign: "left",
+    color: "white",
+    fontSize: 22
   },
   text: {
     padding: 10,
