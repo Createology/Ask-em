@@ -7,7 +7,7 @@ var ip = require('../ip.json');
 // props are from App component
 export default class Header1 extends Component<Props> {
     static navigationOptions = {
-        title: 'Home',
+       
     };
 
     constructor(props) {
@@ -15,6 +15,7 @@ export default class Header1 extends Component<Props> {
         this.state = {
             text: "init",
             data: "init"
+            
         };
     }
 
@@ -41,8 +42,7 @@ export default class Header1 extends Component<Props> {
 
             <View style={styles.inner}>
                 <Left>
-                    <Icon name='menu' onPress={() => this.props.navigation.openDrawer()} />
-                    {console.warn(this.props)}
+                    <Icon name='menu' onPress={() => {this.props.navigation.openDrawer()}} />                    
                 </Left>
                 <TextInput
                     style={styles.TextInput}

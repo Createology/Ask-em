@@ -16,7 +16,7 @@ import {Icon} from 'react-native-elements';
 export default class Signin extends Component {
   static navigationOptions = {
     drawerIcon : ({tintColor})=>(
-        <Icon name='star' style={{fontSize : 24 }} />
+        <Icon name='star' style={{fontSize : 30 }} />
     )
 };
   constructor(props) {
