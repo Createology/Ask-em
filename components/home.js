@@ -148,7 +148,7 @@ export default class Home extends Component {
       })
       .done();
   };
-
+ 
   render() {
     const {
       modalVisible,
