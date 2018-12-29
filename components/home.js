@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from "react-native";
-import { Container, Header, Text as Textbase } from "native-base";
+import { Container, Header, Text as Textbase , Left } from "native-base";
 import {Icon} from 'react-native-elements';
 
 
@@ -163,17 +163,7 @@ export default class Home extends Component {
         </Header>
         <ScrollView>
           <View style={styles.container}>
-            <View style={styles.header}>
-              <Header1 />
-            </View>
-            <View style={styles.title}>
-              <Text style={styles.welcome}>Welcome to ASKem! </Text>
-            </View>
-            <SurveyList
-              names={this.state.names}
-              selectedSurvey={this.selectedSurvey.bind(this)}
-              showHandler={this.setModalVisible.bind(this)}
-            />
+      
             <SurveyModal
               showHandler={this.setModalVisible.bind(this)}
               visibility={modalVisible}

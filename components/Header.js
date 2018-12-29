@@ -17,12 +17,14 @@ import {
   Title,
   Button,
   FooterTab,
-  Content
+  Content,
+  Left,
+  Header
 } from "native-base";
 import { List, ListItem, Icon, parseIconName } from "react-native-elements";
 const ip = require("../ip.json");
 
-export default class Header extends Component {
+export default class Header1 extends Component {
   static navigationOptions = {
     title: "Home"
   };
