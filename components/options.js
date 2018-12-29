@@ -1,58 +1,57 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, SectionList ,Image, ScrollView, Modal, TouchableHighlight } from 'react-native';
+import { Platform, StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, SectionList, Image, ScrollView, Modal, TouchableHighlight, AsyncStorage } from 'react-native';
 import { Container, Header, Content, List, ListItem, Left, Body, Right, Switch } from 'native-base';
-import {Icon, Button, parseIconName } from 'react-native-elements';
+import { Icon, Button, parseIconName } from 'react-native-elements';
 
 import {
   createDrawerNavigator,
   DrawerItems,
   TabBarBottom,
   createAppContainer,
-  createStackNavigator
+  createStackNavigator,
 } from "react-navigation";
 import Home from "./home";
 import Signup from "./signup";
 import Signin from "./signin";
-import LogOut from "./logout";
 import Header1 from "./Header";
 
- 
-export class Options extends Component {
 
-  render(){
+export class Options extends Component {
+  render() {
     return (
-      <AppDrawerNavigator  />
+      <AppDrawerNavigator />
     );
   }
 }
 
-const CustumDrawerComponent = (props) =>(
-  <SafeAreaView style={{flex:1}}>
-    <View style={{height : 150 , backgroundColor:white , alignItems : center , justifyContent : center}}>
-    <Image source = { require ('./download.png')} style={{height:120 , width:120 , borderRadius:60}} />
-    </View>
-
-
-    <ScrollView>
-      <DrawerItems {...props} />
-    </ScrollView>
-
-  </SafeAreaView>
+const CustumDrawerComponent = (props) => (
+  <View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <DrawerItems {...props} />
+      </ScrollView>
+    </SafeAreaView>
+  </View>
 )
 
-const AppDrawerNavigator = createDrawerNavigator ({
-  Home : Home,
-  Signin:Signin,
-  Signup :Signup,
-  LogOut : LogOut
-
+const AppDrawerNavigator = createDrawerNavigator({
+  Home: Home,
+  Signin: Signin,
+  Signup: Signup,
 },
-{ ContentComponent : CustumDrawerComponent,
-  contentOptions : {
-    // activeTintColor : 'orange'
+  {
+    ContentComponent: CustumDrawerComponent,
+    contentOptions: {
+      // activeTintColor : 'orange'
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: 'white',
+      },
+    },
   }
-
- }
 )
- 
+
 export default createAppContainer(AppDrawerNavigator);

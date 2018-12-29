@@ -7,7 +7,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import { Container, Header, Text as Textbase, Left } from "native-base";
 import { Icon } from 'react-native-elements';
@@ -27,7 +27,7 @@ export default class Home extends Component {
   static navigationOptions = {
     title: "Home",
     drawerIcon: ({ tintColor }) => (
-      <Icon name='home' style={{ fontSize: 30 }} />
+      <Icon name='home' style={{ fontSize: 40 }} />
     )
   };
 
@@ -75,7 +75,7 @@ export default class Home extends Component {
         // We have data!!
         const token = JSON.parse(value);
         this.setState({
-          loggedin: `${token.userName} `
+          loggedin: ` ${token.userName} `
         });
       } else {
         this.setState({
@@ -151,16 +151,29 @@ export default class Home extends Component {
 
   render() {
     const {
-      loggedin,
       modalVisible,
       selectedSurvey,
       allSurveysInfo,
       images
     } = this.state;
+
+    const { navigation } = this.props;
+    if (navigation.getParam('accessToken')) {
+      if (navigation.getParam('accessToken').length > 0) {
+        var itemId = navigation.getParam('accessToken');
+      } else {
+        var itemId = " ";
+      }
+    } else {
+      var itemId = " ";
+    }
+    if (this.state.loggedin.length > 1) {
+      var itemId = this.state.loggedin;
+    }
     return (
       <Container>
         <Header>
-          <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
+          <Text style={styles.headerStyle}>Welcome{itemId}to ASKem!</Text>
         </Header>
         <ScrollView>
           <View>
