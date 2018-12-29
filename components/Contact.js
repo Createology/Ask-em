@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Modal,
+  TextInput,
   TouchableHighlight
 } from "react-native";
 
@@ -16,16 +17,21 @@ export default class Contact extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.text}> In Contact Component!</Text>
+
+        <TextInput />
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
+   container: {
+    flex: 1,    
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    padding : 30
   },
   text: {
     padding: 10,

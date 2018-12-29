@@ -9,7 +9,12 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from "react-native";
-import { Container, Header, Text as Textbase } from "native-base";
+import { Container, Header, Text as Textbase, Left } from "native-base";
+import { Icon } from 'react-native-elements';
+
+
+import Header1 from "./Header";
+import SurveyList from "./SurveyList";
 
 // import Header from "./Header";
 // import SurveyList from "./SurveyList";
@@ -17,9 +22,13 @@ import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
 const ip = require("../ip.json");
 
+
 export default class Home extends Component {
   static navigationOptions = {
-    title: "Home"
+    title: "Home",
+    drawerIcon: ({ tintColor }) => (
+      <Icon name='home' style={{ fontSize: 30 }} />
+    )
   };
 
   constructor(props) {
@@ -153,7 +162,6 @@ export default class Home extends Component {
         <Header>
           <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
         </Header>
-
         <ScrollView>
           <View>
             <SurveyModal

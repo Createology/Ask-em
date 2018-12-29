@@ -12,6 +12,8 @@ import {
   ScrollView
 } from "react-native";
 import DatePicker from "react-native-datepicker";
+import {Icon} from 'react-native-elements';
+
 import * as firebase from "firebase";
 
 const ip = require("../ip.json");
@@ -27,6 +29,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export default class Signup extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='add' style={{fontSize : 30 }} />
+    )
+};
   constructor(props) {
     super(props);
     this.state = {

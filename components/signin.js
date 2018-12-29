@@ -10,9 +10,17 @@ import {
   Alert,
   AsyncStorage
 } from "react-native";
+import {Icon} from 'react-native-elements';
+
+
 const ip = require("../ip.json");
 
 export default class Signin extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='star' style={{fontSize : 30 }} />
+    )
+};
   constructor(props) {
     super(props);
     this.state = {
