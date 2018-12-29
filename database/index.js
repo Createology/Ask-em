@@ -118,14 +118,14 @@ const selectAllAnswersForSpecServeys = (id_surveys, callback) => {
   );
 };
 
-// const selectAllAnswersForSpecUser = (userID, callback) => {
-//   dbconnection.query(
-//     `SELECT answer from answers WHERE id_surveys id_surveys = ${userID})`,
-//     (err, results) => {
-//       callback(null, results);
-//     }
-//   );
-// };
+const selectAllAnswersForSpecUser = (userID, callback) => {
+  dbconnection.query(
+    `SELECT answer from answers WHERE id_surveys id_surveys = ${userID})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
 
 /*
 get id from users table using email
