@@ -30,6 +30,7 @@ export default class Account extends Component {
     // copy the mask ip
     fetch(`${ip}:3000/isa/`, {
       method: "GET"
+
     })
       .then(response => {
         return response.json();

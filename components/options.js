@@ -56,5 +56,3 @@ const AppDrawerNavigator = createDrawerNavigator ({
 )
  
 export default createAppContainer(AppDrawerNavigator);
-
-
