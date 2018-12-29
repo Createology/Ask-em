@@ -160,6 +160,9 @@ export default class Home extends Component {
     return (
       <Container>
         <Header>
+        <Left>
+          <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+        </Left>
           <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
         </Header>
         <ScrollView>
@@ -198,7 +201,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     textAlignVertical: "center",
-    textAlign: "center",
+    textAlign: "left",
     color: "white",
     fontSize: 22
   },
@@ -210,6 +213,12 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   button: {
+    color: "#000",
+    margin: 10,
+    fontSize: 30,
+    textAlign: "left"
+  },
+  icon :{
     color: "#000",
     margin: 10,
     fontSize: 30,
