@@ -1,129 +1,58 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, FlatList, SectionList, ScrollView, Modal, TouchableHighlight } from 'react-native';
-import { Container, Footer, Title, FooterTab, Content } from 'native-base';
-import { List, ListItem, Icon, Button, parseIconName } from 'react-native-elements';
+import { Platform, StyleSheet, Text, View, SafeAreaView, Dimensions, FlatList, SectionList ,Image, ScrollView, Modal, TouchableHighlight } from 'react-native';
+import { Container, Header, Content, List, ListItem, Left, Body, Right, Switch } from 'native-base';
+import {Icon, Button, parseIconName } from 'react-native-elements';
 
+import {
+  createDrawerNavigator,
+  DrawerItems,
+  TabBarBottom,
+  createAppContainer,
+  createStackNavigator
+} from "react-navigation";
+import Home from "./home";
+import Signup from "./signup";
+import Signin from "./signin";
+import LogOut from "./logout";
+import Header1 from "./Header";
 
-export default class Options extends React.Component {
+ 
+export class Options extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
-
-
-  render() {
+  render(){
     return (
-
-
-
-
-      <View style={styles.container}>
-        <Button style={styles.button} 
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button style={styles.button}
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button style={styles.button}
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button style={styles.button}
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/><Button style={styles.button}
-  icon={
-    <Icon
-      name='arrow-right'
-      size={15}
-      color='white'
-    />
-  }
-  
-/>
-        
-      </View>
-
-
-
-    )
+      <AppDrawerNavigator  />
+    );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,    
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding : 30
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  },
-  button: {
-    color: "#000",
-    margin: 10,
-    fontSize: 30,
-    textAlign: "left"
-  },
-  footerTab: {
-    backgroundColor: "#FFF",
-    borderStyle: "solid",
-    borderWidth: 0,
-    borderTopWidth: 1,
-    borderColor: "grey"
-  },
-  icon: {
-    margin: 40,
-    color: "#FFF"
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: "left"
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 300,
-    paddingBottom: 2,
-    fontSize: 20,
-    fontWeight: "bold",
-    backgroundColor: "rgba(247,247,247,1.0)",
-    textAlign: "center"
-  }
-});
+const CustumDrawerComponent = (props) =>(
+  <SafeAreaView style={{flex:1}}>
+    <View style={{height : 150 , backgroundColor:white , alignItems : center , justifyContent : center}}>
+    <Image source = { require ('./download.png')} style={{height:120 , width:120 , borderRadius:60}} />
+    </View>
 
+
+    <ScrollView>
+      <DrawerItems {...props} />
+    </ScrollView>
+
+  </SafeAreaView>
+)
+
+const AppDrawerNavigator = createDrawerNavigator ({
+  Home : Home,
+  Signin:Signin,
+  Signup :Signup,
+  LogOut : LogOut
+
+},
+{ ContentComponent : CustumDrawerComponent,
+  contentOptions : {
+    // activeTintColor : 'orange'
+  }
+
+ }
+)
+ 
+export default createAppContainer(AppDrawerNavigator);

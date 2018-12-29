@@ -21,16 +21,16 @@ export default class SurveyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      servey: this.props.selectedSurvey,
+      survey: this.props.selectedSurvey,
       surveyName: "",
       surveyDescription: "",
-      surveyAudience: ""
+      surveyCategory: ""
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      servey: nextProps.selectedSurvey
+      survey: nextProps.selectedSurvey
     });
   }
 
@@ -42,11 +42,17 @@ export default class SurveyModal extends Component {
     this.setState({ surveyDescription: description });
   };
 
-  handleSurveyTargetAudienceChange = audience => {
-    this.setState({ surveyAudience: audience });
+  handleSurveyCategoryChange = category => {
+    this.setState({ surveyCategory: category });
   };
 
   render() {
+    const {
+      survey,
+      surveyName,
+      surveyDescription,
+      surveyCategory
+    } = this.state;
     return (
       <View>
         <Modal
@@ -57,7 +63,7 @@ export default class SurveyModal extends Component {
         >
           <View style={styles.container}>
             <View style={styles.modalContainer}>
-              <Text style={styles.text}>{this.state.servey}</Text>
+              <Text style={styles.text}>{survey}</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Survey Name"
@@ -76,10 +82,10 @@ export default class SurveyModal extends Component {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Target Audience"
+                placeholder="Survey Category"
                 placeholderTextColor="rgba(255, 255, 255, 0.7)"
-                onChangeText={surveyAudience => {
-                  this.handleSurveyTargetAudienceChange(surveyAudience);
+                onChangeText={surveyCategory => {
+                  this.handleSurveyCategoryChange(surveyCategory);
                 }}
               />
 
@@ -90,17 +96,11 @@ export default class SurveyModal extends Component {
                     full
                     block
                     onPress={() => {
-                      // let name = this.state.surveyName;
-                      // let desc = this.state.surveyDescription;
-                      // let aud = this.state.surveyAudience;
                       this.props.submitModalHandler(
-                        this.state.surveyName,
-                        this.state.surveyDescription,
-                        this.state.surveyAudience
+                        surveyName,
+                        surveyDescription,
+                        surveyCategory
                       );
-                      // console.warn("name: " + this.state.surveyName);
-                      // console.warn("desc: " + this.state.surveyDescription);
-                      // console.warn("aud: " + this.state.surveyAudience);
                     }}
                   >
                     {/* need to changeicon color */}
