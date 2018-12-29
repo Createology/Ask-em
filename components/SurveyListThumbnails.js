@@ -23,6 +23,7 @@ export default class SurveyListThumbnails extends Component {
   }
 
   render() {
+    const { surveyImages } = this.state;
     return (
       <Container>
         {Array.isArray(this.props.allSurveys) &&
@@ -33,7 +34,7 @@ export default class SurveyListThumbnails extends Component {
                   <Thumbnail
                     square
                     source={{
-                      uri: this.state.surveyImages[index]
+                      uri: surveyImages[index]
                     }}
                   />
                 </Left>

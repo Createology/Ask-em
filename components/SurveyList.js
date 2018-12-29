@@ -17,10 +17,11 @@ export default class SurveyList extends Component {
   }
 
   render() {
+    const { names } = this.state;
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.names}
+          data={names}
           renderItem={({ item }) => (
             <TouchableHighlight
               onPress={() => {

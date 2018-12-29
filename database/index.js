@@ -33,7 +33,7 @@ const selectAllAnsweredSurveys = (userID, callback) => {
       } else {
         dbconnection.query(
           `SELECT * FROM surveys where id = ${results.id_surveys}`,
-          function(err, results) {
+          (err, results) => {
             callback(null, results);
           }
         );
@@ -62,6 +62,43 @@ const insertSurvey = (
   // );
 };
 
+const selectUser = (username, callback) => {
+  dbconnection.query(
+    `select * from users where username=\"${username}\"`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const saveUser = (
+  username,
+  firstName,
+  midname,
+  lastName,
+  age,
+  gender,
+  country,
+  email,
+  hashedPassword,
+  callback
+) => {
+  dbconnection.query(
+    `insert into users values(null,\"${username}\",\"${firstName}\",\"${midname}\",\"${lastName}\",\"${age}\",\"${gender}\",\"${country}\",\"${email}\",\"${hashedPassword}\",CURRENT_TIMESTAMP)`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
 /*
 get id from users table using email
 get answers
@@ -70,3 +107,5 @@ get answers
 module.exports.selectAll = selectAll;
 module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
+module.exports.selectUser = selectUser;
+module.exports.saveUser = saveUser;

@@ -15,7 +15,7 @@ import { Container, Header, Text as Textbase } from "native-base";
 // import SurveyList from "./SurveyList";
 import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
-let ip = require("../ip.json");
+const ip = require("../ip.json");
 
 export default class Home extends Component {
   static navigationOptions = {
@@ -64,7 +64,7 @@ export default class Home extends Component {
       const value = await AsyncStorage.getItem("userID");
       if (value !== null) {
         // We have data!!
-        var token = JSON.parse(value);
+        const token = JSON.parse(value);
         this.setState({
           loggedin: `${token.userName} `
         });
@@ -78,13 +78,13 @@ export default class Home extends Component {
     }
   };
 
-  setModalVisible(visible) {
+  setModalVisible = visible => {
     this.setState({ modalVisible: visible });
-  }
+  };
 
-  selectedSurvey(item) {
+  selectedSurvey = item => {
     this.setState({ selectedSurvey: item });
-  }
+  };
 
   onChangeSurveyName = name => {
     this.setState({
@@ -141,27 +141,32 @@ export default class Home extends Component {
   };
 
   render() {
+    const {
+      loggedin,
+      modalVisible,
+      selectedSurvey,
+      allSurveysInfo,
+      images
+    } = this.state;
     return (
       <Container>
         <Header>
-          <Text style={styles.headerStyle}>
-            Welcome {this.state.loggedin} to ASKem!
-          </Text>
+          <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
         </Header>
 
         <ScrollView>
           <View>
             <SurveyModal
               showHandler={this.setModalVisible.bind(this)}
-              visibility={this.state.modalVisible}
-              selectedSurvey={this.state.selectedSurvey}
+              visibility={modalVisible}
+              selectedSurvey={selectedSurvey}
               submitModalHandler={this.onPressSubmitModal.bind(this)}
             />
             <SurveyListThumbnails
-              allSurveys={this.state.allSurveysInfo}
+              allSurveys={allSurveysInfo}
               selectedSurvey={this.selectedSurvey.bind(this)}
               showHandler={this.setModalVisible.bind(this)}
-              surveyImages={this.state.images}
+              surveyImages={images}
             />
           </View>
         </ScrollView>

@@ -1,7 +1,7 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
 
 //Note: to insert tht the database credential
-var dbConnection = mysql.createConnection({
+const dbConnection = mysql.createConnection({
   host: "db4free.net",
   user: "user_askem77",
   password: "FXtc4xuW8MAJE5w",
