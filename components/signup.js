@@ -12,11 +12,9 @@ import {
   ScrollView
 } from "react-native";
 import DatePicker from "react-native-datepicker";
+import * as firebase from "firebase";
 
-var ip = require("../ip.json");
-
-import * as firebase from 'firebase';
-
+const ip = require("../ip.json");
 const firebaseConfig = {
   apiKey: "AIzaSyDc0MrwW4j1k-RP6Xg9eWA2n1DKvEf8pUU",
   authDomain: "askem-f1ff4.firebaseapp.com",
@@ -24,9 +22,9 @@ const firebaseConfig = {
   projectId: "askem-f1ff4",
   storageBucket: "askem-f1ff4.appspot.com"
   //messagingSenderId: "145750228870"
-}
+};
 
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig);
 
 export default class Signup extends Component {
   constructor(props) {
@@ -55,13 +53,15 @@ export default class Signup extends Component {
     }
 
     // this is to make a firebase account
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(function (error) {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(error => {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode == "auth/weak-password") {
+          alert("The password is too weak.");
         } else {
           alert(errorMessage);
         }
@@ -92,12 +92,14 @@ export default class Signup extends Component {
       .then(response => {
         alert(`Please ${this.state.username} login now`);
       })
-      .catch(error => { // catch is a must for every fetch
-        console.warn('mySQL error:', error);
-      })
+      .catch(error => {
+        // catch is a must for every fetch
+        console.warn("mySQL error:", error);
+      });
   }
 
   render() {
+    const { gender, country, age } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -151,7 +153,7 @@ export default class Signup extends Component {
 
           <View>
             <Picker
-              selectedValue={this.state.gender}
+              selectedValue={gender}
               style={{ height: 60, width: 150, marginTop: -20 }}
               onValueChange={(itemValue, itemIndex) => {
                 if (itemValue === "Male") {
@@ -168,7 +170,7 @@ export default class Signup extends Component {
 
           <View>
             <Picker
-              selectedValue={this.state.country}
+              selectedValue={country}
               style={{ height: 55, width: 200, marginTop: -20 }}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ country: itemValue })
@@ -182,7 +184,7 @@ export default class Signup extends Component {
           <View style={styles.inputContainer}>
             <DatePicker
               style={{ width: 250, padding: 10, marginLeft: 0 }}
-              date={this.state.age}
+              date={age}
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
