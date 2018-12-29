@@ -1,30 +1,28 @@
-let DB = require("../database/index");
+const DB = require("../database/index");
 
 const saveSurvey = (req, res) => {
-  let surveyName = req.body.surveyName;
-  let surveyDescription = req.body.surveyDescription;
-  let surveyCategory = req.body.surveyCategory;
+  const { surveyName, surveyDescription, surveyCategory } = req.body;
   DB.insertSurvey(
     surveyName,
     surveyDescription,
     surveyCategory,
     (err, result) => {
       if (result) {
-        res.send(result);
+        res.status(200).send(result);
       } else {
-        res.send(result);
+        res.status(404).send("Error saving survey!");
       }
     }
   );
 };
 
 getAllSurveysOfUser = (req, res) => {
-  let userID = req.userID;
+  const { userID } = req.body;
   DB.selectAllSurveysOfUser(userID, (err, result) => {
     if (result) {
-      res.send(result);
+      res.status(200).send(result);
     } else {
-      res.send(result);
+      res.status(404).send("Error getting user surveys!");
     }
   });
 };
@@ -32,9 +30,9 @@ getAllSurveysOfUser = (req, res) => {
 getAllSurveys = (req, res) => {
   DB.selectAll("surveys", (err, result) => {
     if (result) {
-      res.send(result);
+      res.status(200).send(result);
     } else {
-      res.send("----Error in: surveyHelpers- getAllSurveys");
+      res.status(404).send("Error getting all surveys!");
     }
   });
 };
