@@ -39,6 +39,7 @@ const AppDrawerNavigator = createDrawerNavigator({
   Signin: Signin,
   Signup: Signup,
 },
+
   {
     ContentComponent: CustumDrawerComponent,
     contentOptions: {
