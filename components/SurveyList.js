@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 
+// props are from home
 export default class SurveyList extends Component {
   constructor(props) {
     super(props);

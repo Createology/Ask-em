@@ -22,7 +22,6 @@ const TabNavigator = createBottomTabNavigator(
     Home: Options,
     Account: Account,
     Contact: Contact
-
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({

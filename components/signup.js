@@ -31,7 +31,7 @@ firebase.initializeApp(firebaseConfig);
 export default class Signup extends Component {
   static navigationOptions = {
     drawerIcon : ({tintColor})=>(
-        <Icon name='add' style={{fontSize : 30 }} />
+        <Icon name='add' style={{fontSize : 40 }} />
     )
 };
   constructor(props) {
