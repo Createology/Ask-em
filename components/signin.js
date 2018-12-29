@@ -18,7 +18,7 @@ const ip = require("../ip.json");
 export default class Signin extends Component {
   static navigationOptions = {
     drawerIcon : ({tintColor})=>(
-        <Icon name='star' style={{fontSize : 30 }} />
+        <Icon name='star' style={{fontSize : 40 }} />
     )
 };
   constructor(props) {
@@ -56,7 +56,7 @@ export default class Signin extends Component {
   onLogin() {
     //this.setState({ showProgress: true });
     this.setState({
-      loggedin: `You will recieve your data recently, please wait!`
+      loggedin: `You will recieve your data soon, please wait!`
     });
 
     fetch(`${ip}:3000/login`, {
@@ -81,12 +81,23 @@ export default class Signin extends Component {
             userEmail: response.userEmail
           };
 
+          this.textInput1.clear()
+          this.textInput2.clear()
+          this.setState({
+            username: '',
+            password: ''
+          });
+
           //On success we will store the access_token in the AsyncStorage
           this.storeToken(accessToken);
 
           this.setState({
-            loggedin: `Welcome ${response.username}!`
+            loggedin: ``
           });
+
+          this.props.navigation.navigate('Home', {
+            accessToken: ` ${accessToken.userName} `
+          })
         } else {
           //Handle error
           let error = response;
@@ -132,6 +143,9 @@ export default class Signin extends Component {
         this.setState({
           loggedin: `Login`
         });
+        this.props.navigation.navigate('Home', {
+          accessToken: ''
+      })
       }
     } catch (error) {
       // Error retrieving data
@@ -156,6 +170,7 @@ export default class Signin extends Component {
             placeholder="username"
             keyboardType="email-address"
             underlineColorAndroid="transparent"
+            ref={input => { this.textInput1 = input }}
             onChangeText={username => this.setState({ username })}
           />
         </View>
@@ -172,6 +187,7 @@ export default class Signin extends Component {
             placeholder="Password"
             secureTextEntry={true}
             underlineColorAndroid="transparent"
+            ref={input => { this.textInput2 = input }}
             onChangeText={password => this.setState({ password })}
           />
         </View>
