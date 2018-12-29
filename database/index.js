@@ -108,15 +108,25 @@ const selectAllServeyHasBeenAnswerd = (userID, callback) => {
   );
 };
 
-const selectAllServeyHasBeenAnswerd = (userID, callback) => {
+// select all answers for specfic serveys
+const selectAllAnswersForSpecServeys = (id_surveys, callback) => {
   dbconnection.query(
-    `SELECT * FROM surveys where id IN (SELECT id_surveys FROM answers WHERE id_users = ${userID})`,
+    `SELECT answer from answers WHERE id_surveys id_surveys = ${id_surveys})`,
     (err, results) => {
       callback(null, results);
     }
   );
 };
-// SELECT `answer` from `answers` WHERE `id_surveys`
+
+// const selectAllAnswersForSpecUser = (userID, callback) => {
+//   dbconnection.query(
+//     `SELECT answer from answers WHERE id_surveys id_surveys = ${userID})`,
+//     (err, results) => {
+//       callback(null, results);
+//     }
+//   );
+// };
+
 /*
 get id from users table using email
 get answers
