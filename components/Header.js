@@ -20,7 +20,7 @@ import {
   Content
 } from "native-base";
 import { List, ListItem, Icon, parseIconName } from "react-native-elements";
-let ip = require("../ip.json");
+const ip = require("../ip.json");
 
 export default class Header extends Component {
   static navigationOptions = {

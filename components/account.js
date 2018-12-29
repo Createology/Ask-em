@@ -1,7 +1,14 @@
 import React, { Component } from "react";
-import { StyleSheet, SectionList, Text, View, Modal, TouchableHighlight } from "react-native";
+import {
+  StyleSheet,
+  SectionList,
+  Text,
+  View,
+  Modal,
+  TouchableHighlight
+} from "react-native";
 import SurveyModal from "./SurveyModal";
-var ip = require('../ip.json');
+const ip = require("../ip.json");
 // import IP from 'ip';
 // ip = IP.mask()
 
@@ -22,94 +29,106 @@ export default class Account extends Component {
     // change this eveytime you have a new internet connection using this command in terminal: ifconfig |grep inet
     // copy the mask ip
     fetch(`${ip}:3000/isa/`, {
-      method: 'GET'
+      method: "GET"
     })
-      .then((response) => { return response.json() })
-      .then((res) => {
+      .then(response => {
+        return response.json();
+      })
+      .then(res => {
         this.setState({
           data: res
-        })
-      }).done()
+        });
+      })
+      .done();
   }
-  
+
   setUser() {
     //search for user session
     fetch(`${ip}:3000/user/`, {
-      method: 'GET'
+      method: "GET"
     })
-      .then((response) => { return response.json() })
-      .then((res) => {
+      .then(response => {
+        return response.json();
+      })
+      .then(res => {
         this.setState({
           user: res
-        })
+        });
       })
       .then(() => {
         //bring user's voted surveys
         fetch(`${ip}:3000/surveys/`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ user: this.state.user })
         })
-          .then((response) => { return response.json() })
-          .then((res) => {
+          .then(response => {
+            return response.json();
+          })
+          .then(res => {
             this.setState({
               surveysNames: res
-            })
+            });
           })
           .then(() => {
             //bring user's own surveys
             fetch(`${ip}:3000/mysurveys/`, {
-              method: 'POST',
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json"
               },
               body: JSON.stringify({ user: this.state.user })
             })
-              .then((response) => { return response.json() })
-              .then((res) => {
+              .then(response => {
+                return response.json();
+              })
+              .then(res => {
                 this.setState({
                   ownSurveysNames: res
-                })
-              }).done()
-          })
-      })
+                });
+              })
+              .done();
+          });
+      });
   }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
-  selectedSurvey(item) {
+  selectedSurveyFunc(item) {
     this.setState({ selectedSurvey: item });
   }
 
   render() {
+    const {
+      data: { dark },
+      modalVisible,
+      selectedSurvey
+    } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.text}> In Account Component! </Text>
-        <Text style={styles.text}>
-          Dark from server.js: {this.state.data.dark}
-        </Text>
+        <Text style={styles.text}>Dark from server.js: {dark}</Text>
         <SectionList
           sections={[
             { title: "Your surveys", data: ["Devin"] },
             { title: "Surveys you filled", data: ["Jackson", "John", "Julie"] }
           ]}
           renderItem={({ item }) => {
-              return (
-                <TouchableHighlight
-                  onPress={() => {
-                    this.selectedSurvey.bind(this)(item);
-                    this.setModalVisible.bind(this)(true);
-                  }}
-                >
-                  <Text style={styles.item}>{item}</Text>
-                </TouchableHighlight>
-              )
-            }
-          }
+            return (
+              <TouchableHighlight
+                onPress={() => {
+                  this.selectedSurveyFunc.bind(this)(item);
+                  this.setModalVisible.bind(this)(true);
+                }}
+              >
+                <Text style={styles.item}>{item}</Text>
+              </TouchableHighlight>
+            );
+          }}
           renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
           )}
@@ -117,8 +136,8 @@ export default class Account extends Component {
         />
         <SurveyModal
           showHandler={this.setModalVisible.bind(this)}
-          visibility={this.state.modalVisible}
-          selectedSurvey={this.state.selectedSurvey}
+          visibility={modalVisible}
+          selectedSurvey={selectedSurvey}
         />
       </View>
     );

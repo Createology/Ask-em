@@ -21,7 +21,7 @@ export default class SurveyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      servey: this.props.selectedSurvey,
+      survey: this.props.selectedSurvey,
       surveyName: "",
       surveyDescription: "",
       surveyCategory: ""
@@ -30,7 +30,7 @@ export default class SurveyModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      servey: nextProps.selectedSurvey
+      survey: nextProps.selectedSurvey
     });
   }
 
@@ -47,6 +47,12 @@ export default class SurveyModal extends Component {
   };
 
   render() {
+    const {
+      survey,
+      surveyName,
+      surveyDescription,
+      surveyCategory
+    } = this.state;
     return (
       <View>
         <Modal
@@ -57,7 +63,7 @@ export default class SurveyModal extends Component {
         >
           <View style={styles.container}>
             <View style={styles.modalContainer}>
-              <Text style={styles.text}>{this.state.servey}</Text>
+              <Text style={styles.text}>{survey}</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Survey Name"
@@ -91,9 +97,9 @@ export default class SurveyModal extends Component {
                     block
                     onPress={() => {
                       this.props.submitModalHandler(
-                        this.state.surveyName,
-                        this.state.surveyDescription,
-                        this.state.surveyCategory
+                        surveyName,
+                        surveyDescription,
+                        surveyCategory
                       );
                     }}
                   >
