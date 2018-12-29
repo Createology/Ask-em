@@ -11,6 +11,11 @@ import { Container, Header, Text as Textbase, Left } from "native-base";
 import { Icon } from 'react-native-elements';
 
 export default class Contact extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='library-books' style={{fontSize : 30 }} />
+    )
+};
   constructor(props) {
     super(props);
   }

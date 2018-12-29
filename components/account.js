@@ -16,6 +16,11 @@ const ip = require("../ip.json");
 // ip = IP.mask()
 
 export default class Account extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='account-box' style={{fontSize : 30 }} />
+    )
+};
   constructor(props) {
     super(props);
     this.state = {
