@@ -98,7 +98,25 @@ const saveUser = (
     }
   );
 };
+// get all servery has been answerd from him;
+const selectAllServeyHasBeenAnswerd = (userID, callback) => {
+  dbconnection.query(
+    `SELECT * FROM surveys where id IN (SELECT id_surveys FROM answers WHERE id_users = ${userID})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
 
+const selectAllServeyHasBeenAnswerd = (userID, callback) => {
+  dbconnection.query(
+    `SELECT * FROM surveys where id IN (SELECT id_surveys FROM answers WHERE id_users = ${userID})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
+// SELECT `answer` from `answers` WHERE `id_surveys`
 /*
 get id from users table using email
 get answers
