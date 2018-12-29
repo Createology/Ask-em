@@ -22,7 +22,7 @@ const TabNavigator = createBottomTabNavigator(
     Home: Options,
     Account: Account,
     Contact: Contact
-      
+
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -36,6 +36,7 @@ const TabNavigator = createBottomTabNavigator(
         } else if (routeName === "Account") {
           iconName = `account-box`;
         } 
+
         return <Icon size={40} name={iconName} color={"grey"} />;
       }
     }),

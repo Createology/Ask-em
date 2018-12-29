@@ -22,6 +22,7 @@ import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
 const ip = require("../ip.json");
 
+
 export default class Home extends Component {
   static navigationOptions = {
     title: "Home",
