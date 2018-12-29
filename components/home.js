@@ -9,8 +9,8 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from "react-native";
-import { Container, Header, Text as Textbase , Left } from "native-base";
-import {Icon} from 'react-native-elements';
+import { Container, Header, Text as Textbase, Left } from "native-base";
+import { Icon } from 'react-native-elements';
 
 
 import Header1 from "./Header";
@@ -25,9 +25,9 @@ const ip = require("../ip.json");
 export default class Home extends Component {
   static navigationOptions = {
     title: "Home",
-    drawerIcon : ({tintColor})=>(
-      <Icon name='home' style={{fontSize : 30 }} />
-  )
+    drawerIcon: ({ tintColor }) => (
+      <Icon name='home' style={{ fontSize: 30 }} />
+    )
   };
 
   constructor(props) {
@@ -162,8 +162,7 @@ export default class Home extends Component {
           <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
         </Header>
         <ScrollView>
-          <View style={styles.container}>
-      
+          <View>
             <SurveyModal
               showHandler={this.setModalVisible.bind(this)}
               visibility={modalVisible}
