@@ -10,17 +10,23 @@ import {
   Alert,
   AsyncStorage
 } from "react-native";
-import {Icon} from 'react-native-elements';
-
+import {
+  Container,
+  Header,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label,
+  Icon
+} from "native-base";
 
 const ip = require("../ip.json");
 
 export default class Signin extends Component {
   static navigationOptions = {
-    drawerIcon : ({tintColor})=>(
-        <Icon name='star' style={{fontSize : 40 }} />
-    )
-};
+    drawerIcon: ({ tintColor }) => <Icon name="star" style={{ fontSize: 40 }} />
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -81,11 +87,11 @@ export default class Signin extends Component {
             userEmail: response.userEmail
           };
 
-          this.textInput1.clear()
-          this.textInput2.clear()
+          this.textInput1.clear();
+          this.textInput2.clear();
           this.setState({
-            username: '',
-            password: ''
+            username: "",
+            password: ""
           });
 
           //On success we will store the access_token in the AsyncStorage
@@ -95,9 +101,9 @@ export default class Signin extends Component {
             loggedin: ``
           });
 
-          this.props.navigation.navigate('Home', {
+          this.props.navigation.navigate("Home", {
             accessToken: ` ${accessToken.userName} `
-          })
+          });
         } else {
           //Handle error
           let error = response;
@@ -143,9 +149,9 @@ export default class Signin extends Component {
         this.setState({
           loggedin: `Login`
         });
-        this.props.navigation.navigate('Home', {
-          accessToken: ''
-      })
+        this.props.navigation.navigate("Home", {
+          accessToken: ""
+        });
       }
     } catch (error) {
       // Error retrieving data
@@ -154,92 +160,96 @@ export default class Signin extends Component {
   };
 
   render() {
-    const { loggedin } = this.state;
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>{loggedin}</Text>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="username"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            ref={input => { this.textInput1 = input }}
-            onChangeText={username => this.setState({ username })}
-          />
+      <Container>
+        <View>
+          <Header />
         </View>
+        <View style={styles.container}>
+          <Form>
+            <View>
+              <Item floatingLabel>
+                {/* <Icon name="person" style={styles.inputIcon} /> */}
+                <Icon active name="person" />
+                <Label>Username</Label>
+                <Input
+                  style={styles.inputs}
+                  keyboardType="email-address"
+                  underlineColorAndroid="transparent"
+                  ref={input => {
+                    this.textInput1 = input;
+                  }}
+                  onChangeText={username => this.setState({ username })}
+                />
+              </Item>
+            </View>
 
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/key-2/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            secureTextEntry={true}
-            underlineColorAndroid="transparent"
-            ref={input => { this.textInput2 = input }}
-            onChangeText={password => this.setState({ password })}
-          />
+            <View>
+              <Item floatingLabel>
+                <Icon active name="lock" />
+                {/* <Icon name="lock" style={styles.inputIcon} /> */}
+                <Label>Password</Label>
+                <Input
+                  style={styles.inputs}
+                  secureTextEntry={true}
+                  underlineColorAndroid="transparent"
+                  ref={input => {
+                    this.textInput2 = input;
+                  }}
+                  onChangeText={password => this.setState({ password })}
+                />
+              </Item>
+            </View>
+
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.loginButton]}
+              onPress={() => this.checkLoggedIn()}
+            >
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.loginButton]}
+              onPress={() => this.logoutBottun()}
+            >
+              <Text style={styles.loginText}>Logout</Text>
+            </TouchableHighlight>
+          </Form>
         </View>
-
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.checkLoggedIn()}
-        >
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          style={styles.buttonContainer}
-          onPress={() => this.logoutBottun()}
-        >
-          <Text>Logout</Text>
-        </TouchableHighlight>
-      </View>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    flex: 2,
+    // justifyContent: "center",
     alignItems: "center",
-    //backgroundColor: "#DCDCDC"
     backgroundColor: "white"
   },
   inputContainer: {
-    borderBottomColor: "#F5FCFF",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 30,
-    borderBottomWidth: 1,
-    width: 250,
-    height: 45,
+    borderRadius: 55,
+    borderBottomWidth: 2,
+    width: 150,
+    height: 30,
     marginBottom: 20,
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1
   },
   inputs: {
     height: 45,
-    marginLeft: 16,
-    borderBottomColor: "#FFFFFF",
+    marginBottom: 10,
+    marginTop: 10,
+    borderBottomColor: "white",
     flex: 1
   },
   inputIcon: {
     width: 30,
     height: 30,
-    marginLeft: 15,
+    marginLeft: 3,
     justifyContent: "center"
   },
   buttonContainer: {
@@ -247,12 +257,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 10,
     marginBottom: 10,
     width: 250,
     borderRadius: 30
   },
   loginButton: {
-    backgroundColor: "#00b5ec"
+    backgroundColor: "#3f51b5"
   },
   loginText: {
     color: "white"
