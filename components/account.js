@@ -7,12 +7,20 @@ import {
   Modal,
   TouchableHighlight
 } from "react-native";
+import { Container, Header, Text as Textbase, Left } from "native-base";
+import { Icon } from 'react-native-elements';
+
 import SurveyModal from "./SurveyModal";
 const ip = require("../ip.json");
 // import IP from 'ip';
 // ip = IP.mask()
 
 export default class Account extends Component {
+  static navigationOptions = {
+    drawerIcon : ({tintColor})=>(
+        <Icon name='account-box' style={{fontSize : 30 }} />
+    )
+};
   constructor(props) {
     super(props);
     this.state = {
@@ -110,36 +118,44 @@ export default class Account extends Component {
       selectedSurvey
     } = this.state;
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}> In Account Component! </Text>
-        <Text style={styles.text}>Dark from server.js: {dark}</Text>
-        <SectionList
-          sections={[
-            { title: "Your surveys", data: ["Devin"] },
-            { title: "Surveys you filled", data: ["Jackson", "John", "Julie"] }
-          ]}
-          renderItem={({ item }) => {
-            return (
-              <TouchableHighlight
-                onPress={() => {
-                  this.selectedSurveyFunc.bind(this)(item);
-                  this.setModalVisible.bind(this)(true);
-                }}
-              >
-                <Text style={styles.item}>{item}</Text>
-              </TouchableHighlight>
-            );
-          }}
-          renderSectionHeader={({ section }) => (
-            <Text style={styles.sectionHeader}>{section.title}</Text>
-          )}
-          keyExtractor={(item, index) => index}
-        />
-        <SurveyModal
-          showHandler={this.setModalVisible.bind(this)}
-          visibility={modalVisible}
-          selectedSurvey={selectedSurvey}
-        />
+      <View>
+        <Header>
+          <Left>
+            <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+          </Left>
+          <Text style={styles.headerStyle}>Welcome to ASKem!</Text>
+        </Header>
+        <View style={styles.container}>
+          <Text style={styles.text}> In Account Component! </Text>
+          <Text style={styles.text}>Dark from server.js: {dark}</Text>
+          <SectionList
+            sections={[
+              { title: "Your surveys", data: ["Devin"] },
+              { title: "Surveys you filled", data: ["Jackson", "John", "Julie"] }
+            ]}
+            renderItem={({ item }) => {
+              return (
+                <TouchableHighlight
+                  onPress={() => {
+                    this.selectedSurveyFunc.bind(this)(item);
+                    this.setModalVisible.bind(this)(true);
+                  }}
+                >
+                  <Text style={styles.item}>{item}</Text>
+                </TouchableHighlight>
+              );
+            }}
+            renderSectionHeader={({ section }) => (
+              <Text style={styles.sectionHeader}>{section.title}</Text>
+            )}
+            keyExtractor={(item, index) => index}
+          />
+          <SurveyModal
+            showHandler={this.setModalVisible.bind(this)}
+            visibility={modalVisible}
+            selectedSurvey={selectedSurvey}
+          />
+        </View>
       </View>
     );
   }
@@ -148,9 +164,19 @@ export default class Account extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white"
+  },
+  headerStyle: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlignVertical: "center",
+    textAlign: "left",
+    color: "white",
+    fontSize: 22
   },
   text: {
     padding: 10,
