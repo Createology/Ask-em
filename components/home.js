@@ -157,11 +157,13 @@ export default class Home extends Component {
       allSurveysInfo,
       images
     } = this.state;
+    const { navigation } = this.props;
+
     return (
       <Container>
         <Header>
         <Left>
-          <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+          <Icon  name='menu' onPress={() => { navigation.openDrawer() }} />
         </Left>
           <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
         </Header>
