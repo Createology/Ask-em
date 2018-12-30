@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import {Icon} from 'react-native-elements';
 
-
 const ip = require("../ip.json");
 
 export default class Signin extends Component {
@@ -26,8 +25,8 @@ export default class Signin extends Component {
     this.state = {
       username: "DEFAULT",
       password: "DEFAULT",
-      loggedin: "Login",
-      wrong: ''
+      loggedin: "Login", // custormer notification
+      wrong: '' // if wrong username or password
     };
   }
 
@@ -48,6 +47,7 @@ export default class Signin extends Component {
 
   onLoginPressed = async () => {
     try {
+      // check if logged in
       const value = await AsyncStorage.getItem("userID");
       if (value === null) {
         if (this.state.username && this.state.password) {
@@ -66,7 +66,7 @@ export default class Signin extends Component {
   }
 
   onLogin() {
-    //this.setState({ showProgress: true });
+    // notify user about loging in
     this.setState({
       loggedin: `You will recieve your data soon, please wait!`
     });
@@ -86,27 +86,32 @@ export default class Signin extends Component {
       })
       .then(response => {
         if (typeof response === "object") {
-          //Handle success
+          // accessToken is an object to store inside asyncStorage
           const accessToken = {
             user_id: response.userId,
             userName: response.username,
             userEmail: response.userEmail
           };
 
+          // clear inputTexts
           this.textInput1.clear()
           this.textInput2.clear()
+
+          // clear username and password states
           this.setState({
             username: '',
             password: ''
           });
 
-          //On success we will store the access_token in the AsyncStorage
+          // on success we will store the access_token in the AsyncStorage
           this.storeToken(accessToken);
 
+          // no need to notify anything after loggin
           this.setState({
             loggedin: ``
           });
 
+          // navigate to Home after login
           this.props.navigation.navigate('Home', {
             accessToken: ` ${accessToken.userName} `
           })
@@ -122,7 +127,6 @@ export default class Signin extends Component {
           wrong: "Wrong username or password",
           loggedin: "Login"
         });
-        //console.warn("Wrong username or password");
       });
   }
 
