@@ -19,7 +19,7 @@ const ip = require("../ip.json");
 
 export default class Account extends Component {
   static navigationOptions = {
-    drawerIcon: ({ tintColor }) => (
+    drawerIcon: () => (
       <Icon name='account-box' style={{ fontSize: 30 }} />
     )
   };
