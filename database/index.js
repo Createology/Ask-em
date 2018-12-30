@@ -111,7 +111,7 @@ const selectAllServeyHasBeenAnswerd = (userID, callback) => {
 // select all answers for specfic serveys
 const selectAllAnswersForSpecServey = (id_surveys, callback) => {
   dbconnection.query(
-    `SELECT answer from answers WHERE id_surveys id_surveys = ${id_surveys})`,
+    `SELECT * from answers WHERE  id_surveys = ${id_surveys})`,
     (err, results) => {
       callback(null, results);
     }
@@ -120,7 +120,7 @@ const selectAllAnswersForSpecServey = (id_surveys, callback) => {
 //select all answer for specfic user
 const selectAllAnswersForSpecUser = (userID, callback) => {
   dbconnection.query(
-    `SELECT answer from answers WHERE id_surveys = ${userID})`,
+    `SELECT * from answers WHERE id_surveys = ${userID})`,
     (err, results) => {
       callback(null, results);
     }
@@ -147,3 +147,7 @@ module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
 module.exports.selectUser = selectUser;
 module.exports.saveUser = saveUser;
+module.exports.selectAllAnswersForSpecServey = selectAllAnswersForSpecServey;
+module.exports.selectAllAnswersForSpecUser = selectAllAnswersForSpecUser;
+module.exports.selectAllServeyHasBeenAnswerd = selectAllServeyHasBeenAnswerd;
+module.exports.selectAllQustionForSpecServey = selectAllQustionForSpecServey;
