@@ -4,7 +4,9 @@ import {
   Text,
   View,
   ScrollView,
-  AsyncStorage
+  KeyboardAvoidingView,
+  TouchableHighlight,
+  AsyncStorage,
 } from "react-native";
 import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 import SurveyModal from "./SurveyModal";
@@ -14,8 +16,9 @@ const ip = require("../ip.json");
 
 export default class Home extends Component {
   static navigationOptions = {
+    title: "Home",
     drawerIcon: () => (
-      <Icon name='home' style={{ fontSize: 30 }} />
+      <Icon name='home' style={{ fontSize: 40 }} />
     )
   };
 
@@ -63,7 +66,7 @@ export default class Home extends Component {
         // We have data!!
         const token = JSON.parse(value);
         this.setState({
-          loggedin: `${token.userName} `
+          loggedin: ` ${token.userName} `
         });
       } else {
         this.setState({
@@ -136,24 +139,35 @@ export default class Home extends Component {
       })
       .done();
   };
-
+ 
   render() {
     const {
-      loggedin,
       modalVisible,
       selectedSurvey,
       allSurveysInfo,
       images
     } = this.state;
-    const { navigation } = this.props;
 
+    const { navigation } = this.props;
+    if (navigation.getParam('accessToken')) {
+      if (navigation.getParam('accessToken').length > 0) {
+        var itemId = navigation.getParam('accessToken');
+      } else {
+        var itemId = " ";
+      }
+    } else {
+      var itemId = " ";
+    }
+    if (this.state.loggedin.length > 1) {
+      var itemId = this.state.loggedin;
+    }
     return (
       <Container>
         <Header>
-          <Left>
-            <Icon name='menu' onPress={() => { navigation.openDrawer() }} />
-          </Left>
-          <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
+        <Left>
+          <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+        </Left>
+          <Text style={styles.headerStyle}>Welcome{itemId}to ASKem!</Text>
         </Header>
         <ScrollView>
           <View>
@@ -211,7 +225,7 @@ const styles = StyleSheet.create({
   icon: {
     color: "#000",
     margin: 10,
-    fontSize: 30,
+    fontSize: 100,
     textAlign: "left"
   }
 });
