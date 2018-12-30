@@ -24,25 +24,6 @@ const selectAllSurveysOfUser = (userID, callback) => {
   );
 };
 
-const selectAllAnsweredSurveys = (userID, callback) => {
-  dbconnection.query(
-    `SELECT * FROM answers where id_users = ${userID}`,
-    (err, results) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        dbconnection.query(
-          `SELECT * FROM surveys where id = ${results.id_surveys}`,
-          (err, results) => {
-            callback(null, results);
-          }
-        );
-      }
-    }
-  );
-};
-
-//enhance query to save for a specific user
 const insertSurvey = (
   surveyName,
   surveyCategory,
@@ -113,14 +94,63 @@ const saveUser = (
   );
 };
 
-/*
-get id from users table using email
-get answers
-*/
+const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
+  dbconnection.query(
+    `SELECT ${questionID} FROM questions where id_surveys = ${surveyID}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results)
+      }
+    }
+  );
+};
+
+const insertSmartAnswer = (
+  answer,
+  id_questions,
+  id_users,
+  id_surveys,
+  callback
+) => {
+  dbconnection.query(
+    `INSERT INTO SMARTANSWERS(answer, id_questions, id_users, id_surveys) VALUES(\"${answer}\",\"${id_questions}\",\"${id_users}\",\"${id_surveys}\")`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const insertAnswer = (
+  answer,
+  id_questions,
+  id_users,
+  id_surveys,
+  callback
+) => {
+  dbconnection.query(
+    `INSERT INTO ANSWERS(answer, id_questions, id_users, id_surveys) VALUES(\"${answer}\",\"${id_questions}\",\"${id_users}\",\"${id_surveys}\")`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
 
 module.exports.selectAll = selectAll;
 module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
 module.exports.selectUser = selectUser;
 module.exports.saveUser = saveUser;
-module.exports.selectAllSurveyAnswers = selectAllSurveyAnswers
+module.exports.selectAllSurveyAnswers = selectAllSurveyAnswers;
+module.exports.selectQuestionFromSurvey = selectQuestionFromSurvey;
+module.exports.insertSmartAnswer = insertSmartAnswer;
+module.exports.insertAnswer = insertAnswer;
