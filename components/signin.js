@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import {Icon} from 'react-native-elements';
 
-
 const ip = require("../ip.json");
 
 export default class Signin extends Component {
@@ -26,7 +25,8 @@ export default class Signin extends Component {
     this.state = {
       username: "DEFAULT",
       password: "DEFAULT",
-      loggedin: "Login"
+      loggedin: "Login", // custormer notification
+      wrong: '' // if wrong username or password
     };
   }
 
@@ -45,16 +45,28 @@ export default class Signin extends Component {
     }
   };
 
-  onLoginPressed() {
-    if (this.state.username && this.state.password) {
-      this.onLogin();
-    } else {
-      alert("Please fill username and password!");
+  onLoginPressed = async () => {
+    try {
+      // check if logged in
+      const value = await AsyncStorage.getItem("userID");
+      if (value === null) {
+        if (this.state.username && this.state.password) {
+          this.onLogin();
+        } else {
+          alert("Please fill username and password!");
+        }
+      } else {
+        console.warn("You are logged in!");
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.warn("error", error);
     }
+    
   }
 
   onLogin() {
-    //this.setState({ showProgress: true });
+    // notify user about loging in
     this.setState({
       loggedin: `You will recieve your data soon, please wait!`
     });
@@ -74,27 +86,32 @@ export default class Signin extends Component {
       })
       .then(response => {
         if (typeof response === "object") {
-          //Handle success
+          // accessToken is an object to store inside asyncStorage
           const accessToken = {
             user_id: response.userId,
             userName: response.username,
             userEmail: response.userEmail
           };
 
+          // clear inputTexts
           this.textInput1.clear()
           this.textInput2.clear()
+
+          // clear username and password states
           this.setState({
             username: '',
             password: ''
           });
 
-          //On success we will store the access_token in the AsyncStorage
+          // on success we will store the access_token in the AsyncStorage
           this.storeToken(accessToken);
 
+          // no need to notify anything after loggin
           this.setState({
             loggedin: ``
           });
 
+          // navigate to Home after login
           this.props.navigation.navigate('Home', {
             accessToken: ` ${accessToken.userName} `
           })
@@ -106,7 +123,10 @@ export default class Signin extends Component {
       })
       .catch(error => {
         // catch is a must for every fetch
-        console.warn("Wrong username or password");
+        this.setState({
+          wrong: "Wrong username or password",
+          loggedin: "Login"
+        });
       });
   }
 
@@ -115,21 +135,6 @@ export default class Signin extends Component {
       await AsyncStorage.setItem("userID", JSON.stringify(accessToken));
     } catch (error) {
       console.warn("storeToken error:", error);
-    }
-  };
-
-  checkLoggedIn = async () => {
-    try {
-      const value = await AsyncStorage.getItem("userID");
-      if (value === null) {
-        // We have data!!
-        this.onLoginPressed();
-      } else {
-        console.warn("You are logged in!");
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.warn("Please fill out username and password");
     }
   };
 
@@ -191,14 +196,13 @@ export default class Signin extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </View>
-
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.checkLoggedIn()}
+          onPress={() => this.onLoginPressed()}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
-
+        <Text style={styles.wrong}>{this.state.wrong}</Text>
         <TouchableHighlight
           style={styles.buttonContainer}
           onPress={() => this.logoutBottun()}
@@ -262,5 +266,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: -100,
     marginBottom: 100
+  },
+  wrong: {
+    color: 'red'
   }
 });
