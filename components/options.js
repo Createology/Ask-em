@@ -19,12 +19,9 @@ export class Options extends Component {
   }
 }
 
-
-
-
 const CustumDrawerComponent = (props) => (
   <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ height: 150, backgroundColor: white, alignItems: center, justifyContent: center }}>
+    <View style={{ height: 150, backgroundColor: 'white', alignItems: center, justifyContent: center }}>
       <Image source={require('./download.png')} style={{ height: 120, width: 120, borderRadius: 60 }} />
     </View>
     <ScrollView>
@@ -34,14 +31,13 @@ const CustumDrawerComponent = (props) => (
 )
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Home: TabNavigator,
+"Ask'Em" :TabNavigator,
   Signin: Signin,
   Signup: Signup
 },
   {
-    initialRouteName: 'Home',
+    initialRouteName: "Ask'Em",
     ContentComponent: CustumDrawerComponent,
-    drawerWidth: 300
   },
 
 )
