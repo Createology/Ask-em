@@ -13,6 +13,8 @@ import {
   Right,
   Button
 } from "native-base";
+
+// props are from home
 export default class SurveyListThumbnails extends Component {
   constructor(props) {
     super(props);
