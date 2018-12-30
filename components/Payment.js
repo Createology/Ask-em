@@ -143,7 +143,7 @@ export default class Payment extends Component {
 			console.warn('Please login!')
 		}
 	}
-
+ 
 	render() {
 		return (
 			<View style={styles.container}>
