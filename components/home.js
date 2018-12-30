@@ -3,21 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   ScrollView,
-  KeyboardAvoidingView,
-  TouchableHighlight,
   AsyncStorage
 } from "react-native";
-import { Container, Header, Text as Textbase, Left } from "native-base";
-import { Icon } from 'react-native-elements';
-
-
-import Header1 from "./Header";
-import SurveyList from "./SurveyList";
-
-// import Header from "./Header";
-// import SurveyList from "./SurveyList";
+import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
 const ip = require("../ip.json");
@@ -25,8 +14,7 @@ const ip = require("../ip.json");
 
 export default class Home extends Component {
   static navigationOptions = {
-    title: "Home",
-    drawerIcon: ({ tintColor }) => (
+    drawerIcon: () => (
       <Icon name='home' style={{ fontSize: 30 }} />
     )
   };
@@ -157,12 +145,14 @@ export default class Home extends Component {
       allSurveysInfo,
       images
     } = this.state;
+    const { navigation } = this.props;
+
     return (
       <Container>
         <Header>
-        <Left>
-          <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
-        </Left>
+          <Left>
+            <Icon name='menu' onPress={() => { navigation.openDrawer() }} />
+          </Left>
           <Text style={styles.headerStyle}>Welcome {loggedin}to ASKem!</Text>
         </Header>
         <ScrollView>
@@ -218,7 +208,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "left"
   },
-  icon :{
+  icon: {
     color: "#000",
     margin: 10,
     fontSize: 30,

@@ -17,7 +17,7 @@ const ip = require("../ip.json");
 
 export default class Signin extends Component {
   static navigationOptions = {
-    drawerIcon : ({tintColor})=>(
+    drawerIcon : ()=>(
         <Icon name='star' style={{fontSize : 30 }} />
     )
 };
