@@ -3,19 +3,16 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal,
-  TextInput,
-  TouchableHighlight
+  TextInput
 } from "react-native";
-import { Container, Header, Text as Textbase, Left } from "native-base";
-import { Icon } from 'react-native-elements';
+import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 
 export default class Contact extends Component {
   static navigationOptions = {
-    drawerIcon : ({tintColor})=>(
-        <Icon name='library-books' style={{fontSize : 30 }} />
+    drawerIcon: () => (
+      <Icon name='library-books' style={{ fontSize: 30 }} />
     )
-};
+  };
   constructor(props) {
     super(props);
   }
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white"
-    },
+  },
   headerStyle: {
     flex: 1,
     flexDirection: "column",
