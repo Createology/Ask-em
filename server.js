@@ -2,7 +2,7 @@ const express = require("express");
 // const cors = require('cors');
 const bodyParser = require("body-parser");
 const brain = require("./server/brain.js");
-const db = require("./database/config");
+const db = require("./database/index");
 const surveyHelpers = require("./server/surveyHelpers");
 const signIn = require("./server/signIn");
 const signUp = require("./server/signUp");
@@ -29,10 +29,16 @@ app.get("/surveys", surveyHelpers.getAllSurveys);
 
 app.post("/surveys", surveyHelpers.saveSurvey);
 
+app.post("/answer/smart/add", surveyHelpers.fillSmartAnswer);
+
+app.post("/answer/dump/add", surveyHelpers.fillAnswer);
+
+
 app.post("/mysurveys", (req, res) => {
   console.log("search server", req.body);
   res.status(200).send({});
 });
+
 
 //NOTE: 0-->(Not save) 1-->(save correctly)
 app.get("/user", (req, res) => {
@@ -40,7 +46,7 @@ app.get("/user", (req, res) => {
 });
 
 app.get("/*", (req, res) => {
-  res.status(404).send("");
+  res.sendStatus(404);
 });
 
 //connection for everything except for Brain

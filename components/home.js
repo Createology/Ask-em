@@ -133,6 +133,7 @@ export default class Home extends Component {
         return response.json();
       })
       .then(res => {
+        console.warn('in')
         this.setState({
           allSurveysInfo: res
         });
@@ -223,9 +224,9 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   icon: {
-    color: "#000",
+    color: "white",
     margin: 10,
-    fontSize: 100,
+    fontSize: 40,
     textAlign: "left"
   }
 });

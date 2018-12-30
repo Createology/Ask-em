@@ -22,16 +22,15 @@ export default class Contact extends Component {
       <View>
         <Header>
           <Left>
-            <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+            <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
           </Left>
-          <Text style={styles.headerStyle}>Welcome to ASKem!</Text>
+          <Text style={styles.headerStyle}>Contact</Text>
         </Header>
         <View style={styles.container}>
           <Text style={styles.text}> In Contact Component!</Text>
-
           <TextInput />
-        </View >
-      </View >
+        </View>
+      </View>
     );
   }
 }
@@ -57,6 +56,12 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44,
+    textAlign: "left"
+  },
+  icon: {
+    color: "white",
+    margin: 10,
+    fontSize: 40,
     textAlign: "left"
   }
 });

@@ -155,11 +155,10 @@ export default class Account extends Component {
       <View>
         <Header>
           <Left>
-            <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+            <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
           </Left>
           <Text style={styles.headerStyle}>Account</Text>
         </Header>
-
         <ScrollView>
           <View>
             <SurveyModal
@@ -221,9 +220,9 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   icon: {
-    color: "#000",
+    color: "white",
     margin: 10,
-    fontSize: 100,
+    fontSize: 40,
     textAlign: "left"
   }
 });
