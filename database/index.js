@@ -56,10 +56,24 @@ const selectUser = (username, callback) => {
   );
 };
 
-// this is for statistics or brain
+// this is for statistics
 const selectAllSurveyAnswers = (surveyID, callback) => {
   dbconnection.query(
     `select * from answers where id_surveys=\"${surveyID}\"`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+
+const selectAllSurveySmartAnswers = (surveyID, callback) => {
+  dbconnection.query(
+    `select * from smartanswers where id_surveys=\"${surveyID}\"`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -154,3 +168,4 @@ module.exports.selectAllSurveyAnswers = selectAllSurveyAnswers;
 module.exports.selectQuestionFromSurvey = selectQuestionFromSurvey;
 module.exports.insertSmartAnswer = insertSmartAnswer;
 module.exports.insertAnswer = insertAnswer;
+module.exports.selectAllSurveySmartAnswers = selectAllSurveySmartAnswers;
