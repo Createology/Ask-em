@@ -26,7 +26,8 @@ export default class Signin extends Component {
     this.state = {
       username: "DEFAULT",
       password: "DEFAULT",
-      loggedin: "Login"
+      loggedin: "Login",
+      wrong: ''
     };
   }
 
@@ -45,12 +46,23 @@ export default class Signin extends Component {
     }
   };
 
-  onLoginPressed() {
-    if (this.state.username && this.state.password) {
-      this.onLogin();
-    } else {
-      alert("Please fill username and password!");
+  onLoginPressed = async () => {
+    try {
+      const value = await AsyncStorage.getItem("userID");
+      if (value === null) {
+        if (this.state.username && this.state.password) {
+          this.onLogin();
+        } else {
+          alert("Please fill username and password!");
+        }
+      } else {
+        console.warn("You are logged in!");
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.warn("error", error);
     }
+    
   }
 
   onLogin() {
@@ -106,7 +118,11 @@ export default class Signin extends Component {
       })
       .catch(error => {
         // catch is a must for every fetch
-        console.warn("Wrong username or password");
+        this.setState({
+          wrong: "Wrong username or password",
+          loggedin: "Login"
+        });
+        //console.warn("Wrong username or password");
       });
   }
 
@@ -115,21 +131,6 @@ export default class Signin extends Component {
       await AsyncStorage.setItem("userID", JSON.stringify(accessToken));
     } catch (error) {
       console.warn("storeToken error:", error);
-    }
-  };
-
-  checkLoggedIn = async () => {
-    try {
-      const value = await AsyncStorage.getItem("userID");
-      if (value === null) {
-        // We have data!!
-        this.onLoginPressed();
-      } else {
-        console.warn("You are logged in!");
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.warn("Please fill out username and password");
     }
   };
 
@@ -191,14 +192,13 @@ export default class Signin extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </View>
-
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.checkLoggedIn()}
+          onPress={() => this.onLoginPressed()}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
-
+        <Text style={styles.wrong}>{this.state.wrong}</Text>
         <TouchableHighlight
           style={styles.buttonContainer}
           onPress={() => this.logoutBottun()}
@@ -262,5 +262,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: -100,
     marginBottom: 100
+  },
+  wrong: {
+    color: 'red'
   }
 });
