@@ -109,7 +109,7 @@ const selectAllServeyHasBeenAnswerd = (userID, callback) => {
 };
 
 // select all answers for specfic serveys
-const selectAllAnswersForSpecServeys = (id_surveys, callback) => {
+const selectAllAnswersForSpecServey = (id_surveys, callback) => {
   dbconnection.query(
     `SELECT answer from answers WHERE id_surveys id_surveys = ${id_surveys})`,
     (err, results) => {
@@ -117,10 +117,20 @@ const selectAllAnswersForSpecServeys = (id_surveys, callback) => {
     }
   );
 };
-
+//select all answer for specfic user
 const selectAllAnswersForSpecUser = (userID, callback) => {
   dbconnection.query(
-    `SELECT answer from answers WHERE id_surveys id_surveys = ${userID})`,
+    `SELECT answer from answers WHERE id_surveys = ${userID})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
+
+//select all qus for specfic survey
+const selectAllQustionForSpecServey = (id_surveys, callback) => {
+  dbconnection.query(
+    `SELECT * from 	questions WHERE id_surveys = ${id_surveys})`,
     (err, results) => {
       callback(null, results);
     }
