@@ -3,21 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   ScrollView,
   KeyboardAvoidingView,
   TouchableHighlight,
   AsyncStorage,
 } from "react-native";
-import { Container, Header, Text as Textbase, Left } from "native-base";
-import { Icon } from 'react-native-elements';
-
-
-import Header1 from "./Header";
-import SurveyList from "./SurveyList";
-
-// import Header from "./Header";
-// import SurveyList from "./SurveyList";
+import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
 const ip = require("../ip.json");
@@ -26,7 +17,7 @@ const ip = require("../ip.json");
 export default class Home extends Component {
   static navigationOptions = {
     title: "Home",
-    drawerIcon: ({ tintColor }) => (
+    drawerIcon: () => (
       <Icon name='home' style={{ fontSize: 40 }} />
     )
   };
@@ -142,6 +133,7 @@ export default class Home extends Component {
         return response.json();
       })
       .then(res => {
+        console.warn('in')
         this.setState({
           allSurveysInfo: res
         });
@@ -231,10 +223,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "left"
   },
-  icon :{
-    color: "#000",
+  icon: {
+    color: "white",
     margin: 10,
-    fontSize: 100,
+    fontSize: 40,
     textAlign: "left"
   }
 });

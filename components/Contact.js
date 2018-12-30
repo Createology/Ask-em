@@ -3,19 +3,16 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal,
-  TextInput,
-  TouchableHighlight
+  TextInput
 } from "react-native";
-import { Container, Header, Text as Textbase, Left } from "native-base";
-import { Icon } from 'react-native-elements';
+import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 
 export default class Contact extends Component {
   static navigationOptions = {
-    drawerIcon : ({tintColor})=>(
-        <Icon name='library-books' style={{fontSize : 30 }} />
+    drawerIcon: () => (
+      <Icon name='library-books' style={{ fontSize: 30 }} />
     )
-};
+  };
   constructor(props) {
     super(props);
   }
@@ -25,16 +22,15 @@ export default class Contact extends Component {
       <View>
         <Header>
           <Left>
-            <Icon name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+            <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
           </Left>
-          <Text style={styles.headerStyle}>Welcome to ASKem!</Text>
+          <Text style={styles.headerStyle}>Contact</Text>
         </Header>
         <View style={styles.container}>
           <Text style={styles.text}> In Contact Component!</Text>
-
           <TextInput />
-        </View >
-      </View >
+        </View>
+      </View>
     );
   }
 }
@@ -45,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white"
-    },
+  },
   headerStyle: {
     flex: 1,
     flexDirection: "column",
@@ -60,6 +56,12 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44,
+    textAlign: "left"
+  },
+  icon: {
+    color: "white",
+    margin: 10,
+    fontSize: 40,
     textAlign: "left"
   }
 });

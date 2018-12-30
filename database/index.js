@@ -107,6 +107,44 @@ const saveUser = (
     }
   );
 };
+// get all servery has been answerd from him;
+const selectAllServeyHasBeenAnswerd = (userID, callback) => {
+  dbconnection.query(
+    `SELECT * FROM surveys where id IN (SELECT id_surveys FROM answers WHERE id_users = ${userID})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
+
+// select all answers for specfic serveys
+const selectAllAnswersForSpecServey = (id_surveys, callback) => {
+  dbconnection.query(
+    `SELECT * from answers WHERE  id_surveys = ${id_surveys})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
+//select all answer for specfic user
+const selectAllAnswersForSpecUser = (userID, callback) => {
+  dbconnection.query(
+    `SELECT * from answers WHERE id_surveys = ${userID})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
+
+//select all qus for specfic survey
+const selectAllQustionForSpecServey = (id_surveys, callback) => {
+  dbconnection.query(
+    `SELECT * from 	questions WHERE id_surveys = ${id_surveys})`,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
 
 const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
   dbconnection.query(
@@ -169,3 +207,7 @@ module.exports.selectQuestionFromSurvey = selectQuestionFromSurvey;
 module.exports.insertSmartAnswer = insertSmartAnswer;
 module.exports.insertAnswer = insertAnswer;
 module.exports.selectAllSurveySmartAnswers = selectAllSurveySmartAnswers;
+module.exports.selectAllAnswersForSpecServey = selectAllAnswersForSpecServey;
+module.exports.selectAllAnswersForSpecUser = selectAllAnswersForSpecUser;
+module.exports.selectAllServeyHasBeenAnswerd = selectAllServeyHasBeenAnswerd;
+module.exports.selectAllQustionForSpecServey = selectAllQustionForSpecServey;
