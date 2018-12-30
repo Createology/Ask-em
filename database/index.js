@@ -50,21 +50,35 @@ const insertSurvey = (
   callback
 ) => {
   callback(null, { success: "done inserting survey!" });
-  // dbconnection.query(
-  //   `INSERT INTO SURVEYS(survey_name, category, description) VALUES(\"${surveyName}\",\"${surveyCategory}\",\"${surveyDescription}\")`,
-  //   (err, result) => {
-  //     if (err) {
-  //       callback(err, null);
-  //     } else {
-  //       callback(null, result);
-  //     }
-  //   }
-  // );
+  dbconnection.query(
+    `INSERT INTO SURVEYS(survey_name, category, description) VALUES(\"${surveyName}\",\"${surveyCategory}\",\"${surveyDescription}\")`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
 };
 
 const selectUser = (username, callback) => {
   dbconnection.query(
     `select * from users where username=\"${username}\"`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+// this is for statistics or brain
+const selectAllSurveyAnswers = (surveyID, callback) => {
+  dbconnection.query(
+    `select * from answers where id_surveys=\"${surveyID}\"`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -109,3 +123,4 @@ module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
 module.exports.selectUser = selectUser;
 module.exports.saveUser = saveUser;
+module.exports.selectAllSurveyAnswers = selectAllSurveyAnswers
