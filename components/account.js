@@ -12,7 +12,10 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
+<<<<<<< HEAD
 //mport { Icon } from "react-native-elements";
+=======
+>>>>>>> <feat> prepare Redux
 import SurveyListThumbnails from "./SurveyListThumbnails";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
