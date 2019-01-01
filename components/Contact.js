@@ -28,9 +28,7 @@ export default class Contact extends Component {
           <Text style={styles.headerStyle}>Contact</Text>
         </Header>
         <View style={styles.container}>
-        
-          <Text style={styles.text}> In Contact!</Text>
-          
+                  
           <Text style={styles.text}> In Contact!</Text>
           
           <TextInput />

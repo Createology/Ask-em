@@ -18,15 +18,17 @@ export default class Payment extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"card[number]": "4242424242424242",
-			"card[exp_month]": "12",
-			"card[exp_year]": "2019",
-			"card[cvc]": "123",
-			userName: '',
+			"card[number]": "4242424242424242", //Default
+			"card[exp_month]": "12", //Default
+			"card[exp_year]": "2019", //Default
+			"card[cvc]": "123", //Default
+			userName: '', //logged in username
 			token: {
-				userName: "issa",
+				userName: "issa", //Default
 				userToken: {}
-			}
+			},
+			money: '65', //cent //Default
+			currency: 'usd' //Default
 		};
 	}
 
@@ -48,7 +50,7 @@ export default class Payment extends Component {
 		}
 	}
 
-	makeFormBody () {
+	makeFormBody() {
 		var cardDetails = {
 			"card[number]": this.state["card[number]"],
 			"card[exp_month]": this.state["card[exp_month]"],
@@ -98,13 +100,9 @@ export default class Payment extends Component {
 	};
 
 	makeChargeBody() {
-		console.warn(typeof (this.state.token.userToken._bodyInit))
 		var cardDetails = {
-			"amount": '100',//this.state["card[number]"],
-			"currency": 'usd',//this.state["card[exp_month]"],
-			//this.state["card[exp_year]"],
-			// description: 'Example charge Isa',
-			// source: JSON.stringify(this.state.token.userToken),
+			"amount": this.state.money,
+			"currency": this.state.currency,
 			"source": JSON.parse(this.state.token.userToken._bodyInit)['id']
 		};
 		var chargeBody = [];
@@ -131,9 +129,12 @@ export default class Payment extends Component {
 				body: `${chargeBody}`
 			})
 				.then(function (res) {
-					console.warn('resCharge', res)
 					res.json()
-					alert('You paid!')
+					if (res.status < 400) {
+						alert('You paid!')
+					} else {
+						alert('Error, contact admin!')
+					}
 				})
 				.then(() => {
 				})
@@ -146,7 +147,6 @@ export default class Payment extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text>{this.state.token.userName} </Text>
 				<View style={styles.inputContainer}>
 					<TextInput
 						style={styles.inputNumber}
@@ -176,6 +176,15 @@ export default class Payment extends Component {
 						}}
 					/>
 				</View>
+				<View style={styles.inputContainerPay}>
+					<TextInput
+						style={styles.inputExp_year}
+						placeholder='Money amount'
+						onChangeText={money => {
+							this.setState({ 'money': `${money}` });
+						}}
+					/>
+				</View>
 				<View style={styles.buttonContainer}>
 					<TouchableHighlight
 						style={styles.button}
@@ -184,12 +193,6 @@ export default class Payment extends Component {
 						<Text style={styles.text}>Pay</Text>
 					</TouchableHighlight>
 
-					<TouchableHighlight
-						style={styles.button}
-						onPress={this.chargeCustomer}
-					>
-						<Text style={styles.text}>charge</Text>
-					</TouchableHighlight>
 				</View>
 			</View>
 		);
@@ -231,6 +234,14 @@ const styles = {
 		flexDirection: 'row',
 		marginLeft: 5,
 		marginRight: 5,
+	},
+	inputContainerPay: {
+		flex: 1,
+		flexDirection: 'row',
+		marginLeft: 5,
+		marginRight: 5,
+		marginTop: 40,
+		width: 150,
 	},
 	input: {
 		height: 45,
