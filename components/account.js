@@ -11,15 +11,8 @@ import {
   Image,
   TouchableOpacity
 } from "react-native";
-import {
-  Container,
-  Header,
-  Text as Textbase,
-  Left,
-  Icon as Iconbase,
-  Button
-} from "native-base";
-import { Icon } from "react-native-elements";
+import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
+//mport { Icon } from "react-native-elements";
 import SurveyListThumbnails from "./SurveyListThumbnails";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
@@ -67,7 +60,6 @@ export default class Account extends Component {
         })
           .then(response => response.json())
           .then(res => {
-            console.warn(res);
             this.setState({ fetchedSurveys: res });
           })
           .done();
@@ -95,7 +87,6 @@ export default class Account extends Component {
             this.setState({ fetchedSurveys: res });
           })
           .done(() => {
-            console.warn(this.state.fetchedSurveys);
           });
       }
     } catch (error) {
