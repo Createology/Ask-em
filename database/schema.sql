@@ -449,12 +449,12 @@ COMMIT;
 
 
 -- new version off our schema 
--- -- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 02, 2019 at 11:13 PM
+-- Generation Time: Jan 02, 2019 at 11:22 PM
 -- Server version: 8.0.13
 -- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
@@ -545,6 +545,8 @@ CREATE TABLE `choices`
   `id` int
 (11) NOT NULL,
   `id_qustion` int
+(11) NOT NULL,
+  `id_suervey` int
 (11) NOT NULL,
   `choice` varchar
 (255) NOT NULL,
@@ -713,135 +715,135 @@ INSERT INTO `users` (`id`, `username`, `firstname`, `midname`, `lastname`, `birt
 (47, 'reread', 'reread', 'reread', 'reread', '1980-01-01 00:00:00', '0', 'Amman', 'reread', '$2a$10$k2xD1EPf6WejzOoN8c1SFutBB3l6arpLvEiqQnsDkj6HLSA57ORE6'),
 (50, 'qqq', 'qqq', 'qqq', 'qqq', '1980-01-01 00:00:00', '0', 'Amman', 'qqqq@q.com', '$2a$10$WitGh9kkNMEt5TZWc3SlnebJ10ZKFhPaggelfg61KcCzzrE5Hzjq6');
 
--- --
--- -- Indexes for dumped tables
--- --
+--
+-- Indexes for dumped tables
+--
 
--- --
--- -- Indexes for table `answers`
--- --
--- ALTER TABLE `answers`
---   ADD PRIMARY KEY (`id`),
---   ADD KEY `id_users` (`id_users`),
---   ADD KEY `id_surveys` (`id_surveys`),
---   ADD KEY `choices_ibfk_1` (`id_questions`);
+--
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_users` (`id_users`),
+  ADD KEY `id_surveys` (`id_surveys`),
+  ADD KEY `choices_ibfk_1` (`id_questions`);
 
--- --
--- -- Indexes for table `choices`
--- --
--- ALTER TABLE `choices`
---   ADD KEY `choices_ibfk` (`id_qustion`);
+--
+-- Indexes for table `choices`
+--
+ALTER TABLE `choices`
+  ADD KEY `choices_ibfk` (`id_qustion`),
+  ADD KEY `choices_ibfk22` (`id_suervey`);
 
--- --
--- -- Indexes for table `customers`
--- --
--- ALTER TABLE `customers`
---   ADD PRIMARY KEY (`id`),
---   ADD KEY `customers_ibfk_1` (`id_users`),
---   ADD KEY `customers_ibfk_2` (`usersname`);
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customers_ibfk_1` (`id_users`),
+  ADD KEY `customers_ibfk_2` (`usersname`);
 
--- --
--- -- Indexes for table `questions`
--- --
--- ALTER TABLE `questions`
---   ADD PRIMARY KEY (`id`),
---   ADD KEY `id_surveys` (`id_surveys`),
---   ADD KEY `id_users` (`id_users`);
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_surveys` (`id_surveys`),
+  ADD KEY `id_users` (`id_users`);
 
--- --
--- -- Indexes for table `smart`
--- --
--- ALTER TABLE `smart`
---   ADD PRIMARY KEY (`id`),
---   ADD KEY `id_questions` (`id_questions`),
---   ADD KEY `id_users` (`id_users`),
---   ADD KEY `id_surveys` (`id_surveys`);
+--
+-- Indexes for table `smart`
+--
+ALTER TABLE `smart`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_questions` (`id_questions`),
+  ADD KEY `id_users` (`id_users`),
+  ADD KEY `id_surveys` (`id_surveys`);
 
--- --
--- -- Indexes for table `surveys`
--- --
--- ALTER TABLE `surveys`
---   ADD PRIMARY KEY (`id`),
---   ADD KEY `id_users` (`id_users`);
+--
+-- Indexes for table `surveys`
+--
+ALTER TABLE `surveys`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_users` (`id_users`);
 
--- --
--- -- Indexes for table `users`
--- --
--- ALTER TABLE `users`
---   ADD PRIMARY KEY (`id`,`username`) USING BTREE,
---   ADD UNIQUE KEY `username` (`username`),
---   ADD UNIQUE KEY `email` (`email`);
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`,`username`) USING BTREE,
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
--- --
--- -- AUTO_INCREMENT for dumped tables
--- --
+--
+-- AUTO_INCREMENT for dumped tables
+--
 
--- --
--- -- AUTO_INCREMENT for table `answers`
--- --
--- ALTER TABLE `answers`
---   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+--
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
--- --
--- -- AUTO_INCREMENT for table `questions`
--- --
--- ALTER TABLE `questions`
---   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
--- --
--- -- AUTO_INCREMENT for table `surveys`
--- --
--- ALTER TABLE `surveys`
---   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `surveys`
+--
+ALTER TABLE `surveys`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
--- --
--- -- AUTO_INCREMENT for table `users`
--- --
--- ALTER TABLE `users`
---   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
--- --
--- -- Constraints for dumped tables
--- --
+--
+-- Constraints for dumped tables
+--
 
--- --
--- -- Constraints for table `answers`
--- --
--- ALTER TABLE `answers`
---   ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`id_questions`) REFERENCES `questions` (`id`),
---   ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
---   ADD CONSTRAINT `answers_ibfk_3` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`),
---   ADD CONSTRAINT `choices_ibfk_1` FOREIGN KEY (`id_questions`) REFERENCES `questions` (`id`);
+--
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`id_questions`) REFERENCES `questions` (`id`),
+  ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `answers_ibfk_3` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`),
+  ADD CONSTRAINT `choices_ibfk_1` FOREIGN KEY (`id_questions`) REFERENCES `questions` (`id`);
 
--- --
--- -- Constraints for table `choices`
--- --
--- ALTER TABLE `choices`
---   ADD CONSTRAINT `choices_ibfk` FOREIGN KEY (`id_qustion`) REFERENCES `questions` (`id`);
+--
+-- Constraints for table `choices`
+--
+ALTER TABLE `choices`
+  ADD CONSTRAINT `choices_ibfk` FOREIGN KEY (`id_qustion`) REFERENCES `questions` (`id`),
+  ADD CONSTRAINT `choices_ibfk22` FOREIGN KEY (`id_suervey`) REFERENCES `surveys` (`id`);
 
--- --
--- -- Constraints for table `customers`
--- --
--- ALTER TABLE `customers`
---   ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
---   ADD CONSTRAINT `customers_ibfk_2` FOREIGN KEY (`usersname`) REFERENCES `users` (`username`);
+--
+-- Constraints for table `customers`
+--
+ALTER TABLE `customers`
+  ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `customers_ibfk_2` FOREIGN KEY (`usersname`) REFERENCES `users` (`username`);
 
--- --
--- -- Constraints for table `questions`
--- --
--- ALTER TABLE `questions`
---   ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`),
---   ADD CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+  ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`),
+  ADD CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 
--- --
--- -- Constraints for table `surveys`
--- --
--- ALTER TABLE `surveys`
---   ADD CONSTRAINT `surveys_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
--- COMMIT;
+--
+-- Constraints for table `surveys`
+--
+ALTER TABLE `surveys`
+  ADD CONSTRAINT `surveys_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
+COMMIT;
 
--- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
--- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
--- /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
