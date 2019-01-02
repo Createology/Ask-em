@@ -76,6 +76,7 @@ export default class Account extends Component {
       console.warn("error from the token mysurveys", error);
     }
   };
+
   onPressSurveysHasBeenAns = async () => {
     try {
       const value = await AsyncStorage.getItem("userID");
