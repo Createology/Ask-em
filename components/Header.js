@@ -52,7 +52,6 @@ export default class Header1 extends Component {
         this.setState({
           data: res.dark
         });
-        console.warn(`this is the new data: ${this.state.data}`);
       })
       .done();
   }
