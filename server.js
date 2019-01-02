@@ -47,13 +47,19 @@ app.get("/surveys", surveyHelpers.getAllSurveys);
 
 app.post("/surveys", surveyHelpers.saveSurvey);
 
-// return all serveys for specfic user
 app.post("/mysurveys", (req, res) => {
   console.log("in my survey");
   db.selectAllSurveysOfUser(req.body.id, function(err, results) {
     if (err) throw err;
     console.log(results);
     res.status(200).send(results);
+  });
+});
+// return all serveys has been answerd by specfic user
+app.post("/surveysAnsByUser", (req, res) => {
+  db.selectAllServeyHasBeenAnswerd(req.body.id, function(err, results) {
+    if (err) throw err;
+    ~res.status(200).send(results);
   });
 });
 
