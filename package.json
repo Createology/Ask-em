@@ -34,6 +34,7 @@
     "react-native-credit-card": "^0.1.9",
     "react-native-credit-card-input": "^0.4.1",
     "react-native-datepicker": "^1.7.2",
+    "react-native-easy-grid": "^0.2.0",
     "react-native-elements": "^1.0.0-beta7",
     "react-native-fontawesome": "^6.0.1",
     "react-native-gesture-handler": "^1.0.12",
