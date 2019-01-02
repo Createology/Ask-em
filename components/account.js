@@ -51,3 +51,28 @@ export default class Account extends Component {
       ]
     };
   }
+
+  onPressMySurveys = async () => {
+    try {
+      const value = await AsyncStorage.getItem("userID");
+      if (value !== null) {
+        const token = JSON.parse(value);
+        this.setState({
+          user_id: ` ${token.user_id} `
+        });
+        fetch(`${ip}:3000/mysurveys`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: this.state.user_id })
+        })
+          .then(response => response.json())
+          .then(res => {
+            console.warn(res);
+            this.setState({ fetchedSurveys: res });
+          })
+          .done();
+      }
+    } catch (error) {
+      console.warn("error from the token mysurveys", error);
+    }
+  };
