@@ -70,7 +70,6 @@ const selectAllSurveyAnswers = (surveyID, callback) => {
   );
 };
 
-
 const selectAllSurveySmartAnswers = (surveyID, callback) => {
   dbconnection.query(
     `select * from smartanswers where id_surveys=\"${surveyID}\"`,
@@ -153,7 +152,7 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
       if (err) {
         callback(err, null);
       } else {
-        callback(null, results)
+        callback(null, results);
       }
     }
   );
@@ -178,13 +177,7 @@ const insertSmartAnswer = (
   );
 };
 
-const insertAnswer = (
-  answer,
-  id_questions,
-  id_users,
-  id_surveys,
-  callback
-) => {
+const insertAnswer = (answer, id_questions, id_users, id_surveys, callback) => {
   dbconnection.query(
     `INSERT INTO ANSWERS(answer, id_questions, id_users, id_surveys) VALUES(\"${answer}\",\"${id_questions}\",\"${id_users}\",\"${id_surveys}\")`,
     (err, result) => {
@@ -197,7 +190,18 @@ const insertAnswer = (
   );
 };
 
+// 1 >> wich is active and 0 >> is not active
+const selectAllActiveSuerveyNotAnswerd = (userID, callback) => {
+  dbconnection.query(
+    `SELECT * from surveys where (id NOT IN (SELECT id_surveys from answers where id_users = ${userID}) AND activated = '1') ORDER BY createdAt DESC `,
+    (err, results) => {
+      callback(null, results);
+    }
+  );
+};
+
 module.exports.selectAll = selectAll;
+module.exports.selectAllActiveSuerveyNotAnswerd = selectAllActiveSuerveyNotAnswerd;
 module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
 module.exports.selectUser = selectUser;
