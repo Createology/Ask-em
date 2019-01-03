@@ -104,66 +104,89 @@ export default class Account extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <Grid>
-          <Row size={2}>
-            <View style={styles.container}>
-              <View style={styles.header} />
-              <Image
-                style={styles.avatar}
-                source={{
-                  uri: "https://bootdey.com/img/Content/avatar/avatar6.png"
-                }}
-              />
-              <View style={styles.body}>
-                <View style={styles.bodyContent}>
-                  <Text style={styles.name}>John Doe</Text>
-                  <Text style={styles.info}>
-                    UX Designer / Mobile developer
-                  </Text>
-                  <Text style={styles.description}>
-                    Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne
-                    assum electram expetendis, omittam deseruisse consequuntur
-                    ius an,
-                  </Text>
-                  <TouchableOpacity
-                    style={styles.buttonContainer}
-                    onPress={() => {
-                      this.onPressMySurveys();
-                    }}
-                  >
-                    <Text>My Surveys</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.buttonContainer}
-                    onPress={() => {
-                      this.onPressSurveysHasBeenAns();
-                    }}
-                  >
-                    <Text>Answered Surveys</Text>
-                  </TouchableOpacity>
+      <Container>
+        <Header>
+          <Left>
+            <Icon
+              name="menu"
+              onPress={() => {
+                this.props.navigation.openDrawer();
+              }}
+            />
+          </Left>
+          <Text style={styles.headerStyle}>Account</Text>
+        </Header>
+        <ScrollView>
+          <Grid>
+            <Row size={2}>
+              <View style={styles.container}>
+                <View style={styles.header} />
+                <Image
+                  style={styles.avatar}
+                  source={{
+                    uri: "https://bootdey.com/img/Content/avatar/avatar6.png"
+                  }}
+                />
+                <View style={styles.body}>
+                  <View style={styles.bodyContent}>
+                    <Text style={styles.name}>John Doe</Text>
+                    {/* <Text style={styles.info}>
+                      UX Designer / Mobile developer
+                    </Text>
+                    <Text style={styles.description}>
+                      Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne
+                      assum electram expetendis, omittam deseruisse consequuntur
+                      ius an,
+                    </Text> */}
+                    <TouchableOpacity
+                      style={styles.buttonContainer}
+                      onPress={() => {
+                        this.onPressMySurveys();
+                      }}
+                    >
+                      <Text>My Surveys</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.buttonContainer}
+                      onPress={() => {
+                        this.onPressSurveysHasBeenAns();
+                      }}
+                    >
+                      <Text>Answered Surveys</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Row>
-          <Row size={2}>
-            <SurveyListThumbnails
-              allSurveys={this.state.fetchedSurveys}
-              selectedSurvey={this.selectedSurvey.bind(this)}
-              showHandler={this.setModalVisible.bind(this)}
-              surveyImages={this.state.images}
-            />
-          </Row>
-        </Grid>
-      </ScrollView>
+            </Row>
+            <Row size={2}>
+              <SurveyListThumbnails
+                allSurveys={this.state.fetchedSurveys}
+                selectedSurvey={this.selectedSurvey.bind(this)}
+                showHandler={this.setModalVisible.bind(this)}
+                surveyImages={this.state.images}
+              />
+            </Row>
+          </Grid>
+        </ScrollView>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#00BFFF",
-    height: 200
+    height: 100,
+    width: 300
+  },
+  headerStyle: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlignVertical: "center",
+    textAlign: "left",
+    color: "white",
+    fontSize: 22
   },
   avatar: {
     width: 130,
@@ -174,7 +197,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: "center",
     position: "absolute",
-    marginTop: 75
+    marginTop: 20
   },
   name: {
     fontSize: 22,
@@ -182,15 +205,15 @@ const styles = StyleSheet.create({
     fontWeight: "600"
   },
   body: {
-    marginTop: 40
+    marginTop: 20
   },
   bodyContent: {
     flex: 1,
     alignItems: "center",
-    padding: 30
+    padding: 50
   },
   name: {
-    fontSize: 28,
+    fontSize: 22,
     color: "#696969",
     fontWeight: "600"
   },
@@ -211,10 +234,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 12,
     width: 250,
     borderRadius: 30,
-    backgroundColor: "#00BFFF"
+    backgroundColor: "#327371"
   },
   thumbnails: {
     // marginTop: 50,
