@@ -14,7 +14,17 @@ import {
   Header,
   Content,
   Button,
-  Text as Textbase
+  Text as Textbase,
+  Item,
+  Icon as Iconbase,
+  Input,
+  Form,
+  Label,
+  Picker,
+  Left,
+  Right,
+  Textarea,
+  Toast
 } from "native-base";
 import { Icon } from "react-native-elements";
 //import Payment from "./Payment";
@@ -23,17 +33,11 @@ export default class SurveyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      survey: this.props.selectedSurvey,
-      surveyName: "",
-      surveyDescription: "",
-      surveyCategory: ""
+      selectedEducation: "primary",
+      selectedMarital: "single",
+      allSurveysInfo: [],
+      showToast: false
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      survey: nextProps.selectedSurvey
-    });
   }
 
   handleSurveyNameChange = name => {
@@ -49,87 +53,203 @@ export default class SurveyModal extends Component {
   };
 
   render() {
-    const {
-      survey,
-      surveyName,
-      surveyDescription,
-      surveyCategory
-    } = this.state;
+    const { selectedEducation, selectedMarital } = this.state;
     return (
       <View>
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.props.visibility}
-          onRequestClose={() => { }}
+          onRequestClose={() => {}}
         >
-          <ScrollView>
-            <View style={styles.container}>
-              <View style={styles.modalContainer}>
-                <Text style={styles.text}>{survey}</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Survey Name"
-                  placeholderTextColor="rgba(255, 255, 255, 0.7)"
-                  onChangeText={surveyName => {
-                    this.handleSurveyNameChange(surveyName);
-                  }}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Survey Description"
-                  placeholderTextColor="rgba(255, 255, 255, 0.7)"
-                  onChangeText={surveyDescription => {
-                    this.handleSurveyDescriptionChange(surveyDescription);
-                  }}
-                />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Survey Category"
-                  placeholderTextColor="rgba(255, 255, 255, 0.7)"
-                  onChangeText={surveyCategory => {
-                    this.handleSurveyCategoryChange(surveyCategory);
-                  }}
-                />
-
-                <View style={styles.buttonRow}>
-                  <View style={styles.buttonSend}>
-                    <Button
-                      primary
-                      full
-                      block
-                      onPress={() => {
-                        this.props.submitModalHandler(
-                          surveyName,
-                          surveyDescription,
-                          surveyCategory
-                        );
-                      }}
+          <View style={styles.container}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.textTitle}>
+                {this.props.surveyName.toUpperCase()}
+              </Text>
+              <Text style={styles.textTitle}>
+                Please fill the required info
+              </Text>
+              <Form>
+                <View style={{ flexDirection: "row" }}>
+                  <Left style={{ flex: 1 }}>
+                    <Text
+                      note
+                      numberOfLines={2}
+                      style={styles.textScreenElements}
                     >
-                      {/* need to changeicon color */}
-                      <Icon name="send" style={{ color: "white" }} />
-                      <Textbase>Submit</Textbase>
-                    </Button>
-                  </View>
+                      Survey Name:
+                    </Text>
+                  </Left>
+                  <Right style={{ flex: 1 }}>
+                    <Text note numberOfLines={8} style={styles.surveyValues}>
+                      {this.props.surveyName}
+                    </Text>
+                  </Right>
+                </View>
 
-                  <View style={styles.buttonCancel}>
-                    <Button
-                      primary
-                      full
-                      block
-                      onPress={() => {
-                        this.props.showHandler(false);
-                      }}
+                {/*  */}
+                <View style={{ flexDirection: "row" }}>
+                  <Left style={{ flex: 1 }}>
+                    <Text
+                      note
+                      numberOfLines={2}
+                      style={styles.textScreenElements}
                     >
-                      {/* need to changeicon color */}
-                      <Icon name="backspace" style={{ color: "white" }} />
-                      <Textbase>Cancel</Textbase>
-                    </Button>
-                  </View>
+                      Survey Description:
+                    </Text>
+                  </Left>
+                  <Right style={{ flex: 1 }}>
+                    <Text note numberOfLines={8} style={styles.surveyValues}>
+                      {this.props.surveyDescription}
+                    </Text>
+                  </Right>
+                </View>
+                {/*  */}
+                <View style={{ flexDirection: "row" }}>
+                  <Left style={{ flex: 1 }}>
+                    <Text
+                      note
+                      numberOfLines={2}
+                      style={styles.textScreenElements}
+                    >
+                      Survey Category:
+                    </Text>
+                  </Left>
+                  <Right style={{ flex: 1 }}>
+                    <Text note numberOfLines={8} style={styles.surveyValues}>
+                      {this.props.surveyCategory}
+                    </Text>
+                  </Right>
+                </View>
+
+                {/*  */}
+                <View style={{ flexDirection: "row" }}>
+                  <Left style={{ flex: 1 }}>
+                    <Text>Education Level: </Text>
+                  </Left>
+
+                  <Picker
+                    note
+                    mode="dropdown"
+                    style={{ width: undefined }}
+                    selectedValue={selectedEducation}
+                    onValueChange={async (item, index) => {
+                      await this.setState({
+                        selectedEducation: item
+                      });
+                    }}
+                  >
+                    <Picker.Item
+                      label="Primary"
+                      value="primary"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Secondary"
+                      value="secondary"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item label="High" value="high" />
+                    <Picker.Item
+                      label="Bachelor"
+                      value="bachelor"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Master"
+                      value="master"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Doctoral"
+                      value="doctoral"
+                      style={styles.textScreenElements}
+                    />
+                  </Picker>
+                </View>
+
+                <View style={{ flexDirection: "row" }}>
+                  <Left style={{ flex: 1 }}>
+                    <Text>Marital Status: </Text>
+                  </Left>
+
+                  <Picker
+                    note
+                    mode="dropdown"
+                    style={{ width: undefined }}
+                    selectedValue={selectedMarital}
+                    onValueChange={async (item, index) => {
+                      await this.setState({
+                        selectedMarital: item
+                      });
+                    }}
+                  >
+                    <Picker.Item
+                      label="Single"
+                      value="single"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Married"
+                      value="married"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Divorced"
+                      value="divorced"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Widowed"
+                      value="widowed"
+                      style={styles.textScreenElements}
+                    />
+                    <Picker.Item
+                      label="Seperated"
+                      value="seperated"
+                      style={styles.textScreenElements}
+                    />
+                  </Picker>
+                </View>
+              </Form>
+
+              <View style={styles.buttonRow}>
+                <View style={styles.buttonSend}>
+                  <Button
+                    primary
+                    full
+                    block
+                    onPress={() => {
+                      this.props.submitModalHandler(
+                        selectedEducation,
+                        selectedMarital
+                      );
+                    }}
+                  >
+                    {/* need to changeicon color */}
+                    <Icon name="send" style={{ color: "white" }} />
+                    <Textbase>Submit</Textbase>
+                  </Button>
+                </View>
+
+                <View style={styles.buttonCancel}>
+                  <Button
+                    primary
+                    full
+                    block
+                    onPress={() => {
+                      this.props.showHandler(false);
+                    }}
+                  >
+                    {/* need to changeicon color */}
+                    <Icon name="backspace" style={{ color: "white" }} />
+                    <Textbase>Cancel</Textbase>
+                  </Button>
                 </View>
               </View>
             </View>
-          </ScrollView>
+          </View>
         </Modal>
       </View>
     );
@@ -141,14 +261,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#cce6ff",
     width: "100%"
   },
-  text: {
+  textTitle: {
     fontSize: 25,
     textAlignVertical: "center",
     textAlign: "center",
-    marginBottom: 40
+    marginBottom: 40,
+    fontFamily: "Roboto"
+  },
+  textScreenElements: {
+    fontSize: 19,
+    fontFamily: "Roboto"
+  },
+  surveyValues: {
+    textAlign: "left",
+    fontSize: 18,
+    fontFamily: "Roboto"
   },
   input: {
     height: 50,

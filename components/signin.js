@@ -10,24 +10,23 @@ import {
   Alert,
   AsyncStorage
 } from "react-native";
-import { connect } from 'react-redux';
-import { loggedIn } from '../store/actions/index';
-import { Icon } from 'react-native-elements';
+import { connect } from "react-redux";
+import { loggedIn } from "../store/actions/index";
+import { Icon } from "react-native-elements";
+import { Container, Header, Content, Spinner } from "native-base";
 
 const ip = require("../ip.json");
 
 class Signin extends Component {
   static navigationOptions = {
-    drawerIcon: () => (
-      <Icon name='star' style={{ fontSize: 30 }} />
-    )
+    drawerIcon: () => <Icon name="star" style={{ fontSize: 30 }} />
   };
   constructor(props) {
     super(props);
     this.state = {
       password: "DEFAULT",
       loggedin: "Login", // custormer notification
-      wrong: '' // if wrong username or password
+      wrong: "" // if wrong username or password
     };
   }
 
@@ -63,8 +62,7 @@ class Signin extends Component {
       // Error retrieving data
       console.warn("error", error);
     }
-
-  }
+  };
 
   onLogin() {
     // notify user about loging in
@@ -75,6 +73,7 @@ class Signin extends Component {
     fetch(`${ip}:3000/login`, {
       method: "POST",
       headers: {
+        'Accept':'application/json',
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -95,17 +94,17 @@ class Signin extends Component {
           };
 
           // clear inputTexts
-          this.textInput1.clear()
-          this.textInput2.clear()
+          this.textInput1.clear();
+          this.textInput2.clear();
 
           // clear username and password states
           this.setState({
-            username: '',
-            password: ''
+            username: "",
+            password: ""
           });
 
           // save username into global
-          this.props.onAddUsername(accessToken.userName)
+          this.props.onAddUsername(accessToken.userName);
 
           // on success we will store the access_token in the AsyncStorage
           this.storeToken(accessToken);
@@ -116,9 +115,9 @@ class Signin extends Component {
           });
 
           // navigate to Home after login
-          this.props.navigation.navigate('Home', {
+          this.props.navigation.navigate("Home", {
             accessToken: ` ${accessToken.userName} `
-          })
+          });
         } else {
           //Handle error
           let error = response;
@@ -153,12 +152,12 @@ class Signin extends Component {
           loggedin: `Login`
         });
         // save username into global
-        this.props.onAddUsername('')
-        
+        this.props.onAddUsername("");
+
         // redirect to home screen
-        this.props.navigation.navigate('Home', {
-          accessToken: ''
-        })
+        this.props.navigation.navigate("Home", {
+          accessToken: ""
+        });
       }
     } catch (error) {
       // Error retrieving data
@@ -170,7 +169,12 @@ class Signin extends Component {
     const { loggedin } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>{loggedin}</Text>
+        {this.state.loggedin !==
+        "You will recieve your data soon, please wait!" ? (
+          <Text style={styles.welcome}>{loggedin}</Text>
+        ) : (
+          <Spinner color="blue" />
+        )}
         <View style={styles.inputContainer}>
           <Image
             style={styles.inputIcon}
@@ -183,11 +187,12 @@ class Signin extends Component {
             placeholder="username"
             keyboardType="email-address"
             underlineColorAndroid="transparent"
-            ref={input => { this.textInput1 = input }}
+            ref={input => {
+              this.textInput1 = input;
+            }}
             onChangeText={username => this.setState({ username })}
           />
         </View>
-
         <View style={styles.inputContainer}>
           <Image
             style={styles.inputIcon}
@@ -200,7 +205,9 @@ class Signin extends Component {
             placeholder="Password"
             secureTextEntry={true}
             underlineColorAndroid="transparent"
-            ref={input => { this.textInput2 = input }}
+            ref={input => {
+              this.textInput2 = input;
+            }}
             onChangeText={password => this.setState({ password })}
           />
         </View>
@@ -276,22 +283,25 @@ const styles = StyleSheet.create({
     marginBottom: 100
   },
   wrong: {
-    color: 'red'
+    color: "red"
   }
 });
 
 // global states
 const mapStateToProps = state => {
   return {
-    username: state.username.username,
-  }
-}
+    username: state.username.username
+  };
+};
 
 // global functions
 const mapDispatchToProps = dispatch => {
   return {
-    onAddUsername: (username) => dispatch(loggedIn(username))
-  }
-}
+    onAddUsername: username => dispatch(loggedIn(username))
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signin);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Signin);

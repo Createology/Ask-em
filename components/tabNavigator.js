@@ -5,6 +5,7 @@ import {
   createAppContainer
 } from "react-navigation";
 // import Ionicons from "react-native-vector-icons/Ionicons";
+import IconAnt from "react-native-vector-icons/AntDesign";
 import { Icon } from "react-native-elements";
 // this is the library of logos: https://oblador.github.io/react-native-vector-icons/
 import Home from "./home";
@@ -24,29 +25,36 @@ const TabNavigator = createBottomTabNavigator(
         let iconName;
         if (routeName === "Home") {
           iconName = `home`;
-        } else if (routeName === "Contact") {
-          iconName = `library-books`;
         } else if (routeName === "Account") {
-          iconName = `account-box`;
+          iconName = `user`;
+        } else if (routeName === "Contact") {
+          iconName = `profile`;
         }
-        return <Icon size={40} name={iconName} color={"grey"} />;
+        return (
+          <IconAnt
+            reverse
+            raised
+            style={{ fontSize: 34, color: "white" }}
+            name={iconName}
+          />
+        );
       }
     }),
-    drawerIcon: () => (
-      <Icon name='home' style={{ fontSize: 30 }} />
-    ),
-    initialRouteName: 'Home',
-    backBehavior: 'initialRoute',
+    drawerIcon: () => <Icon name="home" style={{ fontSize: 30 }} />,
+    initialRouteName: "Home",
+    backBehavior: "initialRoute",
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     tabBarOptions: {
-      activeTintColor: "#3BBC9F",
-      inactiveTintColor: "gray"
+      activeTintColor: "#F77F00",
+      inactiveTintColor: "gray",
+      activeBackgroundColor: "#E65100",
+      inactiveBackgroundColor: "#E65100",
+      labelStyle: { color: "white", fontWeight: "bold" }
     },
     animationEnabled: false,
     swipeEnabled: false
   }
 );
-
 
 export default createAppContainer(TabNavigator);

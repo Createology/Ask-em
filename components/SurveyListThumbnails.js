@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TouchableHighlight, View } from "react-native";
+import PropTypes from "prop-types";
 import {
   Container,
   Header,
@@ -43,7 +44,13 @@ export default class SurveyListThumbnails extends Component {
                 <Body>
                   <TouchableHighlight
                     onPress={() => {
-                      this.props.selectedSurvey(survey.survey_name);
+                      this.props.onChangeSurveyInfo(
+                        survey.survey_name,
+                        survey.description,
+                        survey.category,
+                        survey.id_users,
+                        survey.id
+                      );
                       this.props.showHandler();
                     }}
                     underlayColor="gray"
@@ -58,12 +65,18 @@ export default class SurveyListThumbnails extends Component {
                 <Right>
                   <TouchableHighlight
                     onPress={() => {
-                      this.props.selectedSurvey(survey.survey_name);
+                      this.props.onChangeSurveyInfo(
+                        survey.survey_name,
+                        survey.description,
+                        survey.category,
+                        survey.id_users,
+                        survey.id
+                      );
                       this.props.showHandler();
                     }}
                     underlayColor="gray"
                   >
-                    <Text key={survey.id} style={{ color: "blue" }}>
+                    <Text key={survey.id} style={{ color: "grey" }}>
                       View
                     </Text>
                   </TouchableHighlight>
@@ -75,3 +88,11 @@ export default class SurveyListThumbnails extends Component {
     );
   }
 }
+
+SurveyListThumbnails.propTypes = {
+  allSurveys: PropTypes.array,
+  selectedSurvey: PropTypes.func,
+  showHandler: PropTypes.func,
+  surveyImages: PropTypes.array,
+  onChangeSurveyInfo: PropTypes.func
+};

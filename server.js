@@ -2,10 +2,10 @@ const express = require("express");
 // const cors = require('cors');
 const bodyParser = require("body-parser");
 const brain = require("./server/brain.js");
-const db = require("./database/index");
 const surveyHelpers = require("./server/surveyHelpers");
 const signIn = require("./server/signIn");
 const signUp = require("./server/signUp");
+const db = require("./database/index")
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,36 +16,31 @@ app.get("/isa", (req, res) => {
 });
 
 app.post("/search", (req, res) => {
-  console.log("search server", req.body);
-  res.status(200).send({});
-});
+  db.selectSearchsurvey(req.body.text, function(err, results){
+    if (err) throw err;
+    res.status(200).send(JSON.stringify({results, results}))
+  })
+})
 
+//;-----------------------;
 app.post("/signup", signUp);
 
 app.post("/login", signIn);
+//;-----------------------;
+app.post("/surveys/retrieve", surveyHelpers.getAllSurveys);
 
-app.get("/surveys", surveyHelpers.getAllSurveys);
+app.post("/surveys/save", surveyHelpers.saveSurvey);
+//;-----------------------;
+app.post("/mysurveys/retrieve", surveyHelpers.getAllSurveysOfUser);
 
-app.post("/surveys", surveyHelpers.saveSurvey);
-
-app.post("/mysurveys", (req, res) => {
-  db.selectAllSurveysOfUser(req.body.id, function(err, results) {
-    if (err) throw err;
-    res.status(200).send(results);
-  });
-});
-
-// return all serveys has been answerd by specfic user
-app.post("/surveysAnsByUser", (req, res) => {
-  db.selectAllServeyHasBeenAnswerd(req.body.id, function(err, results) {
-    if (err) throw err;
-    res.status(200).send(results);
-  });
-});
-
+app.post("/mysurveys/answered", surveyHelpers.getAllSurveysAnsweredByUser);
+//;-----------------------;
 app.post("/answer/smart/add", surveyHelpers.fillSmartAnswer);
 
-app.post("/answer/dump/add", surveyHelpers.fillAnswer);
+app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
+
+app.post("/answer/dumb/questions", surveyHelpers.getAllQuestionsOfASurvey);
+//;-----------------------;
 
 app.post("/mysurveys", (req, res) => {
   res.status(200).send({});
