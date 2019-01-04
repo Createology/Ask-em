@@ -33,9 +33,6 @@ export default class Contact extends Component {
           
           <TextInput />
         </View>
-        <View>
-          <Payment />
-        </View>
       </View>
     );
   }
