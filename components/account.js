@@ -54,7 +54,10 @@ export default class Account extends Component {
         });
         fetch(`${ip}:3000/mysurveys/retrieve`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            'Accept':'application/json',
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({ id: this.state.user_id })
         })
           .then(response => response.json())
@@ -78,7 +81,10 @@ export default class Account extends Component {
         });
         fetch(`${ip}:3000/mysurveys/answered`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            'Accept':'application/json',
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({ id: this.state.user_id })
         })
           .then(response => response.json())
