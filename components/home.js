@@ -20,6 +20,7 @@ import {
 import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
 import SurveyStats from "./SurveyStats";
+import Signup from "./signup";
 
 const ip = require("../ip.json");
 
@@ -72,12 +73,11 @@ export default class Home extends Component {
   }
 
   componentDidMount = async () => {
-    
     try {
       const value = await AsyncStorage.getItem("userID");
       if (value !== null && !this.state.loggedin) {
         // We have data!!
-        const token = (JSON.parse(value));
+        const token = JSON.parse(value);
         this.showAllSurveys(token.user_id);
         this.setState({
           loggedin: ` ${token.userName} `
@@ -88,7 +88,7 @@ export default class Home extends Component {
         });
       }
     } catch (error) {
-      console.warn("errer home didmount", error)
+      console.warn("errer home didmount", error);
       // Error retrieving data
     }
   };
@@ -122,9 +122,9 @@ export default class Home extends Component {
   getQuestions(surveyID) {
     fetch(`${ip}:3000/answer/dumb/questions`, {
       method: "POST",
-      headers: { 
-        'Accept':'application/json',
-        "Content-Type": "application/json" 
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         surveyID: surveyID
@@ -202,8 +202,7 @@ export default class Home extends Component {
           surveyAnswers: res
         });
       })
-      .done(() => {
-      });
+      .done(() => {});
   };
 
   onChangeSurveyInfo = (
@@ -249,44 +248,7 @@ export default class Home extends Component {
     if (loggedin.length > 1) {
       var itemId = loggedin;
     }
-    return (
-      <View>
-        <Header style={{ backgroundColor: "#E65100" }}>
-          <Left>
-            <Icon
-              style={styles.icon}
-              name="menu"
-              onPress={() => {
-                this.props.navigation.openDrawer();
-              }}
-            />
-          </Left>
-          <Text style={styles.headerStyle}>Welcome{itemId}to ASKem!</Text>
-        </Header>
-        <ScrollView>
-          <View>
-            <SurveyModal
-              showHandler={this.setModalVisible.bind(this)}
-              visibility={modalVisible}
-              selectedSurvey={selectedSurvey}
-              allSurveys={allSurveysInfo}
-              surveyName={surveyName}
-              surveyDescription={surveyDescription}
-              surveyCategory={surveyCategory}
-              submitModalHandler={this.onPressSubmitModal.bind(this)}
-            />
-            <SurveyListThumbnails
-              allSurveys={allSurveysInfo}
-              selectedSurvey={this.selectedSurvey.bind(this)}
-              showHandler={this.setModalVisible.bind(this)}
-              surveyImages={images}
-              onChangeSurveyInfo={this.onChangeSurveyInfo.bind(this)}
-              getQuestions={this.getQuestions.bind(this)}
-            />
-          </View>
-        </ScrollView>
-      </View>
-    );
+    return <Signup />;
   }
 }
 
