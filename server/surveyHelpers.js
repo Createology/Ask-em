@@ -40,10 +40,8 @@ getAllSurveys = (req, res) => {
 };
 
 const fillSmartAnswer = (req, res) => {
-  console.log("===fillSmartAnswer===");
   if (req.body.answer) {
     const { answer, questionID, userID, surveyID } = req.body;
-    console.log(result);
     DB.insertSmartAnswer(
       answer,
       questionID,
@@ -64,7 +62,6 @@ const fillSmartAnswer = (req, res) => {
   } else {
     res.status(402).send("no answer");
   }
-  res.sendStatus(500);
 };
 
 const fillAnswer = (req, res) => {

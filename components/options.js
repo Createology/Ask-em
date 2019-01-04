@@ -10,6 +10,8 @@ import Signup from "./signup";
 import Signin from "./signin";
 import Payment from "./Payment";
 import TabNavigator from "./tabNavigator";
+import Search from "./Search";
+
 
 export class Options extends Component {
   render() {
@@ -32,15 +34,16 @@ const CustumDrawerComponent = (props) => (
       </ScrollView>
     </SafeAreaView>
   </View>
-)
+) 
 
 const AppDrawerNavigator = createDrawerNavigator({
   "Ask'Em": TabNavigator,
+  Search: Search,
   Signin: Signin,
   Signup: Signup,
   Payment: Payment,
-  Feedback: Payment,
-  About: Payment,
+  // Feedback: Payment,
+  // About: Payment,
 },
   {
     initialRouteName: "Ask'Em",
