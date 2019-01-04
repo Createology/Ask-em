@@ -38,11 +38,28 @@ const AppDrawerNavigator = createDrawerNavigator({
   "Ask'Em": TabNavigator,
   Signin: Signin,
   Signup: Signup,
-  Payment: Payment
+  Payment: Payment,
+  Feedback: Payment,
+  About: Payment,
 },
   {
     initialRouteName: "Ask'Em",
     ContentComponent: CustumDrawerComponent,
+    drawerWidth: 200,
+    contentOptions: {
+      activeTintColor: '#E65100',
+      activeBackgroundColor: 'rgba(0,0,0,0)',
+      inactiveBackgroundColor: 'rgba(0,0,0,0)',
+      inactiveTintColor: '#545f7a',
+      style: {
+        marginVertical: 0
+      },
+      labelStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'Roboto',
+        backgroundColor: 'transparent'
+      }
+    },
   },
 
 )
