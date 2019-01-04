@@ -80,9 +80,22 @@ const selectAllSurveyAnswers = (surveyID, callback) => {
   );
 };
 
-const selectAllSurveySmartAnswers = (surveyID, callback) => {
+const selectAllUsersAnsweredSurveys = (id_surveys, callback) => {
   dbconnection.query(
-    `select * from smartanswers where id_surveys=\"${surveyID}\"`,
+    `select * from smart where id_surveys=\"${id_surveys}\"`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllUserSmartAnswers = (userID, callback) => {
+  dbconnection.query(
+    `select * from smart where id_users=\"${userID}\"`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -116,6 +129,7 @@ const saveUser = (
     }
   );
 };
+
 //all surveys answerd by a specific user;
 const selectAllSurveysAnsweredByUser = (userID, callback) => {
   dbconnection.query(
@@ -143,6 +157,7 @@ const selectAllAnswersOfASurvey = (id_surveys, callback) => {
     }
   );
 };
+
 //select all answers for a specfic user
 const selectAllAnswersOfAUser = (userID, callback) => {
   dbconnection.query(
@@ -192,7 +207,7 @@ const insertSmartAnswer = (
   callback
 ) => {
   dbconnection.query(
-    `INSERT INTO SMARTANSWERS(answer, id_questions, id_users, id_surveys) VALUES(\"${answer}\",\"${id_questions}\",\"${id_users}\",\"${id_surveys}\")`,
+    `INSERT INTO SMART(answer, id_questions, id_users, id_surveys) VALUES(\"${answer}\",\"${id_questions}\",\"${id_users}\",\"${id_surveys}\")`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -241,9 +256,10 @@ module.exports.selectAllSurveyAnswers = selectAllSurveyAnswers;
 module.exports.selectQuestionFromSurvey = selectQuestionFromSurvey;
 module.exports.insertSmartAnswer = insertSmartAnswer;
 module.exports.insertAnswer = insertAnswer;
-module.exports.selectAllSurveySmartAnswers = selectAllSurveySmartAnswers;
+module.exports.selectAllUserSmartAnswers = selectAllUserSmartAnswers;
 module.exports.selectAllAnswersOfASurvey = selectAllAnswersOfASurvey;
 module.exports.selectAllAnswersOfAUser = selectAllAnswersOfAUser;
 module.exports.selectAllSurveysAnsweredByUser = selectAllSurveysAnsweredByUser;
 module.exports.selectAllQuestionsOfASurvey = selectAllQuestionsOfASurvey;
 module.exports.selectSearchsurvey = selectSearchsurvey;
+module.exports.selectAllUsersAnsweredSurveys = selectAllUsersAnsweredSurveys;
