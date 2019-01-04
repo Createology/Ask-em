@@ -4,6 +4,7 @@ import {
   Text,
   View,
   ScrollView,
+  StatusBar,
   KeyboardAvoidingView,
   TouchableHighlight,
   AsyncStorage,
@@ -162,8 +163,8 @@ export default class Home extends Component {
       var itemId = this.state.loggedin;
     }
     return (
-      <Container>
-        <Header>
+      <View>
+        <Header style={{backgroundColor: "#E65100"}}>
           <Left>
             <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
           </Left>
@@ -185,7 +186,7 @@ export default class Home extends Component {
             />
           </View>
         </ScrollView>
-      </Container>
+      </View>
     );
   }
 }
