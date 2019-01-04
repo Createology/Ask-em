@@ -1,10 +1,10 @@
 var express = require('express');
 const fs = require('fs');
 const brain = require('brain.js');
-var data = require('./server/data.json')
+//var data = require('./server/data.json')
 var db = require('./database/index')
 const bodyParser = require("body-parser");
-//var data;
+var data;
 
 var app = express();
 
@@ -49,38 +49,40 @@ app.post("/answers/smart/save", (req, res) => {
 
 // read specific json file for specific survey
 app.post("/data/read", (req, res) => {
-    console.log("search brainServer", req.body.userID);
-    userID = req.body.userID;
-    data = require(`./smartData/questionID${userID}_Answers.json`)
+    console.log("search brainServer", req.body.surveyID);
+    surveyID = req.body.surveyID;
+    data = require(`./smartData/surveyID${surveyID}_Answers.json`)
     if (data) {
         res.sendStatus(200)
+        console.log("in brain training", data)
+        var trainingData = data.map(item => (
+            { input: [(item['39']).replace(/\s/g, ""), item['40']], output: item['41'] }
+        ))
+
+        // train data with some options
+        network.train(trainingData, {
+            iterations: 1000, // if you increase time of brain will increase, and accuracy will increase
+            activation: 'relu' // to read bigger numbers than 1
+        });
+
+        // FINAL SMART VALUE
+        const smartAnswer = network.run([('Khalda').replace(/\s/g, ""), 5])
+        console.log('data', data)
+        console.log('run answer =============', smartAnswer)
     } else {
         res.sendStatus(404)
     }
-    
+
 });
 
 // make up data for training
-var trainingData = data.map(item => (
-    { input: [(item.text).replace(/\s/g, ""), item.age, (item.name).replace(/\s/g, "")], output: item.major }
-))
 
-// train data with some options
-// network.train(trainingData, {
-//     iterations: 1000, // if you increase time of brain will increase, and accuracy will increase
-//     activation: 'relu' // to read bigger numbers than 1
-// });
-
-// FINAL SMART VALUE
-// const smartAnswer = network.run( [('he').replace(/\s/g, ""), 70, "Issa"] )
-// console.log('data', data)
-// console.log('run answer =============', smartAnswer)
 
 // get the smart value
 app.get("/answer/smart/get", (req, res) => {
     console.log("search brainServer", req.body.surveyID);
     if (req.body.surveyID === surveyID)
-    res.status(200).send(smartAnswer)
+        res.status(200).send(smartAnswer)
 });
 
 
