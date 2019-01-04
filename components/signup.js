@@ -79,7 +79,6 @@ export default class Signup extends Component {
         } else {
           alert(errorMessage);
         }
-        console.warn(error);
       });
 
     // this is to make a mysql account
@@ -109,7 +108,6 @@ export default class Signup extends Component {
       })
       .catch(error => {
         // catch is a must for every fetch
-        console.warn("mySQL error:", error);
       });
   }
 
@@ -117,20 +115,11 @@ export default class Signup extends Component {
     const { gender, country, age } = this.state;
     return (
       <Container>
-        {/* <Header style={{ backgroundColor: "#E65100" }}>
-          <Left>
-            <Icon
-              style={styles.icon}
-              name="menu"
-              onPress={() => {
-                this.props.navigation.openDrawer();
-              }}
-            />
-          </Left>
-          <Text style={styles.headerStyle}>Signup</Text>
-        </Header> */}
-        <View style={styles.container}>
-          <ScrollView>
+        <ScrollView>
+          <Header style={{ backgroundColor: "#E65100" }}>
+            <Text style={styles.headerStyle}>Signup</Text>
+          </Header>
+          <View style={styles.container}>
             <Form>
               <View style={styles.inputContainer}>
                 <Item rounded>
@@ -291,8 +280,8 @@ export default class Signup extends Component {
                 <Text style={styles.signupText}>Signup</Text>
               </TouchableHighlight>
             </Form>
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </Container>
     );
   }
