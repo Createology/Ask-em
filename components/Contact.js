@@ -1,18 +1,11 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput
-} from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 import Payment from "./Payment";
 
 export default class Contact extends Component {
   static navigationOptions = {
-    drawerIcon: () => (
-      <Icon name='library-books' style={{ fontSize: 30 }} />
-    )
+    drawerIcon: () => <Icon name="library-books" style={{ fontSize: 30 }} />
   };
   constructor(props) {
     super(props);
@@ -21,16 +14,21 @@ export default class Contact extends Component {
   render() {
     return (
       <View>
-        <Header>
+        <Header style={{ backgroundColor: "#E65100" }}>
           <Left>
-            <Icon style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+            <Icon
+              style={styles.icon}
+              name="menu"
+              onPress={() => {
+                this.props.navigation.openDrawer();
+              }}
+            />
           </Left>
           <Text style={styles.headerStyle}>Contact</Text>
         </Header>
         <View style={styles.container}>
-                  
           <Text style={styles.text}> In Contact!</Text>
-          
+
           <TextInput />
         </View>
       </View>
