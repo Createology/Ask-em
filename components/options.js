@@ -8,19 +8,24 @@ import {
 } from "react-navigation";
 import Signup from "./signup";
 import Signin from "./signin";
+import Payment from "./Payment";
 import TabNavigator from "./tabNavigator";
 
 export class Options extends Component {
   render() {
     return (
       <AppDrawerNavigator />
-
     );
   }
 }
 
 const CustumDrawerComponent = (props) => (
   <View>
+    <StatusBar
+      backgroundColor="#ffffff"
+      barStyle="dark-content"
+      animated={true}
+    />
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <DrawerItems {...props} />
@@ -30,13 +35,31 @@ const CustumDrawerComponent = (props) => (
 )
 
 const AppDrawerNavigator = createDrawerNavigator({
-"Ask'Em" :TabNavigator,
+  "Ask'Em": TabNavigator,
   Signin: Signin,
-  Signup: Signup
+  Signup: Signup,
+  Payment: Payment,
+  Feedback: Payment,
+  About: Payment,
 },
   {
     initialRouteName: "Ask'Em",
     ContentComponent: CustumDrawerComponent,
+    drawerWidth: 200,
+    contentOptions: {
+      activeTintColor: '#E65100',
+      activeBackgroundColor: 'rgba(0,0,0,0)',
+      inactiveBackgroundColor: 'rgba(0,0,0,0)',
+      inactiveTintColor: '#545f7a',
+      style: {
+        marginVertical: 0
+      },
+      labelStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'Roboto',
+        backgroundColor: 'transparent'
+      }
+    },
   },
 
 )
