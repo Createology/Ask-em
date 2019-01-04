@@ -157,7 +157,6 @@ export default class Home extends Component {
     });
 
     await this.setState({ surveyAnswers: answersArray });
-    // console.warn(this.state.surveyAnswers);
     fetch(`${ip}:3000/answer/dumb/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -165,7 +164,6 @@ export default class Home extends Component {
     })
       .then(response => response.json())
       .then(res => {
-        // console.warn(res);
         this.setState({ modalVisible: false });
       });
   }
@@ -197,14 +195,6 @@ export default class Home extends Component {
   getSurveysAnswers = () => {
     fetch(`${ip}:3000/surveysanswers/`, {
       method: "GET"
-  // showAllSurveys = (id) => {
-  //   fetch(`${ip}:3000/home/`, {
-  //     method: "POST",
-  //     headers: { 
-  //       'Accept':'application/json',
-  //       "Content-Type": "application/json" 
-  //     },
-  //     body: JSON.stringify({ id: id })
     })
       .then(response => response.json())
       .then(res => {

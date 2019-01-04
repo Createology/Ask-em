@@ -246,3 +246,4 @@ module.exports.selectAllAnswersOfASurvey = selectAllAnswersOfASurvey;
 module.exports.selectAllAnswersOfAUser = selectAllAnswersOfAUser;
 module.exports.selectAllSurveysAnsweredByUser = selectAllSurveysAnsweredByUser;
 module.exports.selectAllQuestionsOfASurvey = selectAllQuestionsOfASurvey;
+module.exports.selectSearchsurvey = selectSearchsurvey;
