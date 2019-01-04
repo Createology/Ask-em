@@ -29,6 +29,25 @@ app.post("/surveys/retrieve", surveyHelpers.getAllSurveys);
 app.post("/surveys/save", surveyHelpers.saveSurvey);
 //;-----------------------;
 app.post("/mysurveys/retrieve", surveyHelpers.getAllSurveysOfUser);
+// app.get("/surveys", surveyHelpers.getAllSurveys);
+// app.post("/home", surveyHelpers.getAllSurveys);
+
+// app.post("/surveys", surveyHelpers.saveSurvey);
+
+// app.post("/mysurveys", (req, res) => {
+//   db.selectAllSurveysOfUser(req.body.id, function(err, results) {
+//     if (err) throw err;
+//     res.status(200).send(results);
+//   });
+// });
+
+// // return all serveys has been answerd by specfic user
+// app.post("/surveysAnsByUser", (req, res) => {
+//   db.selectAllServeyHasBeenAnswerd(req.body.id, function(err, results) {
+//     if (err) throw err;
+//     res.status(200).send(results);
+//   });
+// });
 
 app.post("/mysurveys/answered", surveyHelpers.getAllSurveysAnsweredByUser);
 //;-----------------------;
