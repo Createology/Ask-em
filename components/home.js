@@ -4,24 +4,13 @@ import {
   Text,
   View,
   ScrollView,
-  StatusBar,
   KeyboardAvoidingView,
   TouchableHighlight,
   AsyncStorage
 } from "react-native";
-import {
-  Container,
-  Header,
-  Text as Textbase,
-  Left,
-  Icon,
-  Button
-} from "native-base";
+import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
-import SurveyStats from "./SurveyStats";
-import Signup from "./signup";
-
 const ip = require("../ip.json");
 
 export default class Home extends Component {
@@ -56,14 +45,8 @@ export default class Home extends Component {
       surveyName: "",
       surveyDescription: "",
       surveyCategory: "",
-      selectedEducation: "",
-      selectedMarital: "",
-      surveyUserID: "",
-      surveyID: "",
       loggedin: "",
       allSurveysInfo: [],
-      surveyAnswers: [],
-      userID: null,
       images: [
         "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png",
         "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
@@ -73,12 +56,12 @@ export default class Home extends Component {
   }
 
   componentDidMount = async () => {
+    this.showAllSurveys();
     try {
       const value = await AsyncStorage.getItem("userID");
-      if (value !== null && !this.state.loggedin) {
+      if (value !== null) {
         // We have data!!
         const token = JSON.parse(value);
-        this.showAllSurveys(token.user_id);
         this.setState({
           loggedin: ` ${token.userName} `
         });
@@ -88,7 +71,6 @@ export default class Home extends Component {
         });
       }
     } catch (error) {
-      console.warn("errer home didmount", error);
       // Error retrieving data
     }
   };
@@ -119,121 +101,44 @@ export default class Home extends Component {
     });
   };
 
-  getQuestions(surveyID) {
-    fetch(`${ip}:3000/answer/dumb/questions`, {
+  onPressSubmitModal(surveyName, surveyDescription, surveyCategory) {
+    [...arguments].forEach(element => {
+      this.setState({ element });
+    });
+
+    fetch(`${ip}:3000/surveys`, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        surveyID: surveyID
+        surveyName: surveyName,
+        surveyDescription: surveyDescription,
+        surveyCategory: surveyCategory
       })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ modalVisible: false });
+        console.warn(res);
+      });
+  }
+
+  showAllSurveys = () => {
+    fetch(`${ip}:3000/surveys/`, {
+      method: "GET"
     })
       .then(response => {
         return response.json();
       })
       .then(res => {
-        // console.warn(res);
+        this.setState({
+          allSurveysInfo: res
+        });
       })
       .done();
-  }
-
-  async onPressSubmitModal() {
-    const surveyAndUserIDs = [this.state.surveyID, this.state.surveyUserID];
-    const args = [...arguments];
-    //30 => education level
-    //37 => marital status
-    const questionsIDs = [30, 37];
-    const answersArray = [];
-
-    args.forEach((item, index) => {
-      answersArray.push([
-        item,
-        questionsIDs[index],
-        surveyAndUserIDs[0],
-        surveyAndUserIDs[1]
-      ]);
-    });
-
-    await this.setState({ surveyAnswers: answersArray });
-    fetch(`${ip}:3000/answer/dumb/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: this.state.surveyAnswers })
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({ modalVisible: false });
-      });
-  }
-
-  async showAllSurveys() {
-    try {
-      const value = await AsyncStorage.getItem("userID");
-      if (value !== null) {
-        const token = JSON.parse(value);
-        this.setState({
-          userID: ` ${token.user_id} `
-        });
-        fetch(`${ip}:3000/surveys/retrieve`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: this.state.userID })
-        })
-          .then(response => response.json())
-          .then(res => {
-            this.setState({ allSurveysInfo: res });
-          })
-          .done();
-      }
-    } catch (error) {
-      console.warn("Error getting Token!", error);
-    }
-  }
-
-  getSurveysAnswers = () => {
-    fetch(`${ip}:3000/surveysanswers/`, {
-      method: "GET"
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({
-          surveyAnswers: res
-        });
-      })
-      .done(() => {});
-  };
-
-  onChangeSurveyInfo = (
-    name,
-    description,
-    category,
-    surveyID,
-    surveyUserID
-  ) => {
-    this.setState({
-      surveyName: name,
-      surveyDescription: description,
-      surveyCategory: category,
-      surveyID: surveyID,
-      surveyUserID: surveyUserID
-    });
   };
 
   render() {
-    const {
-      modalVisible,
-      selectedSurvey,
-      allSurveysInfo,
-      images,
-      surveyDescription,
-      surveyCategory,
-      surveyName,
-      loggedin,
-      surveyUserID,
-      surveyID
-    } = this.state;
+    const { modalVisible, selectedSurvey, allSurveysInfo, images } = this.state;
 
     const { navigation } = this.props;
     if (navigation.getParam("accessToken")) {
@@ -245,10 +150,41 @@ export default class Home extends Component {
     } else {
       var itemId = " ";
     }
-    if (loggedin.length > 1) {
-      var itemId = loggedin;
+    if (this.state.loggedin.length > 1) {
+      var itemId = this.state.loggedin;
     }
-    return <Signup />;
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Icon
+              style={styles.icon}
+              name="menu"
+              onPress={() => {
+                this.props.navigation.openDrawer();
+              }}
+            />
+          </Left>
+          <Text style={styles.headerStyle}>Welcome{itemId}to ASKem!</Text>
+        </Header>
+        <ScrollView>
+          <View>
+            <SurveyModal
+              showHandler={this.setModalVisible.bind(this)}
+              visibility={modalVisible}
+              selectedSurvey={selectedSurvey}
+              submitModalHandler={this.onPressSubmitModal.bind(this)}
+            />
+            <SurveyListThumbnails
+              allSurveys={allSurveysInfo}
+              selectedSurvey={this.selectedSurvey.bind(this)}
+              showHandler={this.setModalVisible.bind(this)}
+              surveyImages={images}
+            />
+          </View>
+        </ScrollView>
+      </Container>
+    );
   }
 }
 
