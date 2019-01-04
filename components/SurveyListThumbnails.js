@@ -63,7 +63,7 @@ export default class SurveyListThumbnails extends Component {
                     }}
                     underlayColor="gray"
                   >
-                    <Text key={survey.id} style={{ color: "blue" }}>
+                    <Text key={survey.id} style={{ color:  "grey" }}>
                       View
                     </Text>
                   </TouchableHighlight>
