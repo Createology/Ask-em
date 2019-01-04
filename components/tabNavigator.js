@@ -40,7 +40,7 @@ const TabNavigator = createBottomTabNavigator(
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     tabBarOptions: {
-      activeTintColor: "#3BBC9F",
+      activeTintColor: "#F77F00",
       inactiveTintColor: "gray"
     },
     animationEnabled: false,

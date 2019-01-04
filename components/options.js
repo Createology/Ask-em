@@ -8,19 +8,24 @@ import {
 } from "react-navigation";
 import Signup from "./signup";
 import Signin from "./signin";
+import Payment from "./Payment";
 import TabNavigator from "./tabNavigator";
 
 export class Options extends Component {
   render() {
     return (
       <AppDrawerNavigator />
-
     );
   }
 }
 
 const CustumDrawerComponent = (props) => (
   <View>
+    <StatusBar
+      backgroundColor="#ffffff"
+      barStyle="dark-content"
+      animated={true}
+    />
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <DrawerItems {...props} />
@@ -30,9 +35,10 @@ const CustumDrawerComponent = (props) => (
 )
 
 const AppDrawerNavigator = createDrawerNavigator({
-"Ask'Em" :TabNavigator,
+  "Ask'Em": TabNavigator,
   Signin: Signin,
-  Signup: Signup
+  Signup: Signup,
+  Payment: Payment
 },
   {
     initialRouteName: "Ask'Em",
