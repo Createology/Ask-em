@@ -17,8 +17,6 @@ import SurveyListThumbnails from "./SurveyListThumbnails";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
 const ip = require("../ip.json");
-// import IP from 'ip';
-// ip = IP.mask()
 
 export default class Account extends Component {
   static navigationOptions = {
@@ -42,7 +40,7 @@ export default class Account extends Component {
         "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
         "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
       ],
-      user: '',
+      user: ""
     };
   }
 
@@ -54,7 +52,7 @@ export default class Account extends Component {
         this.setState({
           user_id: ` ${token.user_id} `
         });
-        fetch(`${ip}:3000/mysurveys`, {
+        fetch(`${ip}:3000/mysurveys/retrieve`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: this.state.user_id })
@@ -78,7 +76,7 @@ export default class Account extends Component {
         this.setState({
           user_id: ` ${token.user_id} `
         });
-        fetch(`${ip}:3000/surveysAnsByUser`, {
+        fetch(`${ip}:3000/mysurveys/answered`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: this.state.user_id })
@@ -87,8 +85,7 @@ export default class Account extends Component {
           .then(res => {
             this.setState({ fetchedSurveys: res });
           })
-          .done(() => {
-          });
+          .done(() => {});
       }
     } catch (error) {
       console.warn("error from the token surveysAnsByUser", error);
@@ -105,15 +102,15 @@ export default class Account extends Component {
 
   componentDidMount = async () => {
     var user = await AsyncStorage.getItem("userID");
-    user = JSON.parse(user)
+    user = JSON.parse(user);
     if (user["userName"]) {
       this.setState({ user: user.userName });
     }
-  }
+  };
 
   render() {
     return (
-      <Container >
+      <Container>
         <Header style={{ backgroundColor: "#E65100" }}>
           <Left>
             <Icon
@@ -133,7 +130,8 @@ export default class Account extends Component {
                 <Image
                   style={styles.avatar}
                   source={{
-                    uri: "https://unixtitan.net/images/profile-vector-person-4.png"
+                    uri:
+                      "https://unixtitan.net/images/profile-vector-person-4.png"
                   }}
                 />
                 <Text style={styles.name}>{this.state.user}</Text>
@@ -190,7 +188,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "center"
   },
   avatar: {
     width: 150,
@@ -220,49 +218,49 @@ const styles = StyleSheet.create({
   },
   bodyContent: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "row"
     //justifyContent: 'space-between',
   },
   buttonContainerFirst: {
-    flex:2,
+    flex: 2,
     marginTop: 10,
     height: 45,
     marginBottom: 1,
     //marginRight: 5,
     //width: 150,
-    alignItems: 'center',
+    alignItems: "center",
     //borderRadius: 12,
-    borderColor: 'black',
+    borderColor: "black",
     borderRightWidth: 1,
-    backgroundColor: "#002C43"//"#003049",
+    backgroundColor: "#002C43" //"#003049",
   },
   buttonContainerSecond: {
-    flex:2,
+    flex: 2,
     marginTop: 10,
     height: 45,
     marginBottom: 1,
     //marginRight: 5,
     //width: 150,
-    alignItems: 'center',
+    alignItems: "center",
     //borderRadius: 12,
-    borderColor: 'black',
+    borderColor: "black",
     borderLeftWidth: 1,
-    backgroundColor: "#EAE2B7"//"#003049",
+    backgroundColor: "#EAE2B7" //"#003049",
   },
   thumbnails: {
     color: "black"
   },
   text: {
-    color: 'white',
+    color: "white",
     fontSize: 15,
     marginTop: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold"
   },
   bigText: {
-    color: 'black',
+    color: "black",
     fontSize: 15,
     //marginLeft: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold"
   },
   icon: {
     color: "white",
