@@ -34,7 +34,7 @@ const CustumDrawerComponent = (props) => (
       </ScrollView>
     </SafeAreaView>
   </View>
-)
+) 
 
 const AppDrawerNavigator = createDrawerNavigator({
   "Ask'Em": TabNavigator,
