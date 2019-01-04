@@ -13,28 +13,45 @@ app.use(bodyParser.json());
 
 // nueral network declaration
 const network = new brain.recurrent.LSTM();
+var userID;
 var surveyID;
 
 // save answers from specific surveys into json file
-app.post("/answer/smart/save", (req, res) => {
+app.post("/answers/smart/save", (req, res) => {
+    // console.log("search brainServer", req.body.userID);
     console.log("search brainServer", req.body.surveyID);
+    // userID = req.body.userID;
     surveyID = req.body.surveyID;
-    db.selectAllSurveySmartAnswers(surveyID, (err, result) => {
+    db.selectAllUsersAnsweredSurveys(surveyID, (err, result) => {
         if (result) {
             console.log(result)
-            fs.writeFileSync(`./smartData/surveyID_${surveyID}_Answers.json`, JSON.stringify(result, null, '  '));
-            res.status(200).send({})
+            var results = {}
+            for (var i = 0; i < result.length; i++) {
+                console.log('result[i]', result[i])
+                results[result[i].id_users] = {}
+            }
+            for (var i = 0; i < result.length; i++) {
+                console.log('result[i]', result[i])
+                results[result[i].id_users][result[i].id_questions] = result[i].smartanswer
+            }
+            var array = [];
+            for (var key in results) {
+                array.push(results[key])
+            }
+            console.log("results", array)
+            fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
+            res.sendStatus(200)
         } else {
-            res.status(404).send("Invalid userID");
+            res.status(404).send("Invalid surveyID");
         }
     })
 });
 
 // read specific json file for specific survey
 app.post("/data/read", (req, res) => {
-    console.log("search brainServer", req.body.surveyID);
-    surveyID = req.body.surveyID;
-    data = require(`./smartData/surveyID_${surveyID}_Answers.json`)
+    console.log("search brainServer", req.body.userID);
+    userID = req.body.userID;
+    data = require(`./smartData/questionID${userID}_Answers.json`)
     if (data) {
         res.sendStatus(200)
     } else {
@@ -49,15 +66,15 @@ var trainingData = data.map(item => (
 ))
 
 // train data with some options
-network.train(trainingData, {
-    iterations: 1000, // if you increase time of brain will increase, and accuracy will increase
-    activation: 'relu' // to read bigger numbers than 1
-});
+// network.train(trainingData, {
+//     iterations: 1000, // if you increase time of brain will increase, and accuracy will increase
+//     activation: 'relu' // to read bigger numbers than 1
+// });
 
 // FINAL SMART VALUE
-const smartAnswer = network.run( [('he').replace(/\s/g, ""), 70, "Issa"] )
-console.log('data', data)
-console.log('run answer =============', smartAnswer)
+// const smartAnswer = network.run( [('he').replace(/\s/g, ""), 70, "Issa"] )
+// console.log('data', data)
+// console.log('run answer =============', smartAnswer)
 
 // get the smart value
 app.get("/answer/smart/get", (req, res) => {
