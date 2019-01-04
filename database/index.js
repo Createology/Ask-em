@@ -11,6 +11,16 @@ const selectAll = (tableName, callback) => {
   });
 };
 
+const selectSearchsurvey = (surveyName, callback) => {
+  dbconnection.query(`SELECT * FROM surveys where survey_name = "${surveyName}"`, (err, results) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 const selectAllSurveysOfUser = (userID, callback) => {
   dbconnection.query(
     `SELECT * FROM surveys where id_users = ${userID}`,
