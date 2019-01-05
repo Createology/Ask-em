@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { loggedIn } from "../store/actions/index";
-import { Icon } from "react-native-elements";
 import {
   Container,
   Header,
@@ -24,7 +23,8 @@ import {
   Body,
   Left,
   Right,
-  Form
+  Form,
+  Icon
 } from "native-base";
 const ip = require("../ip.json");
 
@@ -180,9 +180,20 @@ class Signin extends Component {
     const { loggedin } = this.state;
     return (
       <Container>
-        <Header style={{ backgroundColor: "#E65100" }}>
-          <Text style={styles.headerStyle}>Signin</Text>
-        </Header>
+         <View style={styles.header}>
+          <Header style={{ backgroundColor: "#E65100" }}>
+            <Left>
+              <Icon
+                style={styles.icon}
+                name="menu"
+                onPress={() => {
+                  this.props.navigation.openDrawer();
+                }}
+              />
+            </Left>
+            <Text style={styles.headerStyle}>Sign In</Text>
+          </Header>
+        </View>
         <View style={styles.container}>
           {this.state.loggedin !==
           "You will recieve your data soon, please wait!" ? (
@@ -305,6 +316,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "white",
     fontSize: 22
+  },  
+  icon: {
+    color: "white",
+    margin: 10,
+    fontSize: 40,
+    textAlign: "left"
   }
 });
 

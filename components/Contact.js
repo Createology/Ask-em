@@ -1,7 +1,25 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TextInput ,Alert, AsyncStorage } from "react-native";
-import { Container, Header, Text as Textbase, Left, Icon , Button } from "native-base";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Alert,
+  AsyncStorage,
+  TouchableHighlight
+} from "react-native";
+import {
+  Container,
+  Header,
+  Text as Textbase,
+  Left,
+  Icon,
+  Button,
+  Label,
+  Item
+} from "native-base";
 const ip = require("../ip.json");
+
 
 export default class Contact extends Component {
   static navigationOptions = {
@@ -32,11 +50,10 @@ export default class Contact extends Component {
       const value = await AsyncStorage.getItem("userID");
       if (value === null) {
         // We have data!!
-        console.log('null', value)
-      } else { 
-
+        console.log("null", value);
+      } else {
         var data = JSON.parse(value);
-        console.warn("value2", data.user_id,data.userName);
+        console.warn("value2", data.user_id, data.userName);
 
         fetch(`${ip}:3000/contact`, {
           method: "POST",
@@ -50,7 +67,7 @@ export default class Contact extends Component {
         })
           .then(response => response.json())
           .then(res => {
-            console.warn('res', res);
+            console.warn("res", res);
           })
           .catch(error => {
             // catch is a must for every fetch
@@ -67,7 +84,7 @@ export default class Contact extends Component {
     const { phoneNumber, surveyDescription } = this.state;
 
     return (
-      <View>
+      <Container>
         <View style={styles.header}>
           <Header style={{ backgroundColor: "#E65100" }}>
             <Left>
@@ -82,91 +99,108 @@ export default class Contact extends Component {
             <Text style={styles.headerStyle}>Contact Us</Text>
           </Header>
         </View>
-
-        <View style={styles.textContainer}>
-          <TextInput
-            style={styles.input1}            
-            placeholder="Phone Number"
-            placeholderTextColor="white"
-            onChangeText={phoneNumber => {
-              this.handlePhoneNumberChange(phoneNumber);
-            }}
-          />
-          <TextInput
-            style={styles.input2}
-            placeholder="Issue Brief Description"
-            placeholderTextColor="white"
-            onChangeText={surveyDescription => {
-              this.handleSurveyDescriptionChange(surveyDescription);
-            }}
-          />
-
-          <View style={styles.buttonRow}>
-            <View style={styles.buttonSend}>
-              <Button style={{ backgroundColor: "#E65100" }}
-                primary
-                full
-                block
-                onPress={() => {
-                  this.handleOnPressSubmit(phoneNumber, surveyDescription);
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Item floatingLabel>
+              <Label>phone Number</Label>
+              <TextInput
+                style={styles.inputs}
+                placeholder="Phone Number"
+                placeholderTextColor="black"
+                underlineColorAndroid="transparent"
+                onChangeText={phoneNumber => {
+                  this.handlePhoneNumberChange(phoneNumber);
                 }}
-              >
-                {/* need to changeicon color */}
-                <Icon name="send" style={{ color: "white" }} />
-                <Textbase>Submit</Textbase>
-              </Button>
-            </View>
+              />
+            </Item>
           </View>
+          <View style={styles.inputContainer}>
+            <Item floatingLabel>
+              <Label>Issue Brief Description</Label>
+              <TextInput
+                style={styles.inputs}
+                placeholder="Issue Brief Description"
+                placeholderTextColor="white"
+                onChangeText={surveyDescription => {
+                  this.handleSurveyDescriptionChange(surveyDescription);
+                }}
+              />
+            </Item>
+          </View>
+
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.submitButton]}
+            onPress={() => {
+              this.handleOnPressSubmit(phoneNumber, surveyDescription);
+            }}
+          >
+            <Text style={styles.sumitText}>
+              <Icon name="send" style={{ color: "white" }} />
+              Submit
+            </Text>
+          </TouchableHighlight>
         </View>
-      </View>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 25,
-    textAlignVertical: "center",
-    textAlign: "center",
-    marginBottom: 40
-  },
-  input1: {
-    height: 65,
-    backgroundColor: "#ffc0cb",
-    margin: 30,
-    color: "white",
-    fontSize: 23,
-    width: "80%"
-  },
-  input2: {
-    height: 120,
-    backgroundColor: "#ffc0cb",
-    margin: 30,
-    color: "white",
-    fontSize: 23,
-    width: "80%"
-  },
-  textContainer: {
-    width: "100%"
-  },
-  buttonRow: {
-    flexDirection: "row",
+  container: {
+    flex: 1,
     justifyContent: "center",
-    textAlignVertical: "center",
-    width: "100%",
-    marginTop: 20
+    alignItems: "center",
+    //backgroundColor: "#DCDCDC"
+    backgroundColor: "white"
   },
-
-  buttonSend: {
-    width: "45%",
-    textAlignVertical: "center",
+  inputContainer: {
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#E65100"
+  },
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: "#E65100",
+    flex: 1
+  },
+  inputIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 15,
     justifyContent: "center"
   },
-  icon: {
-    color: "white",
-    margin: 10,
-    fontSize: 40,
-    textAlign: "left"
+  buttonContainer: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    width: 250,
+    borderRadius: 30
+  },
+  submitButton: {
+    backgroundColor: "#E65100"
+  },
+  sumitText: {
+    color: "white"
+  },
+  welcome: {
+    fontSize: 30,
+    textAlign: "center",
+    marginTop: -100,
+    marginBottom: 100
+  },
+  wrong: {
+    color: "red"
   },
   headerStyle: {
     flex: 1,
@@ -177,15 +211,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "white",
     fontSize: 22
-  },
-  header: {
-    marginBottom: "15%"
-  },
-  text: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-    textAlign: "left"
   },
   icon: {
     color: "white",
