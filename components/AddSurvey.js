@@ -76,7 +76,7 @@ export default class AddSurvey extends Component {
 					user_id: ` ${token.user_id} `
 				});
 				var fetchBody = {
-					id_users: this.state.user_id,
+					id_users: token.user_id,
 					survey_name: this.state.surveyName,
 					category: this.state.category,
 					description: this.state.description,
@@ -93,7 +93,6 @@ export default class AddSurvey extends Component {
 				})
 					.then(response => response.json())
 					.then(res => {
-						console.warn("res", res)
 						alert('survey is done')
 						this.setState({ surveyID: res.insertId });
 						//console.warn('add survey', res)
@@ -156,10 +155,64 @@ export default class AddSurvey extends Component {
 				})
 				.done();
 		} else {
-			console.warn('please prepare survey')
+			console.warn('please prepare question')
 		}
 	};
 
+	saveQuestion = async () => {
+		if (this.state.surveyID) {
+			var questionBody = {
+				id_surveys: `${this.state.surveyID}`,
+				id_users: this.state.user_id,
+				question: this.state.newQuestion
+			}
+			fetch(`${ip}:3000/`, {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(questionBody)
+			})
+				.then(response => {
+					response.json()
+					this.setState({ questionID: JSON.parse(response["_bodyInit"])['insertId']  });
+				})
+				.then((res) => {					
+					this.onAddQuestion()
+				})
+				.done();
+		} else {
+			console.warn('please prepare survey')
+		}
+	};
+	
+	saveAnswer = async () => {
+		if (this.state.questionID) {
+			var answerBody = {
+				smartanswer: this.state.newAnswer,
+				id_question: this.state.questionID,
+				id_users: this.state.user_id,
+				id_surveys: this.state.surveyID
+			}
+			fetch(`${ip}:3000/`, {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(answerBody)
+			})
+				.then(response => response.json())
+				.then((res) => {
+					this.setState({ answerID: res });
+					this.onAddAnswer()
+				})
+				.done();
+		} else {
+			console.warn('please prepare question')
+		}
+	};
 
 	onAddQuestion = () => {
 		var myNewQuestion = this.state.newQuestion
@@ -209,6 +262,7 @@ export default class AddSurvey extends Component {
 				{/* Begin real render */}
 				<ScrollView>
 					<View style={{ flex: 1 }}>
+					<Text>{this.state.surveyID}</Text>
 
 						{/* Survey info */}
 						<TextInput

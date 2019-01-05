@@ -43,9 +43,10 @@ getAllSurveys = (req, res) => {
 
 const fillSmartAnswer = (req, res) => {
   if (req.body) {
-    const { smartAnswer, id_question, id_users, id_surveys } = req.body;
+
+    const { smartanswer, id_question, id_users, id_surveys } = req.body;
     DB.insertSmartAnswer(
-      smartAnswer,
+      smartanswer,
       id_question,
       id_users,
       id_surveys,

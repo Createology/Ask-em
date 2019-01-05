@@ -202,14 +202,14 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
 };
 
 const insertSmartAnswer = (
-  smartAnswer,
+  dummyanswer,
   id_question,
   id_users,
   id_surveys,
   callback
 ) => {
   dbconnection.query(
-    `INSERT INTO smart (id, smartanswer, id_questions, id_users, id_surveys) VALUES(null, \"${smartAnswer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
+    `INSERT INTO dummy (id, answer, id_questions, id_users, id_surveys) VALUES(null, \"${dummyanswer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
     (err, result) => {
       if (err) {
         console.log('err', err)
