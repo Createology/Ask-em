@@ -246,6 +246,27 @@ const selectAllActiveSurveysNotAnswerd = (userID, callback) => {
   );
 };
 
+
+const saveContactUs = (
+  id_user,
+  username, 
+  phonenumber, 
+  survey_desc,
+  callback
+) => {
+  dbconnection.query(
+    `insert into custmoers values(null,\"${id_user}\",\"${username}\",\"${phonenumber}\",\"${survey_desc}\",CURRENT_TIMESTAMP)`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+
 module.exports.selectAll = selectAll;
 module.exports.selectAllActiveSurveysNotAnswerd = selectAllActiveSurveysNotAnswerd;
 module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
@@ -263,3 +284,4 @@ module.exports.selectAllSurveysAnsweredByUser = selectAllSurveysAnsweredByUser;
 module.exports.selectAllQuestionsOfASurvey = selectAllQuestionsOfASurvey;
 module.exports.selectSearchsurvey = selectSearchsurvey;
 module.exports.selectAllUsersAnsweredSurveys = selectAllUsersAnsweredSurveys;
+module.exports.saveContactUs = saveContactUs;

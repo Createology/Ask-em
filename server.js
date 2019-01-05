@@ -5,7 +5,9 @@ const brain = require("./server/brain.js");
 const surveyHelpers = require("./server/surveyHelpers");
 const signIn = require("./server/signIn");
 const signUp = require("./server/signUp");
-const db = require("./database/index")
+const db = require("./database/index");
+const contact = require("./server/contactUs");
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,9 +52,12 @@ app.get("/user", (req, res) => {
   res.status(200).send({});
 });
 
+app.post("/contact", contact);
+
 app.get("/*", (req, res) => {
   res.sendStatus(404);
 });
+
 
 //connection for everything except for Brain
 app.listen(3000, () => {
