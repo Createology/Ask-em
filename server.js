@@ -24,25 +24,25 @@ app.post("/search", (req, res) => {
   })
 })
 
-//;-----------------------;
 app.post("/signup", signUp);
 
 app.post("/login", signIn);
-//;-----------------------;
+
 app.post("/surveys/retrieve", surveyHelpers.getAllSurveys);
 
 app.post("/surveys/save", surveyHelpers.saveSurvey);
-//;-----------------------;
+
 app.post("/mysurveys/retrieve", surveyHelpers.getAllSurveysOfUser);
 
 app.post("/mysurveys/answered", surveyHelpers.getAllSurveysAnsweredByUser);
-//;-----------------------;
+
 app.post("/answer/smart/add", surveyHelpers.fillSmartAnswer);
+
+app.post("/question/smart/add", surveyHelpers.fillSmartQuestion);
 
 app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
 app.post("/answer/dumb/questions", surveyHelpers.getAllQuestionsOfASurvey);
-//;-----------------------;
 
 app.post("/mysurveys", (req, res) => {
   res.status(200).send({});

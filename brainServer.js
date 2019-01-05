@@ -17,7 +17,7 @@ var userID;
 var surveyID;
 
 // save answers from specific surveys into json file
-app.post("/answers/smart/save", (req, res) => {
+app.post("/answers/smart/create", (req, res) => {
     // console.log("search brainServer", req.body.userID);
     console.log("search brainServer", req.body.surveyID);
     // userID = req.body.userID;

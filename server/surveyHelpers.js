@@ -1,15 +1,18 @@
 const DB = require("../database/index");
 
 const saveSurvey = (req, res) => {
-  const { surveyName, surveyDescription, surveyCategory } = req.body;
+  const { id_users, survey_name, category, description, activated } = req.body;
   DB.insertSurvey(
-    surveyName,
-    surveyDescription,
-    surveyCategory,
+    id_users,
+    survey_name,
+    category,
+    description,
+    activated,
     (err, result) => {
       if (result) {
         res.status(200).send(result);
       } else {
+        console.log('err')
         res.status(404).send("Error saving survey!");
       }
     }
@@ -30,7 +33,6 @@ getAllSurveysOfUser = (req, res) => {
 getAllSurveys = (req, res) => {
   DB.selectAllActiveSurveysNotAnswerd(req.body.id, (err, result) => {
     if (result) {
-      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
@@ -40,22 +42,18 @@ getAllSurveys = (req, res) => {
 };
 
 const fillSmartAnswer = (req, res) => {
-  if (req.body.answer) {
-    const { answer, questionID, userID, surveyID } = req.body;
+  if (req.body) {
+    const { smartAnswer, id_question, id_users, id_surveys } = req.body;
     DB.insertSmartAnswer(
-      answer,
-      questionID,
-      userID,
-      surveyID,
+      smartAnswer,
+      id_question,
+      id_users,
+      id_surveys,
       (err, results) => {
         if (err) {
           res.sendStatus(404);
         } else {
-          if (results.length > 0) {
-            res.status(200).send(results);
-          } else {
-            res.status(401).send("no results");
-          }
+          res.status(200).send(results);
         }
       }
     );
@@ -64,8 +62,29 @@ const fillSmartAnswer = (req, res) => {
   }
 };
 
+const fillSmartQuestion = (req, res) => {
+  if (req.body.question) {
+    const { id_surveys, id_users, question } = req.body;
+    DB.insertQuestion(
+      [id_surveys,
+        id_users,
+        question],
+      (err, results) => {
+        if (err) {
+          console.log(err)
+          res.sendStatus(404);
+        }
+        if (results) {
+          res.status(200).send(results);
+        }
+      }
+    );
+  } else {
+    res.status(402).send("no question");
+  }
+};
+
 const fillAnswer = (req, res) => {
-  console.log("===saveAnswers===");
   const { answers } = req.body;
   if (answers) {
     DB.insertAnswer(answers, (err, results) => {
@@ -74,7 +93,6 @@ const fillAnswer = (req, res) => {
         res.sendStatus(404);
       } else {
         if (results.affectedRows > 0) {
-          console.log(results);
           res.status(200).send(results);
         } else {
           res.status(401).send("no results");
@@ -90,7 +108,6 @@ const getAllQuestionsOfASurvey = (req, res) => {
   const { surveyID } = req.body;
   DB.selectAllQuestionsOfASurvey(surveyID, (err, result) => {
     if (result) {
-      console.log("===selectQuestions===");
       res.status(200).send(result);
     } else {
       console.log(err);
@@ -113,3 +130,4 @@ module.exports.fillSmartAnswer = fillSmartAnswer;
 module.exports.fillAnswer = fillAnswer;
 module.exports.getAllQuestionsOfASurvey = getAllQuestionsOfASurvey;
 module.exports.getAllSurveysAnsweredByUser = getAllSurveysAnsweredByUser;
+module.exports.fillSmartQuestion = fillSmartQuestion;
