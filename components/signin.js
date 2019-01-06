@@ -13,8 +13,20 @@ import {
 import { connect } from "react-redux";
 import { loggedIn } from "../store/actions/index";
 import { Icon } from "react-native-elements";
-import { Container, Header, Content, Spinner } from "native-base";
-
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Item,
+  Label,
+  Input,
+  Body,
+  Left,
+  Right,
+  Form,
+  Spinner
+} from "native-base";
 const ip = require("../ip.json");
 
 class Signin extends Component {
@@ -73,7 +85,7 @@ class Signin extends Component {
     fetch(`${ip}:3000/login`, {
       method: "POST",
       headers: {
-        'Accept':'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -168,63 +180,61 @@ class Signin extends Component {
   render() {
     const { loggedin } = this.state;
     return (
-      <View style={styles.container}>
-        {this.state.loggedin !==
-        "You will recieve your data soon, please wait!" ? (
-          <Text style={styles.welcome}>{loggedin}</Text>
-        ) : (
-          <Spinner color="blue" />
-        )}
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="username"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            ref={input => {
-              this.textInput1 = input;
-            }}
-            onChangeText={username => this.setState({ username })}
-          />
+      <Container>
+        <Header style={{ backgroundColor: "#E65100" }}>
+          <Text style={styles.headerStyle}>Signin</Text>
+        </Header>
+        <View style={styles.container}>
+          {this.state.loggedin !==
+          "You will recieve your data soon, please wait!" ? (
+            <Text style={styles.welcome}>{loggedin}</Text>
+          ) : (
+            <Spinner color="blue" />
+          )}
+          <View style={styles.inputContainer}>
+            <Icon active name="person-pin" />
+            <TextInput
+              placeholder="Username"
+              style={styles.inputs}
+              underlineColorAndroid="transparent"
+              ref={input => {
+                this.textInput1 = input;
+              }}
+              onChangeText={username => {
+                this.setState({ username });
+              }}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Icon active name="lock" />
+            <TextInput
+              placeholder="Password"
+              style={styles.inputs}
+              secureTextEntry={true}
+              underlineColorAndroid="transparent"
+              ref={input => {
+                this.textInput2 = input;
+              }}
+              onChangeText={password => this.setState({ password })}
+            />
+          </View>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.loginButton]}
+            onPress={() => this.onLoginPressed()}
+          >
+            <Text style={styles.loginText}>Login</Text>
+          </TouchableHighlight>
+
+          <Text style={styles.wrong}>{this.state.wrong}</Text>
+
+          <TouchableHighlight
+            style={styles.buttonContainer}
+            onPress={() => this.logoutBottun()}
+          >
+            <Text>Logout</Text>
+          </TouchableHighlight>
         </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={{
-              uri: "https://png.icons8.com/key-2/ultraviolet/50/3498db"
-            }}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            secureTextEntry={true}
-            underlineColorAndroid="transparent"
-            ref={input => {
-              this.textInput2 = input;
-            }}
-            onChangeText={password => this.setState({ password })}
-          />
-        </View>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.onLoginPressed()}
-        >
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
-        <Text style={styles.wrong}>{this.state.wrong}</Text>
-        <TouchableHighlight
-          style={styles.buttonContainer}
-          onPress={() => this.logoutBottun()}
-        >
-          <Text>Logout</Text>
-        </TouchableHighlight>
-      </View>
+      </Container>
     );
   }
 }
@@ -238,21 +248,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   inputContainer: {
-    borderBottomColor: "#F5FCFF",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 30,
+    borderRadius: 50,
     borderBottomWidth: 1,
     width: 250,
     height: 45,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1
+    alignItems: "center"
   },
   inputs: {
     height: 45,
     marginLeft: 16,
-    borderBottomColor: "#FFFFFF",
+    color: "#E65100",
     flex: 1
   },
   inputIcon: {
@@ -271,7 +278,7 @@ const styles = StyleSheet.create({
     borderRadius: 30
   },
   loginButton: {
-    backgroundColor: "#00b5ec"
+    backgroundColor: "#E65100"
   },
   loginText: {
     color: "white"
@@ -284,6 +291,16 @@ const styles = StyleSheet.create({
   },
   wrong: {
     color: "red"
+  },
+  headerStyle: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlignVertical: "center",
+    textAlign: "left",
+    color: "white",
+    fontSize: 22
   }
 });
 
