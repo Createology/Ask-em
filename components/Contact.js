@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TextInput,
-  Alert,
   AsyncStorage,
   TouchableHighlight
 } from "react-native";
@@ -13,13 +12,9 @@ import {
   Header,
   Text as Textbase,
   Left,
-  Icon,
-  Button,
-  Label,
-  Item
+  Icon
 } from "native-base";
 const ip = require("../ip.json");
-
 
 export default class Contact extends Component {
   static navigationOptions = {
@@ -101,31 +96,25 @@ export default class Contact extends Component {
         </View>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
-            <Item floatingLabel>
-              <Label>phone Number</Label>
-              <TextInput
-                style={styles.inputs}
-                placeholder="Phone Number"
-                placeholderTextColor="black"
-                underlineColorAndroid="transparent"
-                onChangeText={phoneNumber => {
-                  this.handlePhoneNumberChange(phoneNumber);
-                }}
-              />
-            </Item>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Phone Number"
+              placeholderTextColor="gray"
+              underlineColorAndroid="transparent"
+              onChangeText={phoneNumber => {
+                this.handlePhoneNumberChange(phoneNumber);
+              }}
+            />
           </View>
           <View style={styles.inputContainer}>
-            <Item floatingLabel>
-              <Label>Issue Brief Description</Label>
-              <TextInput
-                style={styles.inputs}
-                placeholder="Issue Brief Description"
-                placeholderTextColor="white"
-                onChangeText={surveyDescription => {
-                  this.handleSurveyDescriptionChange(surveyDescription);
-                }}
-              />
-            </Item>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Issue Brief Description"
+              placeholderTextColor="gray"
+              onChangeText={surveyDescription => {
+                this.handleSurveyDescriptionChange(surveyDescription);
+              }}
+            />
           </View>
 
           <TouchableHighlight
@@ -135,7 +124,7 @@ export default class Contact extends Component {
             }}
           >
             <Text style={styles.sumitText}>
-              <Icon name="send" style={{ color: "white" }} />
+              <Icon name="send" style={{ color: "white"}} />
               Submit
             </Text>
           </TouchableHighlight>
@@ -159,8 +148,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderBottomWidth: 1,
     width: 250,
-    height: 45,
-    marginBottom: 20,
+    height: 50,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -168,9 +157,13 @@ const styles = StyleSheet.create({
   },
   inputs: {
     height: 45,
-    marginLeft: 16,
     borderBottomColor: "#E65100",
-    flex: 1
+    flex: 1,
+    color: "black",
+    textAlign: "left",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize :22
   },
   inputIcon: {
     width: 30,
@@ -188,10 +181,13 @@ const styles = StyleSheet.create({
     borderRadius: 30
   },
   submitButton: {
-    backgroundColor: "#E65100"
+    backgroundColor: "#E65100",
+    justifyContent:"center"
   },
   sumitText: {
-    color: "white"
+    color: "white",
+    alignItems: "center",
+    fontSize :17
   },
   welcome: {
     fontSize: 30,

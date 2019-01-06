@@ -24,7 +24,8 @@ import {
   Left,
   Right,
   Form,
-  Icon
+  Icon,
+  Spinner
 } from "native-base";
 const ip = require("../ip.json");
 
@@ -202,7 +203,6 @@ class Signin extends Component {
             <Spinner color="blue" />
           )}
           <View style={styles.inputContainer}>
-            <Item floatingLabel>
               <Label>Username</Label>
               <TextInput
                 style={styles.inputs}
@@ -214,10 +214,10 @@ class Signin extends Component {
                 }}
                 onChangeText={username => this.setState({ username })}
               />
-            </Item>
+        
           </View>
           <View style={styles.inputContainer}>
-            <Item floatingLabel>
+            
               <Label>Password</Label>
               <TextInput
                 style={styles.inputs}
@@ -228,7 +228,7 @@ class Signin extends Component {
                 }}
                 onChangeText={password => this.setState({ password })}
               />
-            </Item>
+         
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.loginButton]}
