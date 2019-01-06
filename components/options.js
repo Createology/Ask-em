@@ -11,6 +11,7 @@ import Signin from "./signin";
 import Payment from "./Payment";
 import TabNavigator from "./tabNavigator";
 import Search from "./Search";
+import AddSurvey from "./AddSurvey";
 
 
 export class Options extends Component {
@@ -42,6 +43,7 @@ const AppDrawerNavigator = createDrawerNavigator({
   Signin: Signin,
   Signup: Signup,
   Payment: Payment,
+  AddSurvey: AddSurvey,
   // Feedback: Payment,
   // About: Payment,
 },

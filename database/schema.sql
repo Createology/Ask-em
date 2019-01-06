@@ -138,7 +138,16 @@
 --
 ---------------------------------xXx----------xXx----------xXx-----------------------------------------------xXx----------xXx----------xXx--------------
 
-
+ALTER TABLE `dummy`
+ADD CONSTRAINT `dummy_ibfk_1` FOREIGN KEY
+(`id_questions`) REFERENCES `questions`
+(`id`),
+ADD CONSTRAINT `dummy_ibfk_2` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`),
+ADD CONSTRAINT `dummy_ibfk_3` FOREIGN KEY
+(`id_surveys`) REFERENCES `surveys`
+(`id`);
 ------------------------
 
 -- phpMyAdmin SQL Dump

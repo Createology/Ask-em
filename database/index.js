@@ -35,16 +35,18 @@ const selectAllSurveysOfUser = (userID, callback) => {
 };
 
 const insertSurvey = (
-  surveyName,
-  surveyCategory,
-  surveyDescription,
+  id_users,
+  survey_name,
+  category,
+  description,
+  activated,
   callback
 ) => {
-  callback(null, { success: "done inserting survey!" });
   dbconnection.query(
-    `INSERT INTO SURVEYS(survey_name, category, description) VALUES(\"${surveyName}\",\"${surveyCategory}\",\"${surveyDescription}\")`,
+    `INSERT INTO surveys (id, id_users, survey_name, category, description, activated, createdAt) VALUES (null, \"${id_users}\", \"${survey_name}\", \"${category}\", \"${description}\", \"${activated}\", CURRENT_TIMESTAMP)`,
     (err, result) => {
       if (err) {
+        console.log('insert erorr', err)
         callback(err, null);
       } else {
         callback(null, result);
@@ -201,13 +203,48 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
 
 const insertSmartAnswer = (
   answer,
-  id_questions,
+  id_question,
   id_users,
   id_surveys,
   callback
 ) => {
   dbconnection.query(
-    `INSERT INTO SMART(answer, id_questions, id_users, id_surveys) VALUES(\"${answer}\",\"${id_questions}\",\"${id_users}\",\"${id_surveys}\")`,
+    `INSERT INTO smart (id, smartanswer, id_questions, id_users, id_surveys) VALUES(null, \"${answer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
+    (err, result) => {
+      if (err) {
+        console.log('err', err)
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const insertDummyAnswer = (
+  dummyanswer,
+  id_question,
+  id_users,
+  id_surveys,
+  callback
+) => {
+  dbconnection.query(
+    `INSERT INTO dummy (id, answer, id_questions, id_users, id_surveys) VALUES(null, \"${dummyanswer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
+    (err, result) => {
+      if (err) {
+        console.log('err', err)
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const insertAnswer = (answer, id_question, id_users, id_surveys, callback) => {
+  console.log('insertAnswer', )
+  dbconnection.query(
+    `INSERT INTO answers(id, answer, id_questions, id_users, id_surveys) VALUES (null, \"${answer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -218,12 +255,12 @@ const insertSmartAnswer = (
   );
 };
 
-const insertAnswer = (values, callback) => {
+const insertQuestion = (values, callback) => {
   dbconnection.query(
-    `INSERT INTO answers(answer, id_questions, id_users, id_surveys) VALUES ?`,
-    [values],
+    `INSERT INTO questions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${values[0]}\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
     (err, result) => {
       if (err) {
+        console.log('db err', err)
         callback(err, null);
       } else {
         callback(null, result);
@@ -285,3 +322,5 @@ module.exports.selectAllQuestionsOfASurvey = selectAllQuestionsOfASurvey;
 module.exports.selectSearchsurvey = selectSearchsurvey;
 module.exports.selectAllUsersAnsweredSurveys = selectAllUsersAnsweredSurveys;
 module.exports.saveContactUs = saveContactUs;
+module.exports.insertQuestion = insertQuestion;
+module.exports.insertDummyAnswer = insertDummyAnswer;
