@@ -202,6 +202,26 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
 };
 
 const insertSmartAnswer = (
+  answer,
+  id_question,
+  id_users,
+  id_surveys,
+  callback
+) => {
+  dbconnection.query(
+    `INSERT INTO smart (id, smartanswer, id_questions, id_users, id_surveys) VALUES(null, \"${answer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
+    (err, result) => {
+      if (err) {
+        console.log('err', err)
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const insertDummyAnswer = (
   dummyanswer,
   id_question,
   id_users,
@@ -221,10 +241,10 @@ const insertSmartAnswer = (
   );
 };
 
-const insertAnswer = (values, callback) => {
+const insertAnswer = (answer, id_question, id_users, id_surveys, callback) => {
+  console.log('insertAnswer', )
   dbconnection.query(
-    `INSERT INTO answers(answer, id_questions, id_users, id_surveys) VALUES ?`,
-    [values],
+    `INSERT INTO answers(id, answer, id_questions, id_users, id_surveys) VALUES (null, \"${answer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -303,3 +323,4 @@ module.exports.selectSearchsurvey = selectSearchsurvey;
 module.exports.selectAllUsersAnsweredSurveys = selectAllUsersAnsweredSurveys;
 module.exports.saveContactUs = saveContactUs;
 module.exports.insertQuestion = insertQuestion;
+module.exports.insertDummyAnswer = insertDummyAnswer;

@@ -41,25 +41,25 @@ getAllSurveys = (req, res) => {
   });
 };
 
-const fillSmartAnswer = (req, res) => {
-  if (req.body) {
-
-    const { smartanswer, id_question, id_users, id_surveys } = req.body;
-    DB.insertSmartAnswer(
-      smartanswer,
-      id_question,
-      id_users,
-      id_surveys,
+const fillQuestion = (req, res) => {
+  if (req.body.question) {
+    const { id_surveys, id_users, question } = req.body;
+    DB.insertQuestion(
+      [id_surveys,
+        id_users,
+        question],
       (err, results) => {
         if (err) {
+          console.log(err)
           res.sendStatus(404);
-        } else {
+        }
+        if (results) {
           res.status(200).send(results);
         }
       }
     );
   } else {
-    res.status(402).send("no answer");
+    res.status(402).send("no question");
   }
 };
 
@@ -86,9 +86,10 @@ const fillSmartQuestion = (req, res) => {
 };
 
 const fillAnswer = (req, res) => {
-  const { answers } = req.body;
-  if (answers) {
-    DB.insertAnswer(answers, (err, results) => {
+  console.log('fillAnswer', req.body)
+  const { answer, id_question, id_users, id_surveys } = req.body;
+  if (answer) {
+    DB.insertAnswer(answer, id_question, id_users, id_surveys, (err, results) => {
       if (err) {
         console.log(err);
         res.sendStatus(404);
@@ -100,6 +101,48 @@ const fillAnswer = (req, res) => {
         }
       }
     });
+  } else {
+    res.status(402).send("no answer");
+  }
+};
+
+const fillSmartAnswer = (req, res) => {
+  if (req.body) {
+    const { smartanswer, id_question, id_users, id_surveys } = req.body;
+    DB.insertSmartAnswer(
+      smartanswer,
+      id_question,
+      id_users,
+      id_surveys,
+      (err, results) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(results);
+        }
+      }
+    );
+  } else {
+    res.status(402).send("no answer");
+  }
+};
+
+const fillDummyAnswer = (req, res) => {
+  if (req.body) {
+    const { dummyanswer, id_question, id_users, id_surveys } = req.body;
+    DB.insertDummyAnswer(
+      dummyanswer,
+      id_question,
+      id_users,
+      id_surveys,
+      (err, results) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(results);
+        }
+      }
+    );
   } else {
     res.status(402).send("no answer");
   }
@@ -132,3 +175,5 @@ module.exports.fillAnswer = fillAnswer;
 module.exports.getAllQuestionsOfASurvey = getAllQuestionsOfASurvey;
 module.exports.getAllSurveysAnsweredByUser = getAllSurveysAnsweredByUser;
 module.exports.fillSmartQuestion = fillSmartQuestion;
+module.exports.fillQuestion = fillQuestion;
+module.exports.fillDummyAnswer = fillDummyAnswer;

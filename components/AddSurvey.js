@@ -135,12 +135,12 @@ export default class AddSurvey extends Component {
 	saveSmartAnswer = async () => {
 		if (this.state.questionID) {
 			var answerBody = {
-				smartanswer: this.state.smartAnswer,
+				dummyanswer: this.state.smartAnswer,
 				id_question: this.state.questionID,
 				id_users: this.state.user_id,
 				id_surveys: this.state.surveyID
 			}
-			fetch(`${ip}:3000/answer/smart/add`, {
+			fetch(`${ip}:3000/answer/dummy/add`, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
