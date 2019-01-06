@@ -66,7 +66,7 @@ export default class AddSurvey extends Component {
 			answerID: '',
 		};
 	}
-
+ 
 	onAddSurvey = async () => {
 		try {
 			const value = await AsyncStorage.getItem("userID");
