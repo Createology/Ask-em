@@ -204,6 +204,45 @@ const selectAllSmartQuestionsOfASurvey = (surveyID, callback) => {
   );
 };
 
+const selectAllAnsOfASurvey = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT * from 	answers WHERE id_surveys = ${surveyID}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
+const selectAllSmartAnsOfASurvey = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT * from 	smart WHERE id_surveys = ${surveyID}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
+const selectAllAnsOfQus = (questionID, callback) => {
+  dbconnection.query(
+    `SELECT * from answers WHERE id_questions = ${questionID}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
 const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
   dbconnection.query(
     `SELECT ${questionID} FROM questions where id_surveys = ${surveyID}`,
@@ -319,6 +358,19 @@ const selectAllActiveSurveysNotAnswerd = (userID, callback) => {
   );
 };
 
+const selectAllAnswerOfADummy = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT * from dummy where id_surveys = ${surveyID}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
 const saveContactUs = (
   id_user,
   username,
@@ -360,3 +412,7 @@ module.exports.insertQuestion = insertQuestion;
 module.exports.insertDummyAnswer = insertDummyAnswer;
 module.exports.insertSmartQuestion = insertSmartQuestion;
 module.exports.selectAllSmartQuestionsOfASurvey = selectAllSmartQuestionsOfASurvey;
+module.exports.selectAllAnsOfASurvey = selectAllAnsOfASurvey;
+module.exports.selectAllSmartAnsOfASurvey = selectAllSmartAnsOfASurvey;
+module.exports.selectAllAnsOfQus = selectAllAnsOfQus;
+module.exports.selectAllAnswerOfADummy = selectAllAnswerOfADummy;

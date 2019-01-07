@@ -38,17 +38,23 @@ app.post("/mysurveys/answered", surveyHelpers.getAllSurveysAnsweredByUser);
 
 app.post("/answer/dummy/add", surveyHelpers.fillDummyAnswer);
 
+app.post("/answer/dummy/get", surveyHelpers.getAllDummyAnswer);
+
 app.post("/answer/smart/add", surveyHelpers.fillSmartAnswer);
+
+app.post("/answer/smart/get", surveyHelpers.getAllSmartAnswOfASurvey);
+
+app.post("/question/smart/get", surveyHelpers.getAllSmartQuestionsOfASurvey);
 
 app.post("/question/smart/add", surveyHelpers.fillSmartQuestion);
 
 app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
+app.post("answer/dumb/get", surveyHelpers.getAllAnswOfASurvey);
+
 app.post("/question/dumb/add", surveyHelpers.fillQuestion);
 
 app.post("/question/dumb/get", surveyHelpers.getAllQuestionsOfASurvey);
-
-app.post("/question/smart/get", surveyHelpers.getAllSmartQuestionsOfASurvey);
 
 app.post("/mysurveys", (req, res) => {
   res.status(200).send({});

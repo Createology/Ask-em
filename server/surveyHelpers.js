@@ -183,6 +183,42 @@ const getAllSmartQuestionsOfASurvey = (req, res) => {
   });
 };
 
+const getAllAnswOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllAnsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllSmartAnswOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllSmartAnsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllDummyAnswer = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllAnswerOfADummy(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting getAllDummyAnswer!");
+    }
+  });
+};
+
 getAllSurveysAnsweredByUser = (req, res) => {
   DB.selectAllSurveysAnsweredByUser(req.body.id, (err, results) => {
     if (err) throw err;
@@ -201,3 +237,6 @@ module.exports.fillSmartQuestion = fillSmartQuestion;
 module.exports.fillQuestion = fillQuestion;
 module.exports.fillDummyAnswer = fillDummyAnswer;
 module.exports.getAllSmartQuestionsOfASurvey = getAllSmartQuestionsOfASurvey;
+module.exports.getAllAnswOfASurvey = getAllAnswOfASurvey;
+module.exports.getAllSmartAnswOfASurvey = getAllSmartAnswOfASurvey;
+module.exports.getAllDummyAnswer = getAllDummyAnswer;
