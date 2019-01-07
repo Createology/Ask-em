@@ -344,6 +344,20 @@ const insertSmartQuestion = (values, callback) => {
   );
 };
 
+const insertSmartQuestion = (values, callback) => {
+  dbconnection.query(
+    `INSERT INTO smartquestions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${values[0]}\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
+    (err, result) => {
+      if (err) {
+        console.log('db err', err)
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
 // 1 >> wich is active and 0 >> is not active
 const selectAllActiveSurveysNotAnswerd = (userID, callback) => {
   dbconnection.query(
