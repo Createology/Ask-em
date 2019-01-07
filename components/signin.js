@@ -24,7 +24,6 @@ import {
   Left,
   Right,
   Form,
-  Icon,
   Spinner
 } from "native-base";
 const ip = require("../ip.json");
@@ -203,32 +202,31 @@ class Signin extends Component {
             <Spinner color="blue" />
           )}
           <View style={styles.inputContainer}>
-              <Label>Username</Label>
-              <TextInput
-                style={styles.inputs}
-                placeholder="username"
-                keyboardType="email-address"
-                underlineColorAndroid="transparent"
-                ref={input => {
-                  this.textInput1 = input;
-                }}
-                onChangeText={username => this.setState({ username })}
-              />
-        
+            <Icon active name="person-pin" />
+            <TextInput
+              placeholder="Username"
+              style={styles.inputs}
+              underlineColorAndroid="transparent"
+              ref={input => {
+                this.textInput1 = input;
+              }}
+              onChangeText={username => {
+                this.setState({ username });
+              }}
+            />
           </View>
           <View style={styles.inputContainer}>
-            
-              <Label>Password</Label>
-              <TextInput
-                style={styles.inputs}
-                secureTextEntry={true}
-                underlineColorAndroid="transparent"
-                ref={input => {
-                  this.textInput2 = input;
-                }}
-                onChangeText={password => this.setState({ password })}
-              />
-         
+            <Icon active name="lock" />
+            <TextInput
+              placeholder="Password"
+              style={styles.inputs}
+              secureTextEntry={true}
+              underlineColorAndroid="transparent"
+              ref={input => {
+                this.textInput2 = input;
+              }}
+              onChangeText={password => this.setState({ password })}
+            />
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.loginButton]}
@@ -260,21 +258,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   inputContainer: {
-    borderBottomColor: "#F5FCFF",
-    backgroundColor: "#FFFFFF",
     borderRadius: 50,
     borderBottomWidth: 1,
     width: 250,
     height: 45,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center",
-    color: "#E65100"
+    alignItems: "center"
   },
   inputs: {
     height: 45,
     marginLeft: 16,
-    borderBottomColor: "#E65100",
+    color: "#E65100",
     flex: 1
   },
   inputIcon: {

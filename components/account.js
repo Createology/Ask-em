@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
 //import { Icon } from 'react-native-elements';
+
 import SurveyListThumbnails from "./SurveyListThumbnails";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
