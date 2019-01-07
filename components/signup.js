@@ -12,7 +12,6 @@ import {
   ScrollView
 } from "react-native";
 import DatePicker from "react-native-datepicker";
-import { Icon } from "react-native-elements";
 import {
   Container,
   Header,
@@ -21,7 +20,8 @@ import {
   Item,
   Input,
   Label,
-  Left
+  Left,
+  Icon
 } from "native-base";
 import * as firebase from "firebase";
 
@@ -116,9 +116,20 @@ export default class Signup extends Component {
     return (
       <Container>
         <ScrollView>
+        <View style={styles.header}>
           <Header style={{ backgroundColor: "#E65100" }}>
-            <Text style={styles.headerStyle}>Signup</Text>
+            <Left>
+              <Icon
+                style={styles.icon}
+                name="menu"
+                onPress={() => {
+                  this.props.navigation.openDrawer();
+                }}
+              />
+            </Left>
+            <Text style={styles.headerStyle}>Sign Up</Text>
           </Header>
+        </View>
           <View style={styles.container}>
             <Form>
               <View style={styles.inputContainer}>

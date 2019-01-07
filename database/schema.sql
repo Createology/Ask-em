@@ -138,27 +138,17 @@
 --
 ---------------------------------xXx----------xXx----------xXx-----------------------------------------------xXx----------xXx----------xXx--------------
 
-ALTER TABLE `dummy`
-ADD CONSTRAINT `dummy_ibfk_1` FOREIGN KEY
-(`id_questions`) REFERENCES `questions`
-(`id`),
-ADD CONSTRAINT `dummy_ibfk_2` FOREIGN KEY
-(`id_users`) REFERENCES `users`
-(`id`),
-ADD CONSTRAINT `dummy_ibfk_3` FOREIGN KEY
-(`id_surveys`) REFERENCES `surveys`
-(`id`);
-------------------------
-
 -- phpMyAdmin SQL Dump
 -- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 28, 2018 at 03:40 AM
+-- Generation Time: Jan 07, 2019 at 12:11 AM
 -- Server version: 8.0.13
 -- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
+SET FOREIGN_KEY_CHECKS
+=0;
 SET SQL_MODE
 = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT
@@ -176,76 +166,18 @@ SET time_zone
 --
 -- Database: `askem_77`
 --
+CREATE DATABASE
+IF NOT EXISTS `askem_77` DEFAULT CHARACTER
+SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci;
+USE `askem_77`;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `answers`
 --
--- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: Jan 05, 2019 at 03:52 AM
--- Server version: 8.0.13
--- PHP Version: 7.2.10-0ubuntu0.18.04.1
-
-SET SQL_MODE
-= "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT
-= 0;
-START TRANSACTION;
-SET time_zone
-= "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `askem_77`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `answers`
---
-
--- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: Jan 06, 2019 at 02:03 AM
--- Server version: 8.0.13
--- PHP Version: 7.2.10-0ubuntu0.18.04.1
-
-SET SQL_MODE
-= "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT
-= 0;
-START TRANSACTION;
-SET time_zone
-= "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `askem_77`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `answers`
+-- Creation: Jan 05, 2019 at 03:30 PM
 --
 
 CREATE TABLE `answers`
@@ -265,60 +197,23 @@ COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `answers`
+-- RELATIONSHIPS FOR TABLE `answers`:
+--   `id_questions`
+--       `questions` -> `id`
+--   `id_users`
+--       `users` -> `id`
+--   `id_surveys`
+--       `surveys` -> `id`
+--   `id_questions`
+--       `questions` -> `id`
 --
-
-INSERT INTO `answers` (`
-id`,
-`answer
-`, `id_questions`, `id_users`, `id_surveys`) VALUES
-(93, 'primary', 30, 44, 5),
-(94, 'single', 37, 44, 5),
-(127, 'master', 30, 45, 6),
-(128, 'divorced', 37, 45, 6),
-(161, 'master', 30, 1, 1),
-(162, 'single', 37, 1, 1),
-(187, 'bachelor', 30, 44, 7),
-(188, 'seperated', 37, 44, 7),
-(207, 'primary', 30, 2, 2),
-(208, 'single', 37, 2, 2),
-(209, 'primary', 30, 44, 10),
-(210, 'single', 37, 44, 10),
-(211, 'primary', 30, 44, 19),
-(212, 'single', 37, 44, 19),
-(213, 'primary', 30, 44, 15),
-(214, 'single', 37, 44, 15),
-(217, 'primary', 30, 44, 18),
-(218, 'single', 37, 44, 18),
-(225, 'primary', 30, 45, 26),
-(226, 'single', 37, 45, 26),
-(227, 'primary', 30, 44, 24),
-(228, 'single', 37, 44, 24),
-(229, 'bachelor', 30, 44, 27),
-(230, 'seperated', 37, 44, 27),
-(233, 'bachelor', 30, 44, 22),
-(234, 'seperated', 37, 44, 22),
-(239, 'primary', 30, 44, 28),
-(240, 'single', 37, 44, 28),
-(251, 'primary', 30, 44, 29),
-(252, 'single', 37, 44, 29),
-(257, 'primary', 30, 44, 25),
-(258, 'single', 37, 44, 25),
-(263, 'primary', 30, 70, 31),
-(264, 'single', 37, 70, 31),
-(265, 'primary', 30, 44, 30),
-(266, 'single', 37, 44, 30),
-(269, 'primary', 30, 70, 32),
-(270, 'single', 37, 70, 32),
-(279, 'primary', 30, 44, 23),
-(280, 'single', 37, 44, 23),
-(293, 'primary', 30, 45, 26),
-(294, 'single', 37, 45, 26);
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `choices`
+--
+-- Creation: Jan 06, 2019 at 01:01 AM
 --
 
 CREATE TABLE `choices`
@@ -334,10 +229,21 @@ CREATE TABLE `choices`
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- RELATIONSHIPS FOR TABLE `choices`:
+--   `id_qustion`
+--       `questions` -> `id`
+--   `id_suervey`
+--       `surveys` -> `id`
+--
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `custmoers`
+--
+-- Creation: Jan 03, 2019 at 09:50 AM
+-- Last update: Jan 06, 2019 at 08:04 AM
 --
 
 CREATE TABLE `custmoers`
@@ -356,6 +262,14 @@ CREATE TABLE `custmoers`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- RELATIONSHIPS FOR TABLE `custmoers`:
+--   `id_user`
+--       `users` -> `id`
+--   `username`
+--       `users` -> `username`
+--
+
+--
 -- Dumping data for table `custmoers`
 --
 
@@ -370,12 +284,23 @@ id`,
 (5, 44, 'read', 'gggg', '66666'),
 (6, 44, 'read', '2345', 'jh'),
 (7, 44, 'read', '0786927200', 'Ghadeer'),
-(8, 44, 'read', '', '');
+(8, 44, 'read', '', ''),
+(10, 44, 'read', '', ''),
+(11, 44, 'read', '', ''),
+(12, 44, 'read', '', ''),
+(13, 6, 'aaaa', 'c≈ƒvxdf', 'sdzfdszfsd'),
+(14, 44, 'read', '07777777777', '33ss33'),
+(15, 44, 'read', '07777777777', '33ss33'),
+(16, 44, 'read', '', ''),
+(17, 44, 'read', '88888', 'hhhh'),
+(18, 44, 'read', '9999', 'llll');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `dummy`
+--
+-- Creation: Jan 06, 2019 at 10:46 PM
 --
 
 CREATE TABLE `dummy`
@@ -383,16 +308,26 @@ CREATE TABLE `dummy`
   `id` int
 (11) NOT NULL,
   `answer` varchar
-(225) CHARACTER
-SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
-  `id_questions` int
-(11) DEFAULT NULL,
+(225) DEFAULT NULL,
+  `result` varchar
+(50) DEFAULT NULL,
+  `id_smartquestions` int
+(11) NOT NULL,
   `id_users` int
 (11) NOT NULL,
   `id_surveys` int
 (11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `dummy`:
+--   `id_smartquestions`
+--       `smartquestions` -> `id`
+--   `id_users`
+--       `users` -> `id`
+--   `id_surveys`
+--       `surveys` -> `id`
+--
 
 --
 -- Dumping data for table `dummy`
@@ -401,33 +336,16 @@ COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
 INSERT INTO `dummy` (`
 id`,
 `answer
-`, `id_questions`, `id_users`, `id_surveys`) VALUES
-(2, 'Hashmi', 67, 70, 36),
-(3, 'Khalda', 67, 70, 36),
-(4, 'Kursy', 67, 70, 36),
-(5, 'Marka', 67, 70, 36),
-(6, 'Shmiesani', 67, 70, 36),
-(7, 'Tabarbour', 67, 70, 36),
-(8, '3', 68, 70, 36),
-(9, '4', 68, 70, 36),
-(10, '7', 68, 70, 36),
-(11, '2', 68, 70, 36),
-(12, '5', 68, 70, 36),
-(13, 'yes', 69, 70, 36),
-(14, 'no', 69, 70, 36),
-(15, 'yes', 69, 70, 36),
-(16, 'yes', 69, 70, 36),
-(17, 'no', 69, 70, 36),
-(18, 'yes', 70, 70, 36),
-(19, 'yes', 70, 70, 36),
-(20, 'no', 70, 70, 36),
-(21, 'yes', 70, 70, 36),
-(22, 'no', 70, 70, 36);
+`, `result`, `id_smartquestions`, `id_users`, `id_surveys`) VALUES
+(1, 'asdasd', 'asdasd', 6, 9, 22);
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `questions`
+--
+-- Creation: Dec 26, 2018 at 08:26 PM
+-- Last update: Jan 05, 2019 at 05:53 PM
 --
 
 CREATE TABLE `questions`
@@ -444,33 +362,19 @@ CREATE TABLE `questions`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `questions`
+-- RELATIONSHIPS FOR TABLE `questions`:
+--   `id_surveys`
+--       `surveys` -> `id`
+--   `id_users`
+--       `users` -> `id`
 --
-
-INSERT INTO `questions` (`
-id`,
-`id_surveys
-`, `id_users`, `question`) VALUES
-(30, 1, 44, 'what is your education level?'),
-(31, 2, 1, 'what is your education level?'),
-(36, 2, 1, 'what is your marital status?'),
-(37, 1, 44, 'what is your marital status?'),
-(38, 6, 45, 'asdasdasdasdasdasdasd'),
-(39, 7, 44, 'Suitable place to build a new mall'),
-(40, 7, 44, 'Number of mall levels needed'),
-(41, 7, 44, 'Is a new mall at dabouq a good idea'),
-(45, 19, 44, 're'),
-(65, 34, 70, 'Where is the suitable place to build a mall'),
-(66, 34, 70, 'How many levels mall should have'),
-(67, 36, 70, 'Suitabl place to build a mall in Amman'),
-(68, 36, 70, 'How many levels for this mall'),
-(69, 36, 70, 'Should the mall has a cinema'),
-(70, 36, 70, 'Would you prefer see an entertainment section in the mall');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `smart`
+--
+-- Creation: Jan 06, 2019 at 10:45 PM
 --
 
 CREATE TABLE `smart`
@@ -478,14 +382,10 @@ CREATE TABLE `smart`
   `id` int
 (11) NOT NULL,
   `smartanswer` varchar
-(225) CHARACTER
-SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+(225) DEFAULT NULL,
   `Truth` enum
-('0','1') CHARACTER
-SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
-  `id_questions` int
+('0','1') DEFAULT NULL,
+  `id_smartquestions` int
 (11) DEFAULT NULL,
   `id_users` int
 (11) NOT NULL,
@@ -494,30 +394,76 @@ COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- RELATIONSHIPS FOR TABLE `smart`:
+--   `id_smartquestions`
+--       `smartquestions` -> `id`
+--   `id_users`
+--       `users` -> `id`
+--   `id_surveys`
+--       `surveys` -> `id`
+--
+
+--
 -- Dumping data for table `smart`
 --
 
 INSERT INTO `smart` (`
 id`,
 `smartanswer
-`, `Truth`, `id_questions`, `id_users`, `id_surveys`) VALUES
-(1, 'Jandaweel', '1', 39, 1, 7),
-(2, 'Khalda', '1', 39, 2, 7),
-(3, 'Dabouq', '1', 39, 6, 7),
-(4, '6', '1', 40, 1, 7),
-(5, '5', '1', 40, 2, 7),
-(6, '3', '1', 40, 6, 7),
-(7, 'Yes', '1', 41, 1, 7),
-(8, 'Yes', '1', 41, 2, 7),
-(9, 'Yes', '1', 41, 6, 7),
-(10, 'Tabarbour', '1', 39, 9, 7),
-(11, '1', '1', 40, 9, 7),
-(12, 'No', '1', 41, 9, 7);
+`, `Truth`, `id_smartquestions`, `id_users`, `id_surveys`) VALUES
+(1, 'asdasd', '0', 6, 9, 19),
+(2, 'asdasd', '0', 6, 6, 22);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smartquestions`
+--
+-- Creation: Jan 06, 2019 at 10:47 PM
+--
+
+CREATE TABLE `smartquestions`
+(
+  `id` int
+(11) NOT NULL,
+  `id_surveys` int
+(11) NOT NULL,
+  `id_users` int
+(11) NOT NULL,
+  `question` varchar
+(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `smartquestions`:
+--   `id_surveys`
+--       `surveys` -> `id`
+--   `id_users`
+--       `users` -> `id`
+--
+
+--
+-- Dumping data for table `smartquestions`
+--
+
+INSERT INTO `smartquestions` (`
+id`,
+`id_surveys
+`, `id_users`, `question`) VALUES
+(2, 37, 70, 'mall place'),
+(3, 38, 70, 'place of mall'),
+(4, 39, 70, 'mall place'),
+(5, 40, 70, 'mall place'),
+(6, 19, 9, 'asdasd');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `surveys`
+--
+-- Creation: Jan 03, 2019 at 01:29 PM
+-- Last update: Jan 05, 2019 at 05:18 PM
 --
 
 CREATE TABLE `surveys`
@@ -541,6 +487,12 @@ SET utf8mb4
 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `surveys`:
+--   `id_users`
+--       `users` -> `id`
+--
 
 --
 -- Dumping data for table `surveys`
@@ -581,12 +533,20 @@ id`,
 (33, 70, 'test', '0', 'test', '1'),
 (34, 70, 'test', '0', 'test', '1'),
 (35, 70, 'Mohannad', '0', 'mO', '1'),
-(36, 70, 'Mohannad', '0', 'Mo', '1');
+(36, 70, 'Mohannad', '0', 'Mo', '1'),
+(37, 70, 'new try', '0', 'new', '1'),
+(38, 70, 'Try', '0', 'Try', '1'),
+(39, 70, 'try', '0', 'try', '1'),
+(40, 70, 'TRY', '0', 'TRY', '1'),
+(41, 70, 'juyhtfgdc', '0', 'hgfds', '1');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `users`
+--
+-- Creation: Dec 27, 2018 at 04:04 PM
+-- Last update: Jan 05, 2019 at 11:55 PM
 --
 
 CREATE TABLE `users` (
@@ -602,6 +562,10 @@ CREATE TABLE `users` (
   `password` varchar(555) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- RELATIONSHIPS FOR TABLE `users`:
+--
 
 --
 -- Dumping data for table `users`
@@ -651,9 +615,9 @@ ALTER TABLE `custmoers`
 --
 ALTER TABLE `dummy`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `dummy_ibfk_1` (`id_questions`),
-  ADD KEY `dummy_ibfk_2` (`id_users`),
-  ADD KEY `dummy_ibfk_3` (`id_surveys`);
+  ADD KEY `dummy_fbk1` (`id_smartquestions`),
+  ADD KEY `dummy_fbk2` (`id_users`),
+  ADD KEY `dummy_fbk3` (`id_surveys`);
 
 --
 -- Indexes for table `questions`
@@ -668,9 +632,17 @@ ALTER TABLE `questions`
 --
 ALTER TABLE `smart`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `smart_fbk1` (`id_questions`),
-  ADD KEY `smart_fbk2` (`id_users`),
-  ADD KEY `smart_fbk3` (`id_surveys`);
+  ADD KEY `smart_ibfk_1` (`id_smartquestions`) USING BTREE,
+  ADD KEY `smart_ibfk_3` (`id_surveys`) USING BTREE,
+  ADD KEY `smart_ibfk_2` (`id_users`) USING BTREE;
+
+--
+-- Indexes for table `smartquestions`
+--
+ALTER TABLE `smartquestions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `smtquestions-fb1` (`id_surveys`),
+  ADD KEY `smtquestions-fb2` (`id_users`);
 
 --
 -- Indexes for table `surveys`
@@ -695,25 +667,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
 
 --
 -- AUTO_INCREMENT for table `choices`
 --
 ALTER TABLE `choices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `custmoers`
 --
 ALTER TABLE `custmoers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `dummy`
 --
 ALTER TABLE `dummy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -725,13 +697,19 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `smart`
 --
 ALTER TABLE `smart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `smartquestions`
+--
+ALTER TABLE `smartquestions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `surveys`
 --
 ALTER TABLE `surveys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -770,9 +748,9 @@ ALTER TABLE `custmoers`
 -- Constraints for table `dummy`
 --
 ALTER TABLE `dummy`
-  ADD CONSTRAINT `dummy_ibfk_1` FOREIGN KEY (`id_questions`) REFERENCES `questions` (`id`),
-  ADD CONSTRAINT `dummy_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `dummy_ibfk_3` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`);
+  ADD CONSTRAINT `dummy_fbk1` FOREIGN KEY (`id_smartquestions`) REFERENCES `smartquestions` (`id`),
+  ADD CONSTRAINT `dummy_fbk2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `dummy_fbk3` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`);
 
 --
 -- Constraints for table `questions`
@@ -785,15 +763,100 @@ ALTER TABLE `questions`
 -- Constraints for table `smart`
 --
 ALTER TABLE `smart`
-  ADD CONSTRAINT `smart_fbk1` FOREIGN KEY (`id_questions`) REFERENCES `questions` (`id`),
+  ADD CONSTRAINT `smart_fbk1` FOREIGN KEY (`id_smartquestions`) REFERENCES `smartquestions` (`id`),
   ADD CONSTRAINT `smart_fbk2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `smart_fbk3` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`);
+
+--
+-- Constraints for table `smartquestions`
+--
+ALTER TABLE `smartquestions`
+  ADD CONSTRAINT `smtquestions-fb1` FOREIGN KEY (`id_surveys`) REFERENCES `surveys` (`id`),
+  ADD CONSTRAINT `smtquestions-fb2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `surveys`
 --
 ALTER TABLE `surveys`
   ADD CONSTRAINT `surveys_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
+
+
+--
+-- Metadata
+--
+USE `phpmyadmin`;
+
+--
+-- Metadata for table answers
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table choices
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table custmoers
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table dummy
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table questions
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table smart
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table smartquestions
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table surveys
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for table users
+--
+-- Error reading data for table phpmyadmin.pma__column_info: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__column_info'
+-- Error reading data for table phpmyadmin.pma__table_uiprefs: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__table_uiprefs'
+-- Error reading data for table phpmyadmin.pma__tracking: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__tracking'
+
+--
+-- Metadata for database askem_77
+--
+-- Error reading data for table phpmyadmin.pma__bookmark: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__bookmark'
+-- Error reading data for table phpmyadmin.pma__relation: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__relation'
+-- Error reading data for table phpmyadmin.pma__savedsearches: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__savedsearches'
+-- Error reading data for table phpmyadmin.pma__central_columns: #1142 - SELECT command denied to user 'user_askem77'@'localhost' for table 'pma__central_columns'
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

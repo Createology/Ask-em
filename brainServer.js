@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 const network = new brain.recurrent.LSTM();
 var userID;
 var surveyID;
-var propsArray = [];
 
 // save answers from specific surveys into json file
 app.post("/answers/smart/create", (req, res) => {
@@ -35,11 +34,12 @@ app.post("/answers/smart/create", (req, res) => {
 				console.log('result[i]', result[i])
 				results[result[i].id_users][result[i].id_questions] = result[i].smartanswer
 			}
+			var array = [];
 			for (var key in results) {
-				propsArray.push(results[key])
+				array.push(results[key])
 			}
-			console.log("results", propsArray)
-			fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(propsArray, null, '  '));
+			console.log("results", array)
+			fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
 			res.sendStatus(200)
 		} else {
 			res.status(404).send("Invalid surveyID");
@@ -47,41 +47,125 @@ app.post("/answers/smart/create", (req, res) => {
 	})
 });
 
-// read specific json file for specific survey
-app.post("/data/read", (req, res) => {
-	console.log("search brainServer", req.body.surveyID);
+/* try to add smart answer
+{
+	"surveyID": "7",
+	"input": {
+    "0": "Yes",
+    "39": "Jandaweel",
+    "40": "1",
+    "41": "5",
+    "42": "YES",
+    "43": "suuuure I love KFC"
+  }
+}
+*/
+// think about new smart answer
+app.post("/smart/answer/think", async (req, res) => {
+	//req.body is an object of two keys (surveyID and input)
 	surveyID = req.body.surveyID;
-	data = require(`./smartData/surveyID${surveyID}_Answers.json`)
+
+	data = require(`./smartData/surveyID${surveyID}_Dummy.json`)
 	if (data) {
-		res.sendStatus(200)
-		console.log("in brain training", data)
+		// make up data for training
 		var trainingData = data.map(item => (
-			{ input: [(item['39']).replace(/\s/g, ""), item['40']], output: item['41'] }
+			{
+				input: Object.values(item).slice(1).join('').replace(/\s/g, "").toLowerCase(),
+				output: item['0']
+			}
+		))
+
+		console.log(trainingData)
+		// train data with some options
+		network.train(trainingData, {
+			iterations: 2000, // if you increase time of brain will increase, and accuracy will increase
+			//errorThresh: 0.005,   // the acceptable error percentage from training data --> number between 0 and 1
+			activation: 'relu' // to read bigger numbers than 1
+		});
+
+		// make up new data input	where req.body.input is an object, 
+		// key is questionID and value is smartAnswer	
+		var input = req.body.input;
+		// editedInput is an array of only input values
+		var editedInput = Object.values(input).join('').replace(/\s/g, "").toLowerCase();
+
+		// THINK
+		const smartAnswer = await network.run(editedInput)//[('Khalda').replace(/\s/g, ""), 5])
+ 
+		try { // if this is NOT the first time brain Thinks
+			// bring all the thinking data
+			var array = require(`./smartData/surveyID${surveyID}_Answers.json`);
+			input['0'] = smartAnswer;
+			if (array.length === 0) { // with dummy
+				if (smartAnswer === "Yes" || smartAnswer === "No") {
+					data.push(input)
+					array = data
+					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
+					console.log('run answer =============', smartAnswer)
+				} else {
+					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(data, null, '  '));
+				}
+			} else {
+				if (smartAnswer === "Yes" || smartAnswer === "No") {
+					array.push(input)
+					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
+					console.log('run answer =============', smartAnswer)
+				} else {
+					console.log('invalid answer')
+					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
+				}
+			}
+		} catch { // if this is the first time brain Thinks
+			if (smartAnswer === "Yes" || smartAnswer === "No") {
+				// make a file of thinking data
+				fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify([], null, '  '));
+				var array = require(`./smartData/surveyID${surveyID}_Answers.json`);
+				input['0'] = smartAnswer;
+				data.push(input)
+				array = data
+				fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
+				console.log('run answer =============', smartAnswer)
+			} else {
+				console.log('invalid answer')
+				fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify([], null, '  '));
+			}
+		}
+		res.status(200).send(smartAnswer)
+	} else {
+		res.sendStatus(404)
+	}
+});
+
+
+
+// get the smart value
+app.post("/answer/smart/get", async (req, res) => {
+	surveyID = req.body.surveyID;
+
+	data = require(`./smartData/surveyID${surveyID}_Answers.json`)
+		// make up data for training
+		var trainingData = data.map(item => (
+			{
+				input: Object.values(item).slice(1),
+				output: item['0']
+			}
 		))
 
 		// train data with some options
 		network.train(trainingData, {
-			iterations: 1000, // if you increase time of brain will increase, and accuracy will increase
+			iterations: 2000, // if you increase time of brain will increase, and accuracy will increase
+			//errorThresh: 0.005,   // the acceptable error percentage from training data --> number between 0 and 1
 			activation: 'relu' // to read bigger numbers than 1
 		});
 
-		// FINAL SMART VALUE
-		const smartAnswer = network.run([('Dabouq').replace(/\s/g, ""), 1])
-		console.log('data', data)
-		console.log('run answer =============', smartAnswer)
-	} else {
-		res.sendStatus(404)
-	}
+		// make up new data input	where req.body.input is an object, 
+		// key is questionID and value is smartAnswer	
+		var input = req.body.input;
+		// editedInput is an array of only input values
+		var editedInput = Object.values(input);
 
-});
-
-// make up data for training
-
-
-// get the smart value
-app.get("/answer/smart/get", (req, res) => {
-	console.log("search brainServer", req.body.surveyID);
-	if (req.body.surveyID === surveyID)
+		// THINK
+		const smartAnswer = await network.run(editedInput)
 		res.status(200).send(smartAnswer)
 });
 
