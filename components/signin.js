@@ -24,7 +24,8 @@ import {
   Left,
   Right,
   Form,
-  Spinner
+  Spinner,
+  Icon
 } from "native-base";
 const ip = require("../ip.json");
 

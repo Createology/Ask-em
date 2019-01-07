@@ -328,21 +328,6 @@ const insertQuestion = (values, callback) => {
   );
 };
 
-const insertSmartQuestion = (values, callback) => {
-  dbconnection.query(
-    `INSERT INTO smartquestions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${
-      values[0]
-    }\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
-    (err, result) => {
-      if (err) {
-        console.log("db err", err);
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
-    }
-  );
-};
 
 const insertSmartQuestion = (values, callback) => {
   dbconnection.query(
