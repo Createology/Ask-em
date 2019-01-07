@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import {
 	StyleSheet,
-	Text,
 	View,
-	TextInput,
 	Button,
 	TouchableHighlight,
 	Image,
 	Alert,
 	AsyncStorage,
 } from "react-native";
-import { Container, Header, Text as Textbase, Left, Icon as IconMenu } from "native-base";
+import {Container,
+	Header,
+	Text ,
+	Input as TextInput,
+	Left,
+	Icon as IconMenu} from "native-base";
 import myStripe from '../stripe.json'
 import { Icon } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -171,7 +174,7 @@ export default class Payment extends Component {
 		const { showAlert } = this.state;
 		if (showAlert) {
 		return (
-			<View style={{height: '100%'}}>
+			<View style={{height: '100%',backgroundColor:"white"}}>
 				<View>
 					<Header style={{ backgroundColor: "#E65100" }}>
 						<Left>
@@ -270,7 +273,7 @@ export default class Payment extends Component {
 			</View>
 		)} else {
 			return (
-				<View>
+				<View  style={{backgroundColor:"white"}}>
 					<Header style={{ backgroundColor: "#E65100" }}>
 						<Left>
 							<IconMenu style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
