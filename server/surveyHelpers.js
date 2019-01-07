@@ -1,15 +1,18 @@
 const DB = require("../database/index");
 
 const saveSurvey = (req, res) => {
-  const { surveyName, surveyDescription, surveyCategory } = req.body;
+  const { id_users, survey_name, category, description, activated } = req.body;
   DB.insertSurvey(
-    surveyName,
-    surveyDescription,
-    surveyCategory,
+    id_users,
+    survey_name,
+    category,
+    description,
+    activated,
     (err, result) => {
       if (result) {
         res.status(200).send(result);
       } else {
+        console.log("err");
         res.status(404).send("Error saving survey!");
       }
     }
@@ -30,7 +33,6 @@ getAllSurveysOfUser = (req, res) => {
 getAllSurveys = (req, res) => {
   DB.selectAllActiveSurveysNotAnswerd(req.body.id, (err, result) => {
     if (result) {
-      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
@@ -39,19 +41,55 @@ getAllSurveys = (req, res) => {
   });
 };
 
-const fillSmartAnswer = (req, res) => {
-  if (req.body.answer) {
-    const { answer, questionID, userID, surveyID } = req.body;
-    DB.insertSmartAnswer(
+const fillQuestion = (req, res) => {
+  if (req.body.question) {
+    const { id_surveys, id_users, question } = req.body;
+    DB.insertQuestion([id_surveys, id_users, question], (err, results) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(404);
+      }
+      if (results) {
+        res.status(200).send(results);
+      }
+    });
+  } else {
+    res.status(402).send("no question");
+  }
+};
+// modifa
+const fillSmartQuestion = (req, res) => {
+  if (req.body.question) {
+    const { id_surveys, id_users, question } = req.body;
+    DB.insertSmartQuestion([id_surveys, id_users, question], (err, results) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(404);
+      }
+      if (results) {
+        res.status(200).send(results);
+      }
+    });
+  } else {
+    res.status(402).send("no question");
+  }
+};
+
+const fillAnswer = (req, res) => {
+  console.log("fillAnswer", req.body);
+  const { answer, id_question, id_users, id_surveys } = req.body;
+  if (answer) {
+    DB.insertAnswer(
       answer,
-      questionID,
-      userID,
-      surveyID,
+      id_question,
+      id_users,
+      id_surveys,
       (err, results) => {
         if (err) {
+          console.log(err);
           res.sendStatus(404);
         } else {
-          if (results.length > 0) {
+          if (results.affectedRows > 0) {
             res.status(200).send(results);
           } else {
             res.status(401).send("no results");
@@ -63,24 +101,59 @@ const fillSmartAnswer = (req, res) => {
     res.status(402).send("no answer");
   }
 };
-
-const fillAnswer = (req, res) => {
-  console.log("===saveAnswers===");
-  const { answers } = req.body;
-  if (answers) {
-    DB.insertAnswer(answers, (err, results) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(404);
-      } else {
-        if (results.affectedRows > 0) {
-          console.log(results);
-          res.status(200).send(results);
+// INSERT INTO `smart` (`id`, `smartanswer`, `Truth`, `id_smartquestions`, `id_users`, `id_surveys`) VALUES (NULL, 'asd', '1', '6', '6', '22');
+// modifaied
+const fillSmartAnswer = (req, res) => {
+  if (req.body) {
+    const {
+      smartanswer,
+      Truth,
+      id_smartquestions,
+      id_users,
+      id_surveys
+    } = req.body;
+    DB.insertSmartAnswer(
+      smartanswer,
+      Truth,
+      id_smartquestions,
+      id_users,
+      id_surveys,
+      (err, results) => {
+        if (err) {
+          res.sendStatus(404);
         } else {
-          res.status(401).send("no results");
+          res.status(200).send(results);
         }
       }
-    });
+    );
+  } else {
+    res.status(402).send("no answer");
+  }
+};
+// modifaied
+const fillDummyAnswer = (req, res) => {
+  if (req.body) {
+    const {
+      dummyanswer,
+      result,
+      id_smartquestions,
+      id_users,
+      id_surveys
+    } = req.body;
+    DB.insertDummyAnswer(
+      dummyanswer,
+      result,
+      id_smartquestions,
+      id_users,
+      id_surveys,
+      (err, results) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(results);
+        }
+      }
+    );
   } else {
     res.status(402).send("no answer");
   }
@@ -90,11 +163,58 @@ const getAllQuestionsOfASurvey = (req, res) => {
   const { surveyID } = req.body;
   DB.selectAllQuestionsOfASurvey(surveyID, (err, result) => {
     if (result) {
-      console.log("===selectQuestions===");
       res.status(200).send(result);
     } else {
       console.log(err);
       res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllSmartQuestionsOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllSmartQuestionsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllAnswOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllAnsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllSmartAnswOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllSmartAnsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllDummyAnswer = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllAnswerOfADummy(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting getAllDummyAnswer!");
     }
   });
 };
@@ -113,3 +233,10 @@ module.exports.fillSmartAnswer = fillSmartAnswer;
 module.exports.fillAnswer = fillAnswer;
 module.exports.getAllQuestionsOfASurvey = getAllQuestionsOfASurvey;
 module.exports.getAllSurveysAnsweredByUser = getAllSurveysAnsweredByUser;
+module.exports.fillSmartQuestion = fillSmartQuestion;
+module.exports.fillQuestion = fillQuestion;
+module.exports.fillDummyAnswer = fillDummyAnswer;
+module.exports.getAllSmartQuestionsOfASurvey = getAllSmartQuestionsOfASurvey;
+module.exports.getAllAnswOfASurvey = getAllAnswOfASurvey;
+module.exports.getAllSmartAnswOfASurvey = getAllSmartAnswOfASurvey;
+module.exports.getAllDummyAnswer = getAllDummyAnswer;

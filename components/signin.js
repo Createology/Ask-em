@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { loggedIn } from "../store/actions/index";
-import { Icon } from "react-native-elements";
 import {
   Container,
   Header,
@@ -24,7 +23,8 @@ import {
   Body,
   Left,
   Right,
-  Form
+  Form,
+  Spinner
 } from "native-base";
 const ip = require("../ip.json");
 
@@ -180,9 +180,20 @@ class Signin extends Component {
     const { loggedin } = this.state;
     return (
       <Container>
-        <Header style={{ backgroundColor: "#E65100" }}>
-          <Text style={styles.headerStyle}>Signin</Text>
-        </Header>
+         <View style={styles.header}>
+          <Header style={{ backgroundColor: "#E65100" }}>
+            <Left>
+              <Icon
+                style={styles.icon}
+                name="menu"
+                onPress={() => {
+                  this.props.navigation.openDrawer();
+                }}
+              />
+            </Left>
+            <Text style={styles.headerStyle}>Sign In</Text>
+          </Header>
+        </View>
         <View style={styles.container}>
           {this.state.loggedin !==
           "You will recieve your data soon, please wait!" ? (
@@ -191,33 +202,31 @@ class Signin extends Component {
             <Spinner color="blue" />
           )}
           <View style={styles.inputContainer}>
-            <Item floatingLabel>
-              <Label>Username</Label>
-              <TextInput
-                style={styles.inputs}
-                placeholder="username"
-                keyboardType="email-address"
-                underlineColorAndroid="transparent"
-                ref={input => {
-                  this.textInput1 = input;
-                }}
-                onChangeText={username => this.setState({ username })}
-              />
-            </Item>
+            <Icon active name="person-pin" />
+            <TextInput
+              placeholder="Username"
+              style={styles.inputs}
+              underlineColorAndroid="transparent"
+              ref={input => {
+                this.textInput1 = input;
+              }}
+              onChangeText={username => {
+                this.setState({ username });
+              }}
+            />
           </View>
           <View style={styles.inputContainer}>
-            <Item floatingLabel>
-              <Label>Password</Label>
-              <TextInput
-                style={styles.inputs}
-                secureTextEntry={true}
-                underlineColorAndroid="transparent"
-                ref={input => {
-                  this.textInput2 = input;
-                }}
-                onChangeText={password => this.setState({ password })}
-              />
-            </Item>
+            <Icon active name="lock" />
+            <TextInput
+              placeholder="Password"
+              style={styles.inputs}
+              secureTextEntry={true}
+              underlineColorAndroid="transparent"
+              ref={input => {
+                this.textInput2 = input;
+              }}
+              onChangeText={password => this.setState({ password })}
+            />
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.loginButton]}
@@ -249,21 +258,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   inputContainer: {
-    borderBottomColor: "#F5FCFF",
-    backgroundColor: "#FFFFFF",
     borderRadius: 50,
     borderBottomWidth: 1,
     width: 250,
     height: 45,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center",
-    color: "#E65100"
+    alignItems: "center"
   },
   inputs: {
     height: 45,
     marginLeft: 16,
-    borderBottomColor: "#E65100",
+    color: "#E65100",
     flex: 1
   },
   inputIcon: {
@@ -305,6 +311,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "white",
     fontSize: 22
+  },  
+  icon: {
+    color: "white",
+    margin: 10,
+    fontSize: 40,
+    textAlign: "left"
   }
 });
 
