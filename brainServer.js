@@ -91,7 +91,7 @@ app.post("/smart/answer/think", async (req, res) => {
 
 		// THINK
 		const smartAnswer = await network.run(editedInput)//[('Khalda').replace(/\s/g, ""), 5])
-
+ 
 		try { // if this is NOT the first time brain Thinks
 			// bring all the thinking data
 			var array = require(`./smartData/surveyID${surveyID}_Answers.json`);
