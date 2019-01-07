@@ -18,11 +18,11 @@ app.get("/isa", (req, res) => {
 });
 
 app.post("/search", (req, res) => {
-  db.selectSearchsurvey(req.body.text, function(err, results){
+  db.selectSearchsurvey(req.body.text, function(err, results) {
     if (err) throw err;
-    res.status(200).send(JSON.stringify({results, results}))
-  })
-})
+    res.status(200).send(JSON.stringify({ results, results }));
+  });
+});
 
 app.post("/signup", signUp);
 
@@ -46,7 +46,9 @@ app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
 app.post("/question/dumb/add", surveyHelpers.fillQuestion);
 
-app.post("/answer/dumb/questions", surveyHelpers.getAllQuestionsOfASurvey);
+app.post("/question/dumb/get", surveyHelpers.getAllQuestionsOfASurvey);
+
+app.post("/question/smart/get", surveyHelpers.getAllSmartQuestionsOfASurvey);
 
 app.post("/mysurveys", (req, res) => {
   res.status(200).send({});
@@ -61,7 +63,6 @@ app.post("/contact", contact);
 app.get("/*", (req, res) => {
   res.sendStatus(404);
 });
-
 
 //connection for everything except for Brain
 app.listen(3000, () => {
