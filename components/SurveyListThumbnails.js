@@ -34,12 +34,7 @@ export default class SurveyListThumbnails extends Component {
             <List key={survey.id}>
               <ListItem thumbnail>
                 <Left>
-                  <Thumbnail
-                    square
-                    source={{
-                      uri: surveyImages[index]
-                    }}
-                  />
+                  <Thumbnail square source={surveyImages[index]} />
                 </Left>
                 <Body>
                   <TouchableHighlight
