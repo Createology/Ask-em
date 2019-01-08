@@ -31,9 +31,6 @@ import {
 } from "native-base";
 import { Icon } from 'react-native-elements';
 
-import SurveyListThumbnails from "./SurveyListThumbnails";
-import { Col, Row, Grid } from "react-native-easy-grid";
-
 const ip = require("../ip.json");
 
 export default class AddSurvey extends Component {
@@ -73,7 +70,7 @@ export default class AddSurvey extends Component {
 			if (value !== null) {
 				const token = JSON.parse(value);
 				this.setState({
-					user_id: ` ${token.user_id} `
+					user_id: `${token.user_id}`
 				});
 				var fetchBody = {
 					id_users: token.user_id,
@@ -166,7 +163,7 @@ export default class AddSurvey extends Component {
 				id_users: this.state.user_id,
 				question: this.state.newQuestion
 			}
-			fetch(`${ip}:3000/`, {
+			fetch(`${ip}:3000/question/dumb/add`, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -195,7 +192,7 @@ export default class AddSurvey extends Component {
 				id_users: this.state.user_id,
 				id_surveys: this.state.surveyID
 			}
-			fetch(`${ip}:3000/`, {
+			fetch(`${ip}:3000/answer/dumb/add`, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
