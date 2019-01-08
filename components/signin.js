@@ -181,7 +181,7 @@ class Signin extends Component {
     const { loggedin } = this.state;
     return (
       <Container>
-         <View style={styles.header}>
+        <View style={styles.header}>
           <Header style={{ backgroundColor: "#E65100" }}>
             <Left>
               <Icon
@@ -203,7 +203,7 @@ class Signin extends Component {
             <Spinner color="blue" />
           )}
           <View style={styles.inputContainer}>
-            <Icon active name="person-pin" />
+            <Icon active name="md-person" />
             <TextInput
               placeholder="Username"
               style={styles.inputs}
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "white",
     fontSize: 22
-  },  
+  },
   icon: {
     color: "white",
     margin: 10,

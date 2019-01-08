@@ -116,20 +116,20 @@ export default class Signup extends Component {
     return (
       <Container>
         <ScrollView>
-        <View style={styles.header}>
-          <Header style={{ backgroundColor: "#E65100" }}>
-            <Left>
-              <Icon
-                style={styles.icon}
-                name="menu"
-                onPress={() => {
-                  this.props.navigation.openDrawer();
-                }}
-              />
-            </Left>
-            <Text style={styles.headerStyle}>Sign Up</Text>
-          </Header>
-        </View>
+          <View style={styles.header}>
+            <Header style={{ backgroundColor: "#E65100" }}>
+              <Left>
+                <Icon
+                  style={styles.icon}
+                  name="menu"
+                  onPress={() => {
+                    this.props.navigation.openDrawer();
+                  }}
+                />
+              </Left>
+              <Text style={styles.headerStyle}>Sign Up</Text>
+            </Header>
+          </View>
           <View style={styles.container}>
             <Form>
               <View style={styles.inputContainer}>
@@ -254,7 +254,7 @@ export default class Signup extends Component {
                     underlineColorAndroid="transparent"
                     onChangeText={username => this.setState({ username })}
                   />
-                  <Icon active name="person-pin" />
+                  <Icon active name="person" />
                 </Item>
               </View>
 
@@ -267,7 +267,7 @@ export default class Signup extends Component {
                     underlineColorAndroid="transparent"
                     onChangeText={email => this.setState({ email })}
                   />
-                  <Icon active name="email" />
+                  <Icon active name="md-mail" />
                 </Item>
               </View>
 
