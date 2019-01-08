@@ -8,12 +8,14 @@ import {
 	Alert,
 	AsyncStorage,
 } from "react-native";
-import {Container,
+import {
+	Container,
 	Header,
-	Text ,
+	Text,
 	Input as TextInput,
 	Left,
-	Icon as IconMenu} from "native-base";
+	Icon as IconMenu
+} from "native-base";
 import myStripe from '../stripe.json'
 import { Icon } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -144,7 +146,7 @@ export default class Payment extends Component {
 					if (res.status < 400) {
 						//alert('You paid!')
 						scope.showAlert()
-						setTimeout(function(){ scope.hideAlert(); }, 2000);
+						setTimeout(function () { scope.hideAlert(); }, 2000);
 					} else {
 						alert('Error, contact admin!')
 					}
@@ -173,183 +175,185 @@ export default class Payment extends Component {
 	render() {
 		const { showAlert } = this.state;
 		if (showAlert) {
-		return (
-			<View style={{height: '100%',backgroundColor:"white"}}>
-				<View>
-					<Header style={{ backgroundColor: "#E65100" }}>
-						<Left>
-							<IconMenu style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
-						</Left>
-						<Text style={styles.headerStyle}>Payment</Text>
-					</Header>
-					{/* <Image
-						style={styles.avatar}
-						source={{
-							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
-						}}
-					/> */}
-					<View style={styles.card}>
-						<View style={styles.inCard}>
-							<View style={styles.logo}>
-								<Text style={{ fontSize: 17 }}>VISA</Text>
-							</View>
-							<View style={styles.cardNumber}>
-								<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
-							</View>
-							<View style={styles.cardExpiration}>
-								<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
-							</View>
-						</View>
-					</View>
-
-					<View style={{ height: 60 }}>
-						<TextInput
-							style={styles.inputNumber}
-							placeholder='Account Number'
-							onChangeText={Number => {
-								this.setState({ 'card[number]': Number });
-							}}
-						/>
-					</View>
-					<View style={styles.inputContainer}>
-						<TextInput
-							style={styles.inputExp_month}
-							placeholder='Exp_month'
-							onChangeText={Exp_month => {
-								this.setState({ 'card[exp_month]': Exp_month });
-							}}
-						/>
-						<TextInput style={styles.inputExp_year}
-							placeholder='Exp_year'
-							onChangeText={Exp_year => {
-								this.setState({ 'card[exp_year]': Exp_year });
-							}}
-						/>
-						<TextInput
-							style={styles.inputCvc}
-							placeholder='CVC'
-							onChangeText={cvc => {
-								this.setState({ 'card[cvc]': cvc });
-							}}
-						/>
-					</View>
-					<View style={styles.inputContainerPay}>
-						<TextInput
-							style={styles.inputExp_year}
-							placeholder="Money Amount '$'"
-							onChangeText={money => {
-								this.setState({ 'money': `${money}` });
-							}}
-						/>
-					</View>
-					<View style={styles.buttonContainer}>
-						<TouchableHighlight
-							style={styles.button}
-							onPress={this.requestPayment}
-						>
-							<Text style={styles.text}>Submit Payment</Text>
-						</TouchableHighlight>
-
-					</View>
-				</View>
-				<AwesomeAlert
-					show={showAlert}
-					showProgress={false}
-					title="Payment Success"
-					message="You have successfully paid!"
-					closeOnTouchOutside={true}
-					closeOnHardwareBackPress={true}
-					showCancelButton={false}
-					showConfirmButton={false}
-					progressSize='50'
-					progressColor='green'
-					overlayStyle = {{
-						padding: 50,
-					}}
-					contentContainerStyle = {{
-						padding: 50,
-					}}
-				/>
-			</View>
-		)} else {
 			return (
-				<View  style={{backgroundColor:"white"}}>
-					<Header style={{ backgroundColor: "#E65100" }}>
-						<Left>
-							<IconMenu style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
-						</Left>
-						<Text style={styles.headerStyle}>Payment</Text>
-					</Header>
-					{/* <Image
+				<Container>
+					<View style={{ height: '100%', backgroundColor: "white" }}>
+						<Header style={{ backgroundColor: "#E65100" }}>
+							<Left>
+								<IconMenu style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+							</Left>
+							<Text style={styles.headerStyle}>Payment</Text>
+						</Header>
+						{/* <Image
 						style={styles.avatar}
 						source={{
 							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
 						}}
 					/> */}
-					<View style={styles.card}>
-						<View style={styles.inCard}>
-							<View style={styles.logo}>
-								<Text style={{ fontSize: 17 }}>VISA</Text>
-							</View>
-							<View style={styles.cardNumber}>
-								<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
-							</View>
-							<View style={styles.cardExpiration}>
-								<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+						<View style={styles.card}>
+							<View style={styles.inCard}>
+								<View style={styles.logo}>
+									<Text style={{ fontSize: 17 }}>VISA</Text>
+								</View>
+								<View style={styles.cardNumber}>
+									<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
+								</View>
+								<View style={styles.cardExpiration}>
+									<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+								</View>
 							</View>
 						</View>
-					</View>
 
-					<View style={{ height: 60 }}>
-						<TextInput
-							style={styles.inputNumber}
-							placeholder='Account Number'
-							onChangeText={Number => {
-								this.setState({ 'card[number]': Number });
-							}}
-						/>
-					</View>
-					<View style={styles.inputContainer}>
-						<TextInput
-							style={styles.inputExp_month}
-							placeholder='Exp_month'
-							onChangeText={Exp_month => {
-								this.setState({ 'card[exp_month]': Exp_month });
-							}}
-						/>
-						<TextInput style={styles.inputExp_year}
-							placeholder='Exp_year'
-							onChangeText={Exp_year => {
-								this.setState({ 'card[exp_year]': Exp_year });
-							}}
-						/>
-						<TextInput
-							style={styles.inputCvc}
-							placeholder='CVC'
-							onChangeText={cvc => {
-								this.setState({ 'card[cvc]': cvc });
-							}}
-						/>
-					</View>
-					<View style={styles.inputContainerPay}>
-						<TextInput
-							style={styles.inputExp_year}
-							placeholder="Money Amount '$'"
-							onChangeText={money => {
-								this.setState({ 'money': `${money}` });
-							}}
-						/>
-					</View>
-					<View style={styles.buttonContainer}>
-						<TouchableHighlight
-							style={styles.button}
-							onPress={this.requestPayment}
-						>
-							<Text style={styles.text}>Submit Payment</Text>
-						</TouchableHighlight>
+						<View style={{ height: 65 }}>
+							<TextInput
+								style={styles.inputNumber}
+								placeholder='Account Number'
+								onChangeText={Number => {
+									this.setState({ 'card[number]': Number });
+								}}
+							/>
+						</View>
+						<View style={styles.inputContainer}>
+							<TextInput
+								style={styles.inputExp_month}
+								placeholder='Exp_month'
+								onChangeText={Exp_month => {
+									this.setState({ 'card[exp_month]': Exp_month });
+								}}
+							/>
+							<TextInput style={styles.inputExp_year}
+								placeholder='Exp_year'
+								onChangeText={Exp_year => {
+									this.setState({ 'card[exp_year]': Exp_year });
+								}}
+							/>
+							<TextInput
+								style={styles.inputCvc}
+								placeholder='CVC'
+								onChangeText={cvc => {
+									this.setState({ 'card[cvc]': cvc });
+								}}
+							/>
+						</View>
+						<View style={styles.inputContainerPay}>
+							<TextInput
+								style={styles.inputMoney}
+								placeholder="Money Amount '$'"
+								onChangeText={money => {
+									this.setState({ 'money': `${money}` });
+								}}
+							/>
+						</View>
+						<View style={styles.pay}>
+							<TouchableHighlight
+								style={styles.button}
+								onPress={this.requestPayment}
+							>
+								<Text style={styles.text}>Submit Payment</Text>
+							</TouchableHighlight>
+						</View>
 
+						<AwesomeAlert
+							show={showAlert}
+							showProgress={false}
+							title="Payment Success"
+							message="You have successfully paid!"
+							closeOnTouchOutside={true}
+							closeOnHardwareBackPress={true}
+							showCancelButton={false}
+							showConfirmButton={false}
+							progressSize='50'
+							progressColor='green'
+							overlayStyle={{
+								padding: 50,
+							}}
+							contentContainerStyle={{
+								padding: 50,
+							}}
+						/>
 					</View>
-				</View>
+				</Container>
+			)
+		} else {
+			return (
+				<Container>
+					<View style={{ height: '100%', backgroundColor: "white" }}>
+						<Header style={{ backgroundColor: "#E65100" }}>
+							<Left>
+								<IconMenu style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
+							</Left>
+							<Text style={styles.headerStyle}>Payment</Text>
+						</Header>
+						{/* <Image
+						style={styles.avatar}
+						source={{
+							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
+						}}
+					/> */}
+						<View style={styles.card}>
+							<View style={styles.inCard}>
+								<View style={styles.logo}>
+									<Text style={{ fontSize: 17 }}>VISA</Text>
+								</View>
+								<View style={styles.cardNumber}>
+									<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
+								</View>
+								<View style={styles.cardExpiration}>
+									<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+								</View>
+							</View>
+						</View>
+
+						<View style={{ height: 65 }}>
+							<TextInput
+								style={styles.inputNumber}
+								placeholder='Account Number'
+								onChangeText={Number => {
+									this.setState({ 'card[number]': Number });
+								}}
+							/>
+						</View>
+						<View style={styles.inputContainer}>
+							<TextInput
+								style={styles.inputExp_month}
+								placeholder='Exp_month'
+								onChangeText={Exp_month => {
+									this.setState({ 'card[exp_month]': Exp_month });
+								}}
+							/>
+							<TextInput style={styles.inputExp_year}
+								placeholder='Exp_year'
+								onChangeText={Exp_year => {
+									this.setState({ 'card[exp_year]': Exp_year });
+								}}
+							/>
+							<TextInput
+								style={styles.inputCvc}
+								placeholder='CVC'
+								onChangeText={cvc => {
+									this.setState({ 'card[cvc]': cvc });
+								}}
+							/>
+						</View>
+						<View style={styles.inputContainerPay}>
+							<TextInput
+								style={styles.inputMoney}
+								placeholder="Money Amount '$'"
+								onChangeText={money => {
+									this.setState({ 'money': `${money}` });
+								}}
+							/>
+						</View>
+						<View style={styles.pay}>
+							<TouchableHighlight
+								style={styles.button}
+								onPress={this.requestPayment}
+							>
+								<Text style={styles.text}>Submit Payment</Text>
+							</TouchableHighlight>
+						</View>
+					</View>
+				</Container>
 			)
 		}
 	}
@@ -422,7 +426,7 @@ const styles = {
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: "stretch",
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 		marginLeft: 5,
 		marginRight: 5,
 
@@ -435,6 +439,9 @@ const styles = {
 		borderColor: 'black',
 		//borderWidth: 1,
 		backgroundColor: '#002C43',
+	},
+	pay: {
+		marginBottom: 150,
 	},
 	text: {
 		flexDirection: "column",
@@ -470,14 +477,14 @@ const styles = {
 		backgroundColor: "#FFFFFF",
 		margin: 5,
 		alignItems: "center",
-		borderWidth: 1
+		borderWidth: 1,
 	},
 	inputExp_month: {
 		flex: 3,
 		borderBottomColor: "black",
 		backgroundColor: "#FFFFFF",
 		width: 50,
-		height: 35,
+		height: 40,
 		alignItems: "center",
 		borderWidth: 1
 	},
@@ -486,7 +493,7 @@ const styles = {
 		borderBottomColor: "black",
 		backgroundColor: "#FFFFFF",
 		width: 50,
-		height: 35,
+		height: 40,
 		alignItems: "center",
 		borderWidth: 1,
 		marginLeft: 1,
@@ -496,10 +503,21 @@ const styles = {
 		borderBottomColor: "black",
 		backgroundColor: "#FFFFFF",
 		width: 50,
-		height: 35,
+		height: 40,
 		alignItems: "center",
 		borderWidth: 1,
 		marginLeft: 1,
+	},
+	inputMoney: {
+		flex: 3,
+		borderBottomColor: "black",
+		backgroundColor: "#FFFFFF",
+		width: 50,
+		height: 40,
+		alignItems: "center",
+		borderWidth: 2,
+		marginLeft: 1,
+		marginTop: 0,
 	},
 	avatar: {
 		width: 400,
