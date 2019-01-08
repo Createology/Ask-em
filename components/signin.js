@@ -238,12 +238,16 @@ class Signin extends Component {
 
           <Text style={styles.wrong}>{this.state.wrong}</Text>
 
-          <TouchableHighlight
-            style={styles.buttonContainer}
-            onPress={() => this.logoutBottun()}
-          >
-            <Text>Logout</Text>
-          </TouchableHighlight>
+          {this.state.loggedin !== "Login" ? (
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.loginButton]}
+              onPress={() => this.logoutBottun()}
+            >
+              <Text>Logout</Text>
+            </TouchableHighlight>
+          ) : (
+            <Text />
+          )}
         </View>
       </Container>
     );
