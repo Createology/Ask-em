@@ -328,13 +328,14 @@ const insertQuestion = (values, callback) => {
   );
 };
 
-
 const insertSmartQuestion = (values, callback) => {
   dbconnection.query(
-    `INSERT INTO smartquestions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${values[0]}\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
+    `INSERT INTO smartquestions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${
+      values[0]
+    }\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
     (err, result) => {
       if (err) {
-        console.log('db err', err)
+        console.log("db err", err);
         callback(err, null);
       } else {
         callback(null, result);
@@ -344,7 +345,7 @@ const insertSmartQuestion = (values, callback) => {
 };
 
 // 1 >> wich is active and 0 >> is not active
-const selectAllActiveSurveysNotAnswerd = (userID, callback) => {
+const selectAllActiveSurveysNotAnswerdByUser = (userID, callback) => {
   dbconnection.query(
     `SELECT * from surveys where (id NOT IN (SELECT id_surveys from answers where id_users = ${userID}) AND activated = '1') ORDER BY createdAt DESC `,
     (err, results) => {
@@ -389,8 +390,73 @@ const saveContactUs = (
   );
 };
 
+const selectAllLastNames = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT lastname from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllGenders = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT gender from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllBirthdays = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT birthday from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllChoicesOfQuestion = (questionID, callback) => {
+  dbconnection.query(
+    `SELECT choice from choices where id_qustions = ${questionID}`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+// const selectAllChoicesOfSurveyQuestions = (surveyID, callback) => {
+//   dbconnection.query(
+//     `select choice, questions.id from choices inner join questions on choices.id_qustions = questions.id and choices.id_suerveys = ${surveyID}`,
+//     (err, result) => {
+//       if (err) {
+//         callback(err, null);
+//       } else {
+//         callback(null, result);
+//       }
+//     }
+//   );
+// };
+
 module.exports.selectAll = selectAll;
-module.exports.selectAllActiveSurveysNotAnswerd = selectAllActiveSurveysNotAnswerd;
+module.exports.selectAllActiveSurveysNotAnswerdByUser = selectAllActiveSurveysNotAnswerdByUser;
 module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
 module.exports.selectUser = selectUser;
@@ -415,3 +481,8 @@ module.exports.selectAllAnsOfASurvey = selectAllAnsOfASurvey;
 module.exports.selectAllSmartAnsOfASurvey = selectAllSmartAnsOfASurvey;
 module.exports.selectAllAnsOfQus = selectAllAnsOfQus;
 module.exports.selectAllAnswerOfADummy = selectAllAnswerOfADummy;
+module.exports.selectAllLastNames = selectAllLastNames;
+module.exports.selectAllGenders = selectAllGenders;
+module.exports.selectAllBirthdays = selectAllBirthdays;
+module.exports.selectAllChoicesOfQuestion = selectAllChoicesOfQuestion;
+// module.exports.selectAllChoicesOfSurveyQuestions = selectAllChoicesOfSurveyQuestions;
