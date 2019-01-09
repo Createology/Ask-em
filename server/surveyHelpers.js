@@ -1,24 +1,5 @@
 const DB = require("../database/index");
 
-const saveSurvey = (req, res) => {
-  const { id_users, survey_name, category, description, activated } = req.body;
-  DB.insertSurvey(
-    id_users,
-    survey_name,
-    category,
-    description,
-    activated,
-    (err, result) => {
-      if (result) {
-        res.status(200).send(result);
-      } else {
-        console.log("err");
-        res.status(404).send("Error saving survey!");
-      }
-    }
-  );
-};
-
 getAllSurveysOfUser = (req, res) => {
   const { id } = req.body;
   DB.selectAllSurveysOfUser(id, (err, result) => {
@@ -31,7 +12,7 @@ getAllSurveysOfUser = (req, res) => {
 };
 
 getAllSurveys = (req, res) => {
-  DB.selectAllActiveSurveysNotAnswerd(req.body.id, (err, result) => {
+  DB.selectAllActiveSurveysNotAnswerdByUser(req.body.id, (err, result) => {
     if (result) {
       res.status(200).send(result);
     } else {
@@ -41,40 +22,76 @@ getAllSurveys = (req, res) => {
   });
 };
 
-const fillQuestion = (req, res) => {
-  if (req.body.question) {
-    const { id_surveys, id_users, question } = req.body;
-    DB.insertQuestion([id_surveys, id_users, question], (err, results) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(404);
-      }
-      if (results) {
-        res.status(200).send(results);
-      }
-    });
-  } else {
-    res.status(402).send("no question");
-  }
+getAllSurveysAnsweredByUser = (req, res) => {
+  DB.selectAllSurveysAnsweredByUser(req.body.id, (err, results) => {
+    if (err) throw err;
+    res.status(200).send(results);
+  });
 };
-// modifa
-const fillSmartQuestion = (req, res) => {
-  if (req.body.question) {
-    const { id_surveys, id_users, question } = req.body;
-    DB.insertSmartQuestion([id_surveys, id_users, question], (err, results) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(404);
-      }
-      if (results) {
-        res.status(200).send(results);
-      }
-    });
-  } else {
-    res.status(402).send("no question");
-  }
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
+const getAllQuestionsOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllQuestionsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
 };
 
+const getAllSmartQuestionsOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllSmartQuestionsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
+const getAllAnswOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllAnsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllSmartAnswOfASurvey = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllSmartAnsOfASurvey(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user surveys questions!");
+    }
+  });
+};
+
+const getAllDummyAnswer = (req, res) => {
+  const { surveyID } = req.body;
+  DB.selectAllAnswerOfADummy(surveyID, (err, result) => {
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting getAllDummyAnswer!");
+    }
+  });
+};
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
 const fillAnswer = (req, res) => {
   console.log("fillAnswer", req.body);
   const { answer, id_question, id_users, id_surveys } = req.body;
@@ -158,85 +175,179 @@ const fillDummyAnswer = (req, res) => {
     res.status(402).send("no answer");
   }
 };
-
-const getAllQuestionsOfASurvey = (req, res) => {
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
+const fillQuestion = (req, res) => {
+  if (req.body.question) {
+    const { id_surveys, id_users, question } = req.body;
+    DB.insertQuestion([id_surveys, id_users, question], (err, results) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(404);
+      }
+      if (results) {
+        res.status(200).send(results);
+      }
+    });
+  } else {
+    res.status(402).send("no question");
+  }
+};
+// modifa
+const fillSmartQuestion = (req, res) => {
+  if (req.body.question) {
+    const { id_surveys, id_users, question } = req.body;
+    DB.insertSmartQuestion([id_surveys, id_users, question], (err, results) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(404);
+      }
+      if (results) {
+        res.status(200).send(results);
+      }
+    });
+  } else {
+    res.status(402).send("no question");
+  }
+};
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
+const saveSurvey = (req, res) => {
+  const { id_users, survey_name, category, description, activated } = req.body;
+  DB.insertSurvey(
+    id_users,
+    survey_name,
+    category,
+    description,
+    activated,
+    (err, result) => {
+      if (result) {
+        res.status(200).send(result);
+      } else {
+        console.log("err");
+        res.status(404).send("Error saving survey!");
+      }
+    }
+  );
+};
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
+const getAllLastNames = (req, res) => {
   const { surveyID } = req.body;
-  DB.selectAllQuestionsOfASurvey(surveyID, (err, result) => {
+  console.log(surveyID);
+  DB.selectAllLastNames(surveyID, (err, result) => {
     if (result) {
+      console.log("===selectLastNames===");
       res.status(200).send(result);
     } else {
       console.log(err);
-      res.status(404).send("Error getting user surveys questions!");
+      res.status(404).send("Error getting user survey lastnames!");
     }
   });
 };
 
-const getAllSmartQuestionsOfASurvey = (req, res) => {
+const getAllGenders = (req, res) => {
   const { surveyID } = req.body;
-  DB.selectAllSmartQuestionsOfASurvey(surveyID, (err, result) => {
+  DB.selectAllGenders(surveyID, (err, result) => {
     if (result) {
+      console.log("===selectGenders===");
+      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
-      res.status(404).send("Error getting user surveys questions!");
+      res.status(404).send("Error getting user survey lastnames!");
     }
   });
 };
 
-const getAllAnswOfASurvey = (req, res) => {
+const getAllBirthdays = (req, res) => {
   const { surveyID } = req.body;
-  DB.selectAllAnsOfASurvey(surveyID, (err, result) => {
+  DB.selectAllBirthdays(surveyID, (err, result) => {
     if (result) {
+      console.log("===selectBirthdays===");
+      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
-      res.status(404).send("Error getting user surveys questions!");
+      res.status(404).send("Error getting user survey lastnames!");
     }
   });
 };
 
-const getAllSmartAnswOfASurvey = (req, res) => {
-  const { surveyID } = req.body;
-  DB.selectAllSmartAnsOfASurvey(surveyID, (err, result) => {
+const getAllActiveSurveysNotAnswerdByUser = (req, res) => {
+  const { id_users } = req.body;
+  DB.selectAllActiveSurveysNotAnswerdByUser(id_users, (err, result) => {
     if (result) {
+      console.log("===selectAllActiveSurveysNotAnswerdByUser===");
+      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
-      res.status(404).send("Error getting user surveys questions!");
+      res.status(404).send("Error getting AllActiveSurveysNotAnswerdByUser!");
     }
   });
 };
 
-const getAllDummyAnswer = (req, res) => {
-  const { surveyID } = req.body;
-  DB.selectAllAnswerOfADummy(surveyID, (err, result) => {
+const getAllChoicesOfQuestion = (req, res) => {
+  const { questionID } = req.body;
+  DB.selectAllChoicesOfQuestion(questionID, (err, result) => {
     if (result) {
+      console.log("=== getAllChoicesOfQuestion ===");
+      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
-      res.status(404).send("Error getting getAllDummyAnswer!");
+      res.status(404).send("Error getting AllChoicesOfQuestion!");
     }
   });
 };
 
-getAllSurveysAnsweredByUser = (req, res) => {
-  DB.selectAllSurveysAnsweredByUser(req.body.id, (err, results) => {
-    if (err) throw err;
-    res.status(200).send(results);
-  });
-};
-
-module.exports.saveSurvey = saveSurvey;
+// const getAllChoicesOfSurveyQuestions = (req, res) => {
+//   const { surveyID } = req.body;
+//   DB.selectAllChoicesOfSurveyQuestions(surveyID, (err, result) => {
+//     if (result) {
+//       console.log("=== getAllChoicesOfSurveyQuestions ===");
+//       console.log(result);
+//       res.status(200).send(result);
+//     } else {
+//       console.log(err);
+//       res.status(404).send("Error getting AllChoicesOfSurveyQuestions!");
+//     }
+//   });
+// };
+//get surveys
 module.exports.getAllSurveys = getAllSurveys;
 module.exports.getAllSurveysOfUser = getAllSurveysOfUser;
-module.exports.fillSmartAnswer = fillSmartAnswer;
-module.exports.fillAnswer = fillAnswer;
-module.exports.getAllQuestionsOfASurvey = getAllQuestionsOfASurvey;
 module.exports.getAllSurveysAnsweredByUser = getAllSurveysAnsweredByUser;
-module.exports.fillSmartQuestion = fillSmartQuestion;
-module.exports.fillQuestion = fillQuestion;
-module.exports.fillDummyAnswer = fillDummyAnswer;
+module.exports.getAllActiveSurveysNotAnswerdByUser = getAllActiveSurveysNotAnswerdByUser;
+// module.exports.getAllChoicesOfSurveyQuestions = getAllChoicesOfSurveyQuestions;
+
+//get questions
+module.exports.getAllQuestionsOfASurvey = getAllQuestionsOfASurvey;
 module.exports.getAllSmartQuestionsOfASurvey = getAllSmartQuestionsOfASurvey;
+module.exports.getAllChoicesOfQuestion = getAllChoicesOfQuestion;
+
+//get answers
 module.exports.getAllAnswOfASurvey = getAllAnswOfASurvey;
 module.exports.getAllSmartAnswOfASurvey = getAllSmartAnswOfASurvey;
 module.exports.getAllDummyAnswer = getAllDummyAnswer;
+//;-----------------------;/------------------]
+
+//fill answer
+module.exports.fillAnswer = fillAnswer;
+module.exports.fillDummyAnswer = fillDummyAnswer;
+module.exports.fillSmartAnswer = fillSmartAnswer;
+
+//fill question
+module.exports.fillQuestion = fillQuestion;
+module.exports.fillSmartQuestion = fillSmartQuestion;
+//;-----------------------;/------------------]
+
+//insert survey
+module.exports.saveSurvey = saveSurvey;
+//;-----------------------;/------------------]
+
+//dumb statistics
+module.exports.getAllLastNames = getAllLastNames;
+module.exports.getAllGenders = getAllGenders;
+module.exports.getAllBirthdays = getAllBirthdays;
