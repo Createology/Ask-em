@@ -3,13 +3,28 @@ import { View, Text as Textnative, StyleSheet } from "react-native";
 import { BarChart, Grid } from "react-native-svg-charts";
 import { Text } from "react-native-svg";
 import { Col, Row, Grid as GridEasy } from "react-native-easy-grid";
-import { Container } from "native-base";
+import {
+  Container,
+  Header,
+  Content,
+  Button,
+  Input,
+  Form,
+  Label,
+  Left,
+  Right,
+  Textarea,
+  Toast,
+  Spinner,
+  Text as Textbase
+} from "native-base";
+import PropTypes from "prop-types";
 
 class SurveyStats extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      surveyAnswers: props.surveyAnswers,
+      // surveyAnswers: props.surveyAnswers,
       avgAge: 0,
       highestPercentFamilyName: "",
       highestPercentFamilyNameKey: "",
@@ -20,84 +35,109 @@ class SurveyStats extends React.PureComponent {
       highestPercentGender: "",
       highestPercentGenderKey: "",
       data: [],
+      test: [1, 2, 3],
       statsAnswersKeys: [],
-      ages: [23, 25, 33, 29, 26, 28, 24, 27],
-      familyNames: [
-        "dulaimi",
-        "khudhairi",
-        "anaqreh",
-        "rawashdeh",
-        "hajhussein",
-        "dulaimi"
-      ],
-      maritalStatuses: [
-        "single",
-        "married",
-        "divorced",
-        "widowed",
-        "seperated",
-        "single"
-      ],
-      educationLevels: [
-        "primary",
-        "secondary",
-        "high",
-        "bachelor",
-        "master",
-        "doctoral",
-        "doctoral"
-      ],
-      genders: ["male", "female", "male", "male", "female", "male"]
+      ages: [1, 2],
+      familyNames: ["default"],
+      maritalStatuses: ["default"],
+      educationLevels: ["default"],
+      genders: ["male"]
     };
   }
-  async componentWillMount() {
-    let that = this;
-    // console.warn(this.state.familyNames);
-    await this.setState({
-      highestPercentFamilyName: that.getHighestPercent(that.state.familyNames),
-      highestPercentMaritalStatus: that.getHighestPercent(
-        that.state.maritalStatuses
-      ),
-      highestPercentEducationLevel: that.getHighestPercent(
-        that.state.educationLevels
-      ),
-      highestPercentGender: that.getHighestPercent(that.state.genders),
-      highestPercentFamilyNameKey: that.getHighestPercentKey(
-        that.state.familyNames
-      ),
-      highestPercentMaritalStatusKey: that.getHighestPercentKey(
-        that.state.maritalStatuses
-      ),
-      highestPercentEducationLevelKey: that.getHighestPercentKey(
-        that.state.educationLevels
-      ),
-      highestPercentGenderKey: that.getHighestPercentKey(that.state.genders),
-      avgAge: that.calculateProbabilities(that.state.ages)
-    });
 
-    await this.setState({
-      data: [
-        that.state.highestPercentFamilyName,
-        that.state.highestPercentMaritalStatus,
-        that.state.highestPercentEducationLevel,
-        that.state.highestPercentGender,
-        that.state.avgAge
-      ]
-    });
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.birthdays !== this.props.birthdays) {
+      console.warn("ages1", this.state.ages, "test1", this.state.test);
+      await this.setState({
+        ages: nextProps.birthdays.map(({ birthday }) => {
+          return Math.floor(
+            (new Date() - new Date(birthday)) / 1000 / 60 / 60 / 24 / 30 / 12
+          );
+        })
+      });
+      console.warn("ages2", this.state.ages, "test2", this.state.test);
+    }
 
-    await this.setState({
-      statsAnswersKeys: [
-        that.state.highestPercentFamilyNameKey,
-        that.state.highestPercentMaritalStatusKey,
-        that.state.highestPercentEducationLevelKey,
-        that.state.highestPercentGenderKey
-      ]
-    });
+    if (nextProps.genders !== this.props.genders) {
+      console.warn("genders1", this.state.genders, "test1", this.state.test);
+      await this.setState({
+        genders: nextProps.genders.map(({ gender }) => {
+          if (gender === "1") {
+            return "female";
+          } else {
+            return "male";
+          }
+        })
+      });
+      console.warn("genders2", this.state.genders, "test2", this.state.test);
+    }
+
+    if (nextProps.lastnames !== this.props.lastnames) {
+      console.warn(
+        "lastnames1",
+        this.state.lastnames,
+        "test1",
+        this.state.test
+      );
+      await this.setState({
+        lastnames: nextProps.lastnames.map(({ lastname }) => lastname)
+      });
+      console.warn(
+        "lastnames2",
+        this.state.lastnames,
+        "test2",
+        this.state.test
+      );
+    }
   }
+  // async componentWillReceiveProps(nextProps) {
+  //   // console.warn(this.state.familyNames);
+  //   console.warn("OMAR", this.state.ages, "test", this.state.test);
+  //   if (this.props.birthdays !== nextProps.birthdays) {
+  //     await this.setState({
+  //       highestPercentFamilyName: this.getHighestPercent(
+  //         this.state.familyNames
+  //       ),
+  //       highestPercentMaritalStatus: this.getHighestPercent(
+  //         this.state.maritalStatuses
+  //       ),
+  //       highestPercentEducationLevel: this.getHighestPercent(
+  //         this.state.educationLevels
+  //       ),
+  //       highestPercentGender: this.getHighestPercent(this.state.genders),
+  //       highestPercentFamilyNameKey: this.getHighestPercentKey(
+  //         this.state.familyNames
+  //       ),
+  //       highestPercentMaritalStatusKey: this.getHighestPercentKey(
+  //         this.state.maritalStatuses
+  //       ),
+  //       highestPercentEducationLevelKey: this.getHighestPercentKey(
+  //         this.state.educationLevels
+  //       ),
+  //       highestPercentGenderKey: this.getHighestPercentKey(this.state.genders),
+  //       avgAge: this.calculateProbabilities(this.state.ages)
+  //     });
 
-  componentDidMount() {
-    // let that = this;
-  }
+  //     await this.setState({
+  //       data: [
+  //         this.state.highestPercentFamilyName,
+  //         this.state.highestPercentMaritalStatus,
+  //         this.state.highestPercentEducationLevel,
+  //         this.state.highestPercentGender,
+  //         this.state.avgAge
+  //       ]
+  //     });
+
+  //     await this.setState({
+  //       statsAnswersKeys: [
+  //         this.state.highestPercentFamilyNameKey,
+  //         this.state.highestPercentMaritalStatusKey,
+  //         this.state.highestPercentEducationLevelKey,
+  //         this.state.highestPercentGenderKeyr
+  //       ]
+  //     });
+  //   }
+  // }
 
   calculateProbabilities = items => {
     const array = items.slice();
@@ -105,22 +145,20 @@ class SurveyStats extends React.PureComponent {
     if (typeof array[0] === "string") {
       if (array.includes("male") || array.includes("female")) {
         const arrayLength = array.length;
-        probabilities["female"] = Math.round(
-          (array.join("").match(new RegExp("female", "g")).length /
-            array.length) *
-            100
-        );
-
+        let femaleCounts = 0;
+        let maleCounts = 0;
         for (let i = 0; i < array.length; i++) {
           if (array[i] === "female") {
-            array.splice(array.indexOf("female"), 1);
+            femaleCounts++;
+          }
+          if (array[i] === "male") {
+            maleCounts++;
           }
         }
-
-        probabilities["male"] = Math.round(
-          (array.join("").match(new RegExp("male", "g")).length / arrayLength) *
-            100
+        probabilities["female"] = Math.round(
+          (femaleCounts / array.length) * 100
         );
+        probabilities["male"] = Math.round((maleCounts / array.length) * 100);
       } else {
         array.forEach((item, index) => {
           probabilities[item] = Math.round(
@@ -152,11 +190,17 @@ class SurveyStats extends React.PureComponent {
   };
 
   render() {
+    // console.warn("stat", this.state.ages);
     if (
       this.state.data.length === 0 ||
       this.state.statsAnswersKeys.length === 0
     ) {
-      return <Textnative>Waiting for data!</Textnative>;
+      return (
+        <View style={{ justifyContent: "center", flex: 1 }}>
+          <Spinner color="#E65100" />
+          <Textbase style={{ textAlign: "center" }}>Loading...</Textbase>
+        </View>
+      );
     } else {
       const { data } = this.state;
       const CUT_OFF = 20;
@@ -200,7 +244,7 @@ class SurveyStats extends React.PureComponent {
                   <BarChart
                     style={{ flex: 1 }}
                     data={data}
-                    svg={{ fill: "rgba(134, 65, 244, 0.8)" }}
+                    svg={{ fill: this.props.randomColor }}
                     contentInset={{ top: 10, bottom: 10 }}
                     spacing={0.2}
                     gridMin={0}
@@ -242,10 +286,11 @@ class SurveyStats extends React.PureComponent {
   }
 }
 
-const styles = StyleSheet.create({
-  chartCaption: {
-    alignSelf: "center"
-  }
-});
-
 export default SurveyStats;
+
+SurveyStats.propTypes = {
+  birthdays: PropTypes.array,
+  genders: PropTypes.array,
+  lastnames: PropTypes.array,
+  randomColor: PropTypes.string
+};
