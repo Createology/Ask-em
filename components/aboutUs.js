@@ -4,13 +4,14 @@ import {
   TouchableHighlight,
   View,
   Alert,
-  StyleSheet
+  StyleSheet,
+  Image
 } from "react-native";
 import { Container, Header, Text, Left, Icon, Right } from "native-base";
 
 export default class AboutUs extends Component {
   static navigationOptions = {
-    drawerIcon: () => <Icon name="star" style={{ fontSize: 30 }} />
+    drawerIcon: () => <Icon name="star" style={{ fontSize: 30 , color:"#ffdd42" }} />
   };
   state = {
     modalVisible: false
@@ -37,15 +38,17 @@ export default class AboutUs extends Component {
             <Text style={styles.headerStyle}>Contact Us</Text>
           </Header>
         </View>
-        <View style={{ marginTop: 22 }}>
+        <View style={styles.modalContainer}>
           <Modal
             animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
             onRequestClose={() => {}}
           >
-            <View style={{ marginTop: 22 }}>
+            <View style={{ marginTop: 30 }}>
               <View>
+                <Image style={{ alignSelf:"center" }} source={require("./ask.png")} />
+
                 <Text style={styles.textTitle}>
                   Ask'Em is a smart mobile app that uses machine learning to
                   achieve customers satisfaction. this app will give you the
@@ -62,15 +65,17 @@ export default class AboutUs extends Component {
                     this.setModalVisible(!this.state.modalVisible);
                   }}
                 >
-                  <Right>
-                    <Text>Back</Text>
-                  </Right>
+                  <Text
+                    style={{ color: "red", textAlign: "right", margin: 20 }}
+                  >
+                  {"<<<Back"}
+                  </Text>
                 </TouchableHighlight>
               </View>
             </View>
           </Modal>
-          <View style={{ backgroundColor: "white" }}>
-            <Text>
+          <View style={{ justifyContent: "center" }}>
+            <Text style={styles.textTitle}>
               Ask'Em is a smart mobile app that uses machine learning to achieve
               customers satisfaction. this app will give you the opportunity to
               start your own business on a sure-footed.
@@ -80,9 +85,9 @@ export default class AboutUs extends Component {
                 this.setModalVisible(true);
               }}
             >
-              <Right>
-                <Text style={{color:"red"}}>See more>>></Text>
-              </Right>
+              <Text style={{ color: "red", textAlign: "right" }}>
+                See more>>>
+              </Text>
             </TouchableHighlight>
           </View>
         </View>
@@ -100,10 +105,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   textTitle: {
-    fontSize: 25,
-    textAlignVertical: "center",
-    textAlign: "center",
-    marginBottom: 40,
+    fontSize: 19,
+    // textAlignVertical: "center",
+    // textAlign: "center",
+    margin: 40,
     fontFamily: "Roboto"
   },
   textScreenElements: {
@@ -115,28 +120,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Roboto"
   },
-  input: {
-    height: 50,
-    backgroundColor: "rgba(0, 0, 255, 0.2)",
-    marginBottom: 20,
-    color: "#FFF",
-    paddingHorizontal: 10,
-    fontSize: 18
-  },
   modalContainer: {
-    width: "80%"
-  },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20
-  },
-  buttonCancel: {
-    width: "45%"
-  },
-  buttonSend: {
-    width: "45%"
+    width: "80%",
+    backgroundColor: "white"
   },
   headerStyle: {
     flex: 1,
