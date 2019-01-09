@@ -316,6 +316,28 @@ const getAllChoicesOfQuestion = (req, res) => {
 //   });
 // };
 //get surveys
+getAnswerOfAResult = (req, res) => {
+  console.log("enter ");
+  const { id_suervey } = req.body;
+  DB.selectAnswerOfAResult(id_suervey, (err, results) => {
+    if (results) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send("Error getting getAnswerOfAResult!");
+    }
+  });
+};
+
+addAnswerOfAResult = (req, res) => {
+  const { id_suervey, answer } = req.body;
+  DB.addAnswerOfAResult(id_suervey, answer, (err, results) => {
+    if (results) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send("Error getting addAnswerOfAResult!");
+    }
+  });
+};
 module.exports.getAllSurveys = getAllSurveys;
 module.exports.getAllSurveysOfUser = getAllSurveysOfUser;
 module.exports.getAllSurveysAnsweredByUser = getAllSurveysAnsweredByUser;
@@ -351,3 +373,8 @@ module.exports.saveSurvey = saveSurvey;
 module.exports.getAllLastNames = getAllLastNames;
 module.exports.getAllGenders = getAllGenders;
 module.exports.getAllBirthdays = getAllBirthdays;
+
+//;-----------------------;/------------------]
+// brain result
+module.exports.getAnswerOfAResult = getAnswerOfAResult;
+module.exports.addAnswerOfAResult = addAnswerOfAResult;
