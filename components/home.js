@@ -238,7 +238,8 @@ export default class Home extends Component {
       surveyName,
       loggedin,
       surveyUserID,
-      surveyID
+      surveyID,
+      userID
     } = this.state;
 
     const { navigation } = this.props;
@@ -280,6 +281,7 @@ export default class Home extends Component {
               surveyCategory={surveyCategory}
               submitModalHandler={this.onPressSubmitModal.bind(this)}
               surveyID={surveyID}
+              userID={userID}
             />
             <SurveyListThumbnails
               allSurveys={allSurveysInfo}

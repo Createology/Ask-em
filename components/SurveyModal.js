@@ -33,6 +33,7 @@ import {
 import { Icon, Divider } from "react-native-elements";
 import IconAwesome from "react-native-vector-icons/FontAwesome";
 import Question from "./Question";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const ip = require("../ip.json");
 
@@ -49,18 +50,18 @@ export default class SurveyModal extends Component {
       smartQuestions: [],
       allChoicesOfQuestion: [],
       surveyID: "",
-      clicked: ""
+      clicked: "",
+      input: '',
+      ids: [],
+      showAlert: false
     };
   }
 
   async componentWillReceiveProps(nextProps) {
     if (this.props.surveyID !== nextProps.surveyID) {
-      // console.warn("surveyID2: ", nextProps.surveyID);
       await this.setState({
         surveyID: nextProps.surveyID
       });
-      // console.warn(this.props.surveyID);
-      // console.warn("surveyID3: ", this.state.surveyID);
       this.getQuestions(this.props.surveyID);
       this.getSmartQuestions(this.props.surveyID);
     }
@@ -81,7 +82,6 @@ export default class SurveyModal extends Component {
         return response.json();
       })
       .then(res => {
-        console.warn("lol", res);
         this.setState({
           questions: res
         });
@@ -92,12 +92,11 @@ export default class SurveyModal extends Component {
         });
       })
       .done(() => {
-        console.warn("questions: ", this.state.questions);
-        console.warn("questionsIDs: ", this.state.questionsIDs);
       });
   }
 
   getSmartQuestions(surveyID) {
+    var scope = this;
     fetch(`${ip}:3000/question/smart/get`, {
       method: "POST",
       headers: {
@@ -112,15 +111,66 @@ export default class SurveyModal extends Component {
         return response.json();
       })
       .then(res => {
-        // console.warn(res);
         this.setState({
           smartQuestions: res
         });
+        var idsState = scope.state.ids;
+        for (var i = 0; i < res.length; i++) {
+          idsState.push(res[i].id)
+          this.setState({
+            [res[i].id]: '',
+            ids: idsState
+          });
+        }
       })
       .done(() => {
-        console.warn("smart questions: ", this.state.smartQuestions);
       });
   }
+
+  sendSmartAnswers() {
+    var sendBody = [];
+    const scope = this;
+    for (var i = 0; i < this.state.ids.length; i++) {
+      var id = this.state.ids[i]
+      sendBody.push({
+        smartanswer: this.state[id],
+        Truth: 1,
+        id_smartquestions: this.state.ids[i],
+        id_users: this.props.userID,
+        id_surveys: this.props.surveyID
+      })
+    }
+    fetch(`${ip}:3000/answer/smart/add`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(sendBody)
+    })
+      .then(response => {
+        this.showAlert()
+        setTimeout(function () { scope.hideAlert(); }, 2000);
+        setTimeout(function () { scope.props.showHandler(false) }, 500);
+        response.json();
+      })
+      .then(res => {
+      })
+      .done(() => {
+      });
+  }
+
+  showAlert = () => {
+		this.setState({
+			showAlert: true
+		});
+	};
+
+	hideAlert = () => {
+		this.setState({
+			showAlert: false
+		});
+	};
 
   render() {
     const {
@@ -131,8 +181,8 @@ export default class SurveyModal extends Component {
       allChoicesOfQuestion,
       smartQuestions,
       questionsIDs,
-      questions
-      // sortedSurveyChoicesclicked
+      questions,
+      showAlert
     } = this.state;
     return (
       <Root>
@@ -140,7 +190,7 @@ export default class SurveyModal extends Component {
           animationType="slide"
           transparent={false}
           visible={this.props.visibility}
-          onRequestClose={() => {}}
+          onRequestClose={() => { }}
         >
           <ScrollView>
             <View style={styles.container}>
@@ -331,14 +381,12 @@ export default class SurveyModal extends Component {
                           </Text>
                         </Left>
                         <Right style={{ flex: 1 }}>
-                          {console.warn("questiondID: ", id)}
                           <Question questionID={id} key={id} />
                         </Right>
                       </View>
                     ))}
 
                   <Separator bordered>
-                    <Textbase />
                   </Separator>
 
                   {Array.isArray(this.state.smartQuestions) &&
@@ -358,6 +406,11 @@ export default class SurveyModal extends Component {
                             <Input
                               underline
                               multiline
+                              onChangeText={text => {
+                                this.setState({
+                                  [id]: text
+                                })
+                              }}
                               style={{ color: "#E65100" }}
                             />
                           </Item>
@@ -373,10 +426,11 @@ export default class SurveyModal extends Component {
                       full
                       block
                       onPress={() => {
-                        this.props.submitModalHandler(
-                          selectedEducation,
-                          selectedMarital
-                        );
+                        this.sendSmartAnswers()
+                        // this.props.submitModalHandler(
+                        //   selectedEducation,
+                        //   selectedMarital
+                        // );
                       }}
                     >
                       {/* need to changeicon color */}
@@ -403,6 +457,24 @@ export default class SurveyModal extends Component {
               </View>
             </View>
           </ScrollView>
+          <AwesomeAlert
+							show={showAlert}
+							showProgress={false}
+							title="Payment Success"
+							message="You have successfully paid!"
+							closeOnTouchOutside={true}
+							closeOnHardwareBackPress={true}
+							showCancelButton={false}
+							showConfirmButton={false}
+							progressSize='50'
+							progressColor='green'
+							overlayStyle={{
+								padding: 50,
+							}}
+							contentContainerStyle={{
+								padding: 50,
+							}}
+						/>
         </Modal>
       </Root>
     );

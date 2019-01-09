@@ -51,7 +51,6 @@ export default class Question extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    console.warn("nextProps.questionID", nextProps.questionID);
     if (this.props.questionID !== nextProps.questionID) {
       // console.warn("questionID2: ", nextProps.questionID);
       this.setState({

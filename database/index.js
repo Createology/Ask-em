@@ -257,15 +257,13 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
 };
 
 const insertSmartAnswer = (
-  smartanswer,
-  Truth,
-  id_smartquestions,
-  id_users,
-  id_surveys,
+  values,
   callback
 ) => {
-  dbconnection.query(
-    `INSERT INTO smart (id, smartanswer,Truth, id_smartquestions, id_users, id_surveys) VALUES(null, \"${smartanswer}\",\"${Truth}\",\"${id_smartquestions}\",\"${id_users}\",\"${id_surveys}\")`,
+  var sql = `INSERT INTO smart (smartanswer,Truth, id_smartquestions, id_users, id_surveys) VALUES ?`;
+  var editedValues = values.map(answer => Object.values(answer));
+
+  dbconnection.query(sql, [editedValues],
     (err, result) => {
       if (err) {
         console.log("err", err);
