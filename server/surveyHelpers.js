@@ -74,7 +74,7 @@ const getAllSmartAnswOfASurvey = (req, res) => {
       res.status(200).send(result);
     } else {
       console.log(err);
-      res.status(404).send("Error getting user surveys questions!");
+      res.status(404).send("Error getting survey smart answers!");
     }
   });
 };
@@ -122,21 +122,11 @@ const fillAnswer = (req, res) => {
 // modifaied
 const fillSmartAnswer = (req, res) => {
   if (req.body) {
-    const {
-      smartanswer,
-      Truth,
-      id_smartquestions,
-      id_users,
-      id_surveys
-    } = req.body;
     DB.insertSmartAnswer(
-      smartanswer,
-      Truth,
-      id_smartquestions,
-      id_users,
-      id_surveys,
+      req.body,
       (err, results) => {
         if (err) {
+          console.log(err)
           res.sendStatus(404);
         } else {
           res.status(200).send(results);
