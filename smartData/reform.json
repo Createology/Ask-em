@@ -1,0 +1,38 @@
+[
+  {
+    "input": "Madfjkvnldksmvcsdklmvclskdmvlsmdklvsdke,1,5,YES,sure I love KFCvsevsevsev",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Dmvk;smvlkmrvks;melseposv,;elmvpsoermvs;lo,20,6,yup,mm annoyingvsevsvsevsevsev",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Hvmkelmvsoiekmvse;kmvspoiemvseoinvselkvmsei,2,2,no,yesesvevsevsvsevsevsevs",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "mveklmvslvkmsekvnsekvnsekvms;evklsemvMe,0,5,I love cinemas,sure a mall with food court is a must",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Wms;lvmesmvpoespemslke vs;lemvopsekvsill,15,4,I hate cinemas,no its not a mustcecse",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "S;mseovmeovijmepk;vmselvnisoev;oeksmvee,10,3,yes big one,yesniknknlsdvevsecescse",
+    "output": {
+      "no": 1
+    }
+  }
+]
