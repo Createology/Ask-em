@@ -1,0 +1,250 @@
+[
+    {
+        "input": "yes",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "yes",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "Yes",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "no",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "No",
+        "output": {
+            "no": 1
+        }
+    }
+    ,
+    {
+        "input": "rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "poor",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "marka rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "khalda poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "khalda",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "kursi poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "kursi",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "jandaweel poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "jandaweel",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "tariq",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "tabarbour rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "abu nseir rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "bader al-jadeedah poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "bader al-jadeedah",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "al-yarmouk rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "al-nasr rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "al-mgablein rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "al-mgablein",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "al-madinah",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "al-jeezah rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "badr al-jadeedah poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "badr al-jadeedah",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "basman rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "kherbet al-souq rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "qweismeh rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "ras al-ein rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "ras al-ein",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "shafa rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "tla' al-ali poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+
+    {
+        "input": "uhod rich",
+        "output": {
+            "no": 1
+        }
+    },
+    {
+        "input": "wadi al-sair poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "wadi al-sair",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "zahran poor anagreh",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "zahran",
+        "output": {
+            "yes": 1
+        }
+    },
+    {
+        "input": "khalda khalda",
+        "output": {
+            "yes": 1
+        }
+    }
+]
