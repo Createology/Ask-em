@@ -63,6 +63,10 @@ app.post("/answer/smart/get", surveyHelpers.getAllSmartAnswOfASurvey);
 app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
 app.post("answer/dumb/get", surveyHelpers.getAllAnswOfASurvey);
+
+app.post("/answer/res/get", surveyHelpers.getAnswerOfAResult);
+
+app.post("/answer/res/add", surveyHelpers.addAnswerOfAResult);
 //;-----------------------;/------------------]
 
 //;-----------------------;

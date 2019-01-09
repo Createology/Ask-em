@@ -371,6 +371,46 @@ const selectAllAnswerOfADummy = (surveyID, callback) => {
   );
 };
 
+const selectAnswerOfAResult = (id_suervey, callback) => {
+  dbconnection.query(
+    `SELECT * from result where id_suervey = ${id_suervey}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
+// const fillAnswerOfAResult = (id_suervey, answer, callback) => {
+//   dbconnection.query(
+//     `INSERT INTO result (id,id_suervey,answer,createdAt) VALUES (NULL, , , CURRENT_TIMESTAMP)`,
+//     (err, results) => {
+//       if (err) {
+//         callback(err, null);
+//       } else {
+//         callback(null, results);
+//       }
+//     }
+//   );
+// };
+
+const addAnswerOfAResult = (id_suervey, answer, callback) => {
+  dbconnection.query(
+    `INSERT INTO result (id, id_suervey, answer, createdAt) VALUES(null, \"${id_suervey}\",\"${answer}\",CURRENT_TIMESTAMP)`,
+    (err, result) => {
+      if (err) {
+        console.log("err", err);
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
 const saveContactUs = (
   id_user,
   username,
@@ -486,3 +526,5 @@ module.exports.selectAllGenders = selectAllGenders;
 module.exports.selectAllBirthdays = selectAllBirthdays;
 module.exports.selectAllChoicesOfQuestion = selectAllChoicesOfQuestion;
 // module.exports.selectAllChoicesOfSurveyQuestions = selectAllChoicesOfSurveyQuestions;
+module.exports.selectAnswerOfAResult = selectAnswerOfAResult;
+module.exports.addAnswerOfAResult = addAnswerOfAResult;
