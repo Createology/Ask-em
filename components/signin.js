@@ -26,11 +26,13 @@ import {
   Form,
   Spinner
 } from "native-base";
+import { Icon } from 'react-native-elements';
+
 const ip = require("../ip.json");
 
 class Signin extends Component {
   static navigationOptions = {
-    drawerIcon: () => <Icon name="star" style={{ fontSize: 30 }} />
+    drawerIcon: () => <Icon name="android" style={{ fontSize: 30 }} />
   };
   constructor(props) {
     super(props);
