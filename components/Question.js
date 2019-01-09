@@ -110,7 +110,7 @@ export default class Question extends Component {
       })
       .then(res => {
         alert(res);
-        await this.setState({
+        this.setState({
           questionChoices: res
         });
       })
