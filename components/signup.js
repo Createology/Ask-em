@@ -20,9 +20,9 @@ import {
   Item,
   Input,
   Label,
-  Left,
-  Icon
-} from "native-base";
+  Left
+ } from "native-base";
+ import { Icon } from 'react-native-elements';
 import * as firebase from "firebase";
 
 const ip = require("../ip.json");
@@ -105,6 +105,27 @@ export default class Signup extends Component {
       })
       .then(response => {
         alert(`Please ${this.state.username} login now`);
+        
+         // clear inputTexts
+         this.textInput1.clear();
+         this.textInput2.clear();
+         this.textInput3.clear();
+         this.textInput4.clear();
+         this.textInput5.clear();
+         this.textInput6.clear();
+
+         // clear username and password states
+         this.setState({
+          firstname: "",
+          midname: "",
+          lastname: "",
+          gender: 0, // default value
+          country: "Amman", // default value
+          age: "1980-01-01", // default value
+          username: "",
+          email: "",
+          password: ""
+         });
       })
       .catch(error => {
         // catch is a must for every fetch
@@ -139,6 +160,9 @@ export default class Signup extends Component {
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
                     onChangeText={firstname => this.setState({ firstname })}
+                    ref={input => {
+                      this.textInput1 = input;
+                    }}
                   />
                   <Icon active name="person" />
                 </Item>
@@ -151,6 +175,9 @@ export default class Signup extends Component {
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
                     onChangeText={midname => this.setState({ midname })}
+                    ref={input => {
+                      this.textInput2 = input;
+                    }}
                   />
                   <Icon active name="person" />
                 </Item>
@@ -163,6 +190,9 @@ export default class Signup extends Component {
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
                     onChangeText={lastname => this.setState({ lastname })}
+                    ref={input => {
+                      this.textInput3 = input;
+                    }}
                   />
                   <Icon active name="person" />
                 </Item>
@@ -253,6 +283,9 @@ export default class Signup extends Component {
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
                     onChangeText={username => this.setState({ username })}
+                    ref={input => {
+                      this.textInput4 = input;
+                    }}
                   />
                   <Icon active name="person-pin" />
                 </Item>
@@ -266,6 +299,9 @@ export default class Signup extends Component {
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
                     onChangeText={email => this.setState({ email })}
+                    ref={input => {
+                      this.textInput5 = input;
+                    }}
                   />
                   <Icon active name="email" />
                 </Item>
@@ -279,6 +315,9 @@ export default class Signup extends Component {
                     secureTextEntry={true}
                     underlineColorAndroid="transparent"
                     onChangeText={password => this.setState({ password })}
+                    ref={input => {
+                      this.textInput6 = input;
+                    }}
                   />
                   <Icon active name="lock" />
                 </Item>
