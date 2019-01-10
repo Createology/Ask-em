@@ -119,7 +119,7 @@ export default class AboutUs extends Component {
             </View>
             <ScrollView>
               <View style={{ backgroundColor: "white", margin: 10 }}>
-                <Text style={{ fontSize: 30, textAlign: "left" }}>Rate Us</Text>
+                <Text style={{ fontSize: 30}}>Rate Us</Text>
                 <View style={styles.stars}>
                   <StarRating
                     disabled={false}
@@ -133,8 +133,10 @@ export default class AboutUs extends Component {
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.inputs}
-                  placeholder="Help Us To Improve ?!"
+                  placeholder="Help us to improve ..."
                   placeholderTextColor="gray"
+                  underlineColorAndroid="gray"
+
                 />
               </View>
               <TouchableHighlight
