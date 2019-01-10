@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text as Textnative, StyleSheet } from "react-native";
+import { View, Text as Textnative, StyleSheet, TouchableHighlight, TextInput, ScrollView } from "react-native";
 import { BarChart, Grid } from "react-native-svg-charts";
 import { Text } from "react-native-svg";
 import { Col, Row, Grid as GridEasy } from "react-native-easy-grid";
@@ -41,7 +41,11 @@ class SurveyStats extends React.PureComponent {
       familyNames: ["default"],
       maritalStatuses: ["default"],
       educationLevels: ["default"],
-      genders: ["male"]
+      genders: ["male"],
+      finalSmartAnswer: '',
+      x: '', // these are random number from the customer for the smart final answer
+      y: '',
+      z: ''
     };
   }
 
@@ -164,7 +168,7 @@ class SurveyStats extends React.PureComponent {
           probabilities[item] = Math.round(
             (array.join("").match(new RegExp(item, "g")).length /
               array.length) *
-              100
+            100
           );
         });
       }
@@ -218,11 +222,11 @@ class SurveyStats extends React.PureComponent {
           >
             {`
           ${
-            index === 4
-              ? "Age"
-              : this.state.statsAnswersKeys[index][0].toUpperCase() +
+              index === 4
+                ? "Age"
+                : this.state.statsAnswersKeys[index][0].toUpperCase() +
                 this.state.statsAnswersKeys[index].slice(1)
-          }
+              }
           ${index === 4 ? value + " years" : value + "%"}
         `}
           </Text>
@@ -230,56 +234,98 @@ class SurveyStats extends React.PureComponent {
 
       return (
         <Container>
-          <GridEasy>
-            <Row size={3}>
-              <Col>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    height: 200,
-                    paddingVertical: 16,
-                    marginTop: 60
-                  }}
-                >
-                  <BarChart
-                    style={{ flex: 1 }}
-                    data={data}
-                    svg={{ fill: this.props.randomColor }}
-                    contentInset={{ top: 10, bottom: 10 }}
-                    spacing={0.2}
-                    gridMin={0}
+          <ScrollView>
+            <GridEasy>
+              <Row size={3}>
+                <Col>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      height: 200,
+                      paddingVertical: 16,
+                      marginTop: 60
+                    }}
                   >
-                    <Grid direction={Grid.Direction.HORIZONTAL} />
-                    <Labels />
-                  </BarChart>
-                </View>
-              </Col>
-            </Row>
-            <Row size={0.5}>
-              <Col style={{ marginLeft: 30 }}>
-                <Textnative>Family Name</Textnative>
-              </Col>
-              <Col style={{ marginLeft: 5 }}>
-                <Textnative>Marital Status</Textnative>
-              </Col>
-              <Col>
-                <Textnative>Education Level</Textnative>
-              </Col>
-              <Col style={{ marginLeft: 20 }}>
-                <Textnative>Gender</Textnative>
-              </Col>
-              <Col>
-                <Textnative>Average Age</Textnative>
-              </Col>
-            </Row>
-            <Row size={0.5}>
-              <View style={{ justifyContent: "center", flex: 1 }}>
-                <Textnative style={{ textAlign: "center", fontSize: 14 }}>
-                  Highest Percentages Among Surveys
+                    <BarChart
+                      style={{ flex: 1 }}
+                      data={data}
+                      svg={{ fill: this.props.randomColor }}
+                      contentInset={{ top: 10, bottom: 10 }}
+                      spacing={0.2}
+                      gridMin={0}
+                    >
+                      <Grid direction={Grid.Direction.HORIZONTAL} />
+                      <Labels />
+                    </BarChart>
+                  </View>
+                </Col>
+              </Row>
+              <Row size={0.5}>
+                <Col style={{ marginLeft: 30 }}>
+                  <Textnative>Family Name</Textnative>
+                </Col>
+                <Col style={{ marginLeft: 5 }}>
+                  <Textnative>Marital Status</Textnative>
+                </Col>
+                <Col>
+                  <Textnative>Education Level</Textnative>
+                </Col>
+                <Col style={{ marginLeft: 20 }}>
+                  <Textnative>Gender</Textnative>
+                </Col>
+                <Col>
+                  <Textnative>Average Age</Textnative>
+                </Col>
+              </Row>
+              <Row size={0.5}>
+                <View style={{ justifyContent: "center", flex: 1 }}>
+                  <Textnative style={{ textAlign: "center", fontSize: 14, color: 'black' }}>
+                    Highest Percentages Among Surveys
                 </Textnative>
-              </View>
-            </Row>
-          </GridEasy>
+                </View>
+              </Row>
+            </GridEasy>
+            <View>
+              <TextInput
+                style={styles.TextInput}
+                editable={true}
+                maxLength={40}
+                numberOfLines={4}
+                ref={input => { this.textInput = input }}
+                onChangeText={(x) => this.setState({ x })}
+                placeholder="About you"
+              />
+              <TextInput
+                style={styles.TextInput}
+                editable={true}
+                maxLength={40}
+                numberOfLines={4}
+                ref={input => { this.textInput = input }}
+                onChangeText={(y) => this.setState({ y })}
+                placeholder="About you"
+              />
+              <TextInput
+                style={styles.TextInput}
+                editable={true}
+                maxLength={40}
+                numberOfLines={4}
+                ref={input => { this.textInput = input }}
+                onChangeText={(y) => this.setState({ y })}
+                placeholder="About you"
+              />
+              <TouchableHighlight
+                style={{ color: 'black' }}
+                onPress={() => {
+                  this.finalSmartAnswer(this.state.x, this.state.y, this.state.z);
+                }}
+              >
+                Smart Response
+            </TouchableHighlight>
+              <Textnative>
+                {this.state.finalSmartAnswer}
+              </Textnative>
+            </View>
+          </ScrollView>
         </Container>
       );
     }
@@ -287,6 +333,18 @@ class SurveyStats extends React.PureComponent {
 }
 
 export default SurveyStats;
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 25,
+  },
+  TextInput: {
+    height: 40,
+    flex: 0.9,
+    borderWidth: 1,
+    borderColor: '#002C43',
+    backgroundColor: "white",
+  },
+})
 
 SurveyStats.propTypes = {
   birthdays: PropTypes.array,

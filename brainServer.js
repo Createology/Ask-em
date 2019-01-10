@@ -27,7 +27,7 @@ app.post("/answers/smart/create", (req, res) => {
 			for (var i = 0; i < result.length; i++) {
 				input += result[i].smartanswer;
 			}
-			var req = {body: {input: input, surveyID: 7}};
+			var req = { body: { input: input, surveyID: 7 } };
 			var Think = await think(req, res)
 		} else {
 			res.status(404).send("Invalid surveyID");
@@ -406,22 +406,34 @@ app.post("/smart/answer/final", async (req, res) => {
 
 			function execute(input) {
 				let results = trainedNet(input);
-				res.status(200).send(results)
-				console.log('Finished thinking...');
 				return results;
 			}
 
 			train(trainingData);
 			var input = adjustSize(req.body.input.join(' ').toLowerCase());
 			var smartAnswer = execute(input)
-			results.yes < 0.30 ? output = 'No' : output = 'Yes';
-			console.log(results)
+			smartAnswer.yes < 0.30 ? output = 'No' : output = 'Yes';
+			console.log('text', smartAnswer)
+			db.addAnswerOfAResult(surveyID, output, (err, result) => {
+				if (result) {
+					console.log('done!')
+				} else {
+					console.log('err fillAnswerOfAResult in brainServer',err);
+				}
+			})
 			res.status(200).send(output)
 			return output;
 
 		} else {
 			results.yes < 0.30 ? output = 'No' : output = 'Yes';
-			console.log(results)
+			console.log('numbers', results)
+			db.addAnswerOfAResult(`${surveyID}`,`${output}`, (err, result) => {
+				if (result) {
+					console.log('done!')
+				} else {
+					console.log('err fillAnswerOfAResult in brainServer',err);
+				}
+			})
 			res.status(200).send(output)
 			return output;
 		}

@@ -52,6 +52,7 @@ export default class AccountModal extends Component {
           onRequestClose={() => {}}
         >
           <SurveyStats
+            finalSmartAnswer={this.props.finalSmartAnswer}
             birthdays={this.props.birthdays}
             genders={this.props.genders}
             lastnames={this.props.lastnames}
