@@ -24,7 +24,8 @@ export default class Contact extends Component {
     super(props);
     this.state = {
       phoneNumber: "",
-      surveyDescription: ""
+      surveyDescription: "",
+      name: ''
     };
   }
 
@@ -36,11 +37,11 @@ export default class Contact extends Component {
     this.setState({ surveyDescription: desription });
   };
 
-  handleOnPressSubmit = async () => {
-    // [...arguments].forEach(element => {
-    //   this.setState({ element });
-    // });
+  handleNameChange = name => {
+    this.setState({ name: name });
+  };
 
+  handleOnPressSubmit = async () => {
     try {
       const value = await AsyncStorage.getItem("userID");
       if (value === null) {
@@ -93,7 +94,19 @@ export default class Contact extends Component {
             <Text style={styles.headerStyle}>Contact Us</Text>
           </Header>
         </View>
+        <Text style={{ color: 'black', textAlign: 'center', marginTop: 120, fontSize: 20, color: '#002C43' }}>Contact us to make your own survey</Text>
         <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Name"
+              placeholderTextColor="gray"
+              underlineColorAndroid="transparent"
+              onChangeText={phoneNumber => {
+                this.handleNameChange(name);
+              }}
+            />
+          </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.inputs}
@@ -108,7 +121,7 @@ export default class Contact extends Component {
           <View style={styles.inputContainer}>
             <TextInput
               multiline={true}
-              numberOfLines = {4}
+              numberOfLines={4}
               style={styles.inputs}
               placeholder="Issue Brief Description"
               placeholderTextColor="gray"
@@ -141,7 +154,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     //backgroundColor: "#DCDCDC"
-    backgroundColor: "white"
+    backgroundColor: "white",
+    marginBottom: 100
   },
   inputContainer: {
     borderBottomColor: "#F5FCFF",
@@ -164,7 +178,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     alignItems: "center",
     justifyContent: "center",
-    fontSize: 15
+    fontSize: 17
   },
   buttonContainer: {
     height: 40,

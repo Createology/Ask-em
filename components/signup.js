@@ -137,6 +137,7 @@ export default class Signup extends Component {
                   <Input
                     placeholder="First Name"
                     keyboardType="email-address"
+                    style={styles.inputs}
                     underlineColorAndroid="transparent"
                     onChangeText={firstname => this.setState({ firstname })}
                   />
@@ -149,6 +150,7 @@ export default class Signup extends Component {
                   <Input
                     placeholder="Middle Name"
                     keyboardType="email-address"
+                    style={styles.inputs}
                     underlineColorAndroid="transparent"
                     onChangeText={midname => this.setState({ midname })}
                   />
@@ -161,6 +163,7 @@ export default class Signup extends Component {
                   <Input
                     placeholder="Last Name"
                     keyboardType="email-address"
+                    style={styles.inputs}
                     underlineColorAndroid="transparent"
                     onChangeText={lastname => this.setState({ lastname })}
                   />
@@ -171,7 +174,7 @@ export default class Signup extends Component {
               <View style={styles.inputContainer}>
                 <Picker
                   selectedValue={gender}
-                  style={{ height: 60, width: 150, marginTop: 20 }}
+                  style={{ height: 60, width: 150, marginTop: 20, color: '#586069' }}
                   onValueChange={(itemValue, itemIndex) => {
                     if (itemValue === "Male") {
                       this.setState({ gender: itemValue });
@@ -188,13 +191,23 @@ export default class Signup extends Component {
               <View style={styles.inputContainer}>
                 <Picker
                   selectedValue={country}
-                  style={{ height: 55, width: 200 }}
+                  style={{ height: 55, width: 200, color: '#586069' }}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({ country: itemValue })
                   }
                 >
                   <Picker.Item label="Amman" value="Amman" />
                   <Picker.Item label="Irbid" value="Irbid" />
+                  <Picker.Item label="Zarqa" value="Zarqa" />
+                  <Picker.Item label="Jarash" value="Jarash" />
+                  <Picker.Item label="Mafraq" value="Mafraq" />
+                  <Picker.Item label="Ajloun" value="Ajloun" />
+                  <Picker.Item label="Balqaa" value="Balqaa" />
+                  <Picker.Item label="Madaba" value="Madaba" />
+                  <Picker.Item label="Karak" value="Karak" />
+                  <Picker.Item label="Ma'an" value="Ma'an" />
+                  <Picker.Item label="Tafeeleh" value="Tafeeleh" />
+                  <Picker.Item label="Aqaba" value="Aqaba" />
                 </Picker>
               </View>
 
@@ -234,17 +247,6 @@ export default class Signup extends Component {
                   }}
                 />
               </View>
-              {/* <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={{
-                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-              }}
-              onDateChange={date => {
-                this.setState({ age: date });
-              }}
-            /> */}
-
               <View style={styles.inputContainer}>
                 <Item rounded>
                   <Input
@@ -283,13 +285,12 @@ export default class Signup extends Component {
                   <Icon active name="lock" />
                 </Item>
               </View>
-
-              <TouchableHighlight
-                style={[styles.buttonContainer, styles.signupBtn]}
-                onPress={() => this.onClickListener()}
-              >
-                <Text style={styles.signupText}>Signup</Text>
-              </TouchableHighlight>
+                <TouchableHighlight
+                  style={[styles.buttonContainer, styles.signupBtn]}
+                  onPress={() => this.onClickListener()}
+                >
+                  <Text style={styles.signupText}>Signup</Text>
+                </TouchableHighlight>
             </Form>
           </View>
         </ScrollView>
@@ -334,13 +335,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     width: 250,
-    borderRadius: 30
+    borderRadius: 30,
+    marginLeft: 30,
   },
   signupBtn: {
     backgroundColor: "#E65100"
   },
   signupText: {
-    color: "white"
+    color: "white",
+    textAlign: 'center'
   },
   headerStyle: {
     flex: 1,
