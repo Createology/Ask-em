@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
+		backgroundColor: 'white'
 	},
 	inner: {
 		position: 'relative',
