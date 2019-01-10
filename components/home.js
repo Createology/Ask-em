@@ -146,27 +146,12 @@ export default class Home extends Component {
   }
 
   async onPressSubmitModal() {
-    const surveyAndUserIDs = [this.state.surveyID, this.state.surveyUserID];
-    const args = [...arguments];
-    //30 => education level
-    //37 => marital status
-    const questionsIDs = [30, 37];
-    const answersArray = [];
+    const args = arguments[0];
 
-    args.forEach((item, index) => {
-      answersArray.push([
-        item,
-        questionsIDs[index],
-        surveyAndUserIDs[0],
-        surveyAndUserIDs[1]
-      ]);
-    });
-
-    await this.setState({ surveyAnswers: answersArray });
     fetch(`${ip}:3000/answer/dumb/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: this.state.surveyAnswers })
+      body: JSON.stringify({ surveyData: args })
     })
       .then(response => response.json())
       .then(res => {

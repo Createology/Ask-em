@@ -7,7 +7,8 @@ import {
   Modal,
   TouchableHighlight,
   TextInput,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import {
   Container,
@@ -33,7 +34,7 @@ import {
 import { Icon, Divider } from "react-native-elements";
 import IconAwesome from "react-native-vector-icons/FontAwesome";
 import Question from "./Question";
-import AwesomeAlert from 'react-native-awesome-alerts';
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const ip = require("../ip.json");
 
@@ -51,9 +52,11 @@ export default class SurveyModal extends Component {
       allChoicesOfQuestion: [],
       surveyID: "",
       clicked: "",
-      input: '',
+      input: "",
       ids: [],
-      showAlert: false
+      showAlert: false,
+      userID: null,
+      answers: []
     };
   }
 
@@ -65,6 +68,18 @@ export default class SurveyModal extends Component {
       this.getQuestions(this.props.surveyID);
       this.getSmartQuestions(this.props.surveyID);
     }
+
+    if (this.props.userID !== nextProps.userID) {
+      await this.setState({
+        userID: nextProps.userID
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      answers: []
+    });
   }
 
   getQuestions(surveyID) {
@@ -91,8 +106,7 @@ export default class SurveyModal extends Component {
           questionsIDs: this.state.questions.map(item => item.id)
         });
       })
-      .done(() => {
-      });
+      .done(() => {});
   }
 
   getSmartQuestions(surveyID) {
@@ -116,29 +130,28 @@ export default class SurveyModal extends Component {
         });
         var idsState = scope.state.ids;
         for (var i = 0; i < res.length; i++) {
-          idsState.push(res[i].id)
+          idsState.push(res[i].id);
           this.setState({
-            [res[i].id]: '',
+            [res[i].id]: "",
             ids: idsState
           });
         }
       })
-      .done(() => {
-      });
+      .done(() => {});
   }
 
   sendSmartAnswers() {
     var sendBody = [];
     const scope = this;
     for (var i = 0; i < this.state.ids.length; i++) {
-      var id = this.state.ids[i]
+      var id = this.state.ids[i];
       sendBody.push({
         smartanswer: this.state[id],
         Truth: 1,
         id_smartquestions: this.state.ids[i],
         id_users: this.props.userID,
         id_surveys: this.props.surveyID
-      })
+      });
     }
     fetch(`${ip}:3000/answer/smart/add`, {
       method: "POST",
@@ -149,28 +162,54 @@ export default class SurveyModal extends Component {
       body: JSON.stringify(sendBody)
     })
       .then(response => {
-        this.showAlert()
-        setTimeout(function () { scope.hideAlert(); }, 2000);
-        setTimeout(function () { scope.props.showHandler(false) }, 500);
+        this.showAlert();
+        setTimeout(function() {
+          scope.hideAlert();
+        }, 2000);
+        setTimeout(function() {
+          scope.props.showHandler(false);
+        }, 500);
         response.json();
       })
-      .then(res => {
-      })
-      .done(() => {
-      });
+      .then(res => {})
+      .done(() => {});
   }
 
   showAlert = () => {
-		this.setState({
-			showAlert: true
-		});
-	};
+    this.setState({
+      showAlert: true
+    });
+  };
 
-	hideAlert = () => {
-		this.setState({
-			showAlert: false
-		});
-	};
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
+
+  onChangeChoices = async (answer, questionID, userID, surveyID) => {
+    const temp = {
+      answer: answer,
+      questionID: questionID,
+      userID: userID,
+      surveyID: surveyID
+    };
+    if (this.state.answers.length !== 0) {
+      const stateCopy = this.state.answers.slice();
+      stateCopy.push(temp);
+      await this.setState({
+        answers: stateCopy
+      });
+    } else {
+      const emptyTemp = [];
+      emptyTemp.push(temp);
+      await this.setState({
+        answers: emptyTemp
+      });
+    }
+
+    console.warn(this.state.answers);
+  };
 
   render() {
     const {
@@ -178,11 +217,13 @@ export default class SurveyModal extends Component {
       selectedMarital,
       clicked,
       surveyID,
+      userID,
       allChoicesOfQuestion,
       smartQuestions,
       questionsIDs,
       questions,
-      showAlert
+      showAlert,
+      answers
     } = this.state;
     return (
       <Root>
@@ -190,7 +231,7 @@ export default class SurveyModal extends Component {
           animationType="slide"
           transparent={false}
           visible={this.props.visibility}
-          onRequestClose={() => { }}
+          onRequestClose={() => {}}
         >
           <ScrollView>
             <View style={styles.container}>
@@ -246,7 +287,6 @@ export default class SurveyModal extends Component {
                         </Text>
                       </Right>
                     </View>
-                    {/*  */}
                     <View style={{ flexDirection: "row" }}>
                       <Left style={{ flex: 1 }}>
                         <Text
@@ -268,105 +308,6 @@ export default class SurveyModal extends Component {
                       </Right>
                     </View>
                   </View>
-                  {/*  */}
-                  <View style={{ flexDirection: "row" }}>
-                    <Left style={{ flex: 1 }}>
-                      <Text style={{ color: "black", fontSize: 16 }}>
-                        Education Level:{" "}
-                      </Text>
-                    </Left>
-
-                    <Picker
-                      note
-                      mode="dropdown"
-                      style={{ width: undefined }}
-                      selectedValue={selectedEducation}
-                      onValueChange={async (item, index) => {
-                        await this.setState({
-                          selectedEducation: item
-                        });
-                      }}
-                    >
-                      <Picker.Item
-                        label="Primary"
-                        value="primary"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Secondary"
-                        value="secondary"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item label="High" value="high" />
-                      <Picker.Item
-                        label="Bachelor"
-                        value="bachelor"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Master"
-                        value="master"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Doctoral"
-                        value="doctoral"
-                        style={styles.textScreenElements}
-                      />
-                    </Picker>
-                  </View>
-
-                  <View style={{ flexDirection: "row" }}>
-                    <Left style={{ flex: 1 }}>
-                      <Text style={{ color: "black", fontSize: 16 }}>
-                        Marital Status:{" "}
-                      </Text>
-                    </Left>
-
-                    <Picker
-                      note
-                      mode="dropdown"
-                      style={{ width: undefined }}
-                      selectedValue={selectedMarital}
-                      onValueChange={async (item, index) => {
-                        await this.setState({
-                          selectedMarital: item
-                        });
-                      }}
-                    >
-                      <Picker.Item
-                        label="Single"
-                        value="single"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Married"
-                        value="married"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Divorced"
-                        value="divorced"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Widowed"
-                        value="widowed"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Seperated"
-                        value="seperated"
-                        style={styles.textScreenElements}
-                      />
-                    </Picker>
-                    <IconAwesome
-                      name="sort-down"
-                      size={20}
-                      color="white"
-                      style={[{ right: 18, top: 4, position: "absolute" }]}
-                    />
-                  </View>
 
                   {Array.isArray(questions) &&
                     questions.map(({ id, question }, index) => (
@@ -377,17 +318,22 @@ export default class SurveyModal extends Component {
                             numberOfLines={2}
                             style={styles.textScreenElements}
                           >
-                            {question} {id}
+                            {question}
                           </Text>
                         </Left>
                         <Right style={{ flex: 1 }}>
-                          <Question questionID={id} key={id} />
+                          <Question
+                            questionID={id}
+                            surveyID={surveyID}
+                            key={id}
+                            userID={userID}
+                            onChangeChoices={this.onChangeChoices.bind(this)}
+                          />
                         </Right>
                       </View>
                     ))}
 
-                  <Separator bordered>
-                  </Separator>
+                  <Separator bordered />
 
                   {Array.isArray(this.state.smartQuestions) &&
                     this.state.smartQuestions.map(({ id, question }) => (
@@ -409,7 +355,7 @@ export default class SurveyModal extends Component {
                               onChangeText={text => {
                                 this.setState({
                                   [id]: text
-                                })
+                                });
                               }}
                               style={{ color: "#E65100" }}
                             />
@@ -426,15 +372,11 @@ export default class SurveyModal extends Component {
                       full
                       block
                       onPress={() => {
-                        this.sendSmartAnswers()
-                        // this.props.submitModalHandler(
-                        //   selectedEducation,
-                        //   selectedMarital
-                        // );
+                        this.sendSmartAnswers();
+                        this.props.submitModalHandler(this.state.answers);
                       }}
                     >
-                      {/* need to changeicon color */}
-                      <Icon name="send" style={{ color: "white" }} />
+                      <Icon name="send" />
                       <Textbase>Submit</Textbase>
                     </Button>
                   </View>
@@ -448,8 +390,7 @@ export default class SurveyModal extends Component {
                         this.props.showHandler(false);
                       }}
                     >
-                      {/* need to changeicon color */}
-                      <Icon name="backspace" style={{ color: "white" }} />
+                      <Icon name="backspace" />
                       <Textbase>Cancel</Textbase>
                     </Button>
                   </View>
@@ -458,23 +399,23 @@ export default class SurveyModal extends Component {
             </View>
           </ScrollView>
           <AwesomeAlert
-							show={showAlert}
-							showProgress={false}
-							title="Payment Success"
-							message="You have successfully paid!"
-							closeOnTouchOutside={true}
-							closeOnHardwareBackPress={true}
-							showCancelButton={false}
-							showConfirmButton={false}
-							progressSize='50'
-							progressColor='green'
-							overlayStyle={{
-								padding: 50,
-							}}
-							contentContainerStyle={{
-								padding: 50,
-							}}
-						/>
+            show={showAlert}
+            showProgress={false}
+            title="Payment Success"
+            message="You have successfully paid!"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={false}
+            showConfirmButton={false}
+            progressSize="50"
+            progressColor="green"
+            overlayStyle={{
+              padding: 50
+            }}
+            contentContainerStyle={{
+              padding: 50
+            }}
+          />
         </Modal>
       </Root>
     );

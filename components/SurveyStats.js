@@ -47,7 +47,6 @@ class SurveyStats extends React.PureComponent {
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.birthdays !== this.props.birthdays) {
-      console.warn("ages1", this.state.ages, "test1", this.state.test);
       await this.setState({
         ages: nextProps.birthdays.map(({ birthday }) => {
           return Math.floor(
@@ -73,12 +72,6 @@ class SurveyStats extends React.PureComponent {
     }
 
     if (nextProps.lastnames !== this.props.lastnames) {
-      console.warn(
-        "lastnames1",
-        this.state.lastnames,
-        "test1",
-        this.state.test
-      );
       await this.setState({
         lastnames: nextProps.lastnames.map(({ lastname }) => lastname)
       });
