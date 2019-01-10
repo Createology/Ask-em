@@ -1,0 +1,176 @@
+[
+  {
+    "input": "                                    ",
+    "output": {
+      "no": 0.5
+    }
+  },
+  {
+    "input": ",                                   ",
+    "output": {
+      "no": 0.5
+    }
+  },
+  {
+    "input": "yes                                 ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Yes                                 ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "no                                  ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "No                                  ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Marka marka  marka  marka  marka    ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Khalda                              ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Kursi kursi kursi  kursi    kursi   ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Jandaweel jandaweel   jandaweel     ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Tariq tariq tariq  tariq   tariq    ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Tabarbour tabarbour tabarbour       ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Abu Nseir abu nseir  abu nseir      ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Bader bader bader  bader  bader     ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Al-Yarmouk al-yarmouk al-yarmouk    ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Al-Nasr al-nasr al-nasr al-nasr     ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Al-Mgablein al-mgablein al-mgablein ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Al-Madinah al-madinah al-madinah    ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Al-Jeezah al-jeezah al-jeezah       ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Badr Al-Jadeedah badr al-Jadeedah   ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Basman basman  basman    basman     ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Kherbet Al-Souk kherbet al-Souk     ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Qweismeh qweismeh  qweismeh         ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Ras Al-Ein ras al-ein               ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Shafa Badran shafa badran           ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Tla' Al-Ali tla' al-ali             ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Uhod uhod uhod uhod  uhod           ",
+    "output": {
+      "no": 1
+    }
+  },
+  {
+    "input": "Wadi Al-Seer wadi al-seer           ",
+    "output": {
+      "yes": 1
+    }
+  },
+  {
+    "input": "Zahran zahran Zahran zahran         ",
+    "output": {
+      "yes": 1
+    }
+  }
+]

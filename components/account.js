@@ -187,6 +187,29 @@ export default class Account extends Component {
     this.setState({ modalVisible: false });
   }
 
+  finalSmartAnswer(x, y, z) {
+    fetch(`${ip}:4000/smart/answer/final`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        surveyID: this.state.surveyID,
+        "input": {
+          "39": x,
+          "40": y,
+          "41": z
+        }
+      })
+    })
+      .then(response => response.json())
+      .then(res => {
+        console.warn("res", res);
+      })
+      .catch(error => {
+        // catch is a must for every fetch
+        console.warn("Error:", error);
+      });
+  }
+
   render() {
     const {
       modalVisible,
@@ -257,6 +280,7 @@ export default class Account extends Component {
             <Row size={2}>
               <AccountModal
                 showHandler={this.setModalVisible.bind(this)}
+                finalSmartAnswer={this.finalSmartAnswer.bind(this)}
                 visibility={modalVisible}
                 selectedSurvey={selectedSurvey}
                 allSurveys={fetchedSurveys}

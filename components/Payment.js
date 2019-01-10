@@ -7,6 +7,7 @@ import {
 	Image,
 	Alert,
 	AsyncStorage,
+	ScrollView
 } from "react-native";
 import {
 	Container,
@@ -177,6 +178,7 @@ export default class Payment extends Component {
 		if (showAlert) {
 			return (
 				<Container>
+
 					<View style={{ height: '100%', backgroundColor: "white" }}>
 						<Header style={{ backgroundColor: "#E65100" }}>
 							<Left>
@@ -190,87 +192,89 @@ export default class Payment extends Component {
 							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
 						}}
 					/> */}
-						<View style={styles.card}>
-							<View style={styles.inCard}>
-								<View style={styles.logo}>
-									<Text style={{ fontSize: 17 }}>VISA</Text>
-								</View>
-								<View style={styles.cardNumber}>
-									<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
-								</View>
-								<View style={styles.cardExpiration}>
-									<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+						<ScrollView>
+							<View style={styles.card}>
+								<View style={styles.inCard}>
+									<View style={styles.logo}>
+										<Text style={{ fontSize: 17 }}>VISA</Text>
+									</View>
+									<View style={styles.cardNumber}>
+										<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
+									</View>
+									<View style={styles.cardExpiration}>
+										<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+									</View>
 								</View>
 							</View>
-						</View>
 
-						<View style={{ height: 65 }}>
-							<TextInput
-								style={styles.inputNumber}
-								placeholder='Account Number'
-								onChangeText={Number => {
-									this.setState({ 'card[number]': Number });
-								}}
-							/>
-						</View>
-						<View style={styles.inputContainer}>
-							<TextInput
-								style={styles.inputExp_month}
-								placeholder='Exp_month'
-								onChangeText={Exp_month => {
-									this.setState({ 'card[exp_month]': Exp_month });
-								}}
-							/>
-							<TextInput style={styles.inputExp_year}
-								placeholder='Exp_year'
-								onChangeText={Exp_year => {
-									this.setState({ 'card[exp_year]': Exp_year });
-								}}
-							/>
-							<TextInput
-								style={styles.inputCvc}
-								placeholder='CVC'
-								onChangeText={cvc => {
-									this.setState({ 'card[cvc]': cvc });
-								}}
-							/>
-						</View>
-						<View style={styles.inputContainerPay}>
-							<TextInput
-								style={styles.inputMoney}
-								placeholder="Money Amount '$'"
-								onChangeText={money => {
-									this.setState({ 'money': `${money}` });
-								}}
-							/>
-						</View>
-						<View style={styles.pay}>
-							<TouchableHighlight
-								style={styles.button}
-								onPress={this.requestPayment}
-							>
-								<Text style={styles.text}>Submit Payment</Text>
-							</TouchableHighlight>
-						</View>
+							<View style={{ height: 65 }}>
+								<TextInput
+									style={styles.inputNumber}
+									placeholder='Account Number'
+									onChangeText={Number => {
+										this.setState({ 'card[number]': Number });
+									}}
+								/>
+							</View>
+							<View style={styles.inputContainer}>
+								<TextInput
+									style={styles.inputExp_month}
+									placeholder='Exp_month'
+									onChangeText={Exp_month => {
+										this.setState({ 'card[exp_month]': Exp_month });
+									}}
+								/>
+								<TextInput style={styles.inputExp_year}
+									placeholder='Exp_year'
+									onChangeText={Exp_year => {
+										this.setState({ 'card[exp_year]': Exp_year });
+									}}
+								/>
+								<TextInput
+									style={styles.inputCvc}
+									placeholder='CVC'
+									onChangeText={cvc => {
+										this.setState({ 'card[cvc]': cvc });
+									}}
+								/>
+							</View>
+							<View style={styles.inputContainerPay}>
+								<TextInput
+									style={styles.inputMoney}
+									placeholder="Money Amount '$'"
+									onChangeText={money => {
+										this.setState({ 'money': `${money}` });
+									}}
+								/>
+							</View>
+							<View style={styles.pay}>
+								<TouchableHighlight
+									style={styles.button}
+									onPress={this.requestPayment}
+								>
+									<Text style={styles.text}>Submit Payment</Text>
+								</TouchableHighlight>
+							</View>
 
-						<AwesomeAlert
-							show={showAlert}
-							showProgress={false}
-							title="Payment Success"
-							message="You have successfully paid!"
-							closeOnTouchOutside={true}
-							closeOnHardwareBackPress={true}
-							showCancelButton={false}
-							showConfirmButton={false}
-							progressSize='50'
-							progressColor='green'
-							overlayStyle={{
-								padding: 50,
-							}}
-							contentContainerStyle={{
-								padding: 50,
-							}}
-						/>
+							<AwesomeAlert
+								show={showAlert}
+								showProgress={false}
+								title="Payment Success"
+								message="You have successfully paid!"
+								closeOnTouchOutside={true}
+								closeOnHardwareBackPress={true}
+								showCancelButton={false}
+								showConfirmButton={false}
+								progressSize='50'
+								progressColor='green'
+								overlayStyle={{
+									padding: 50,
+								}}
+								contentContainerStyle={{
+									padding: 50,
+								}}
+							/>
+						</ScrollView>
 					</View>
 				</Container>
 			)
@@ -290,68 +294,70 @@ export default class Payment extends Component {
 							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
 						}}
 					/> */}
-						<View style={styles.card}>
-							<View style={styles.inCard}>
-								<View style={styles.logo}>
-									<Text style={{ fontSize: 17 }}>VISA</Text>
-								</View>
-								<View style={styles.cardNumber}>
-									<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
-								</View>
-								<View style={styles.cardExpiration}>
-									<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+						<ScrollView>
+							<View style={styles.card}>
+								<View style={styles.inCard}>
+									<View style={styles.logo}>
+										<Text style={{ fontSize: 17 }}>VISA</Text>
+									</View>
+									<View style={styles.cardNumber}>
+										<Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
+									</View>
+									<View style={styles.cardExpiration}>
+										<Text style={styles.textExpiration}>{this.state["card[exp_month]"]}/{this.state["card[exp_year]"]}</Text>
+									</View>
 								</View>
 							</View>
-						</View>
 
-						<View style={{ height: 65 }}>
-							<TextInput
-								style={styles.inputNumber}
-								placeholder='Account Number'
-								onChangeText={Number => {
-									this.setState({ 'card[number]': Number });
-								}}
-							/>
-						</View>
-						<View style={styles.inputContainer}>
-							<TextInput
-								style={styles.inputExp_month}
-								placeholder='Exp_month'
-								onChangeText={Exp_month => {
-									this.setState({ 'card[exp_month]': Exp_month });
-								}}
-							/>
-							<TextInput style={styles.inputExp_year}
-								placeholder='Exp_year'
-								onChangeText={Exp_year => {
-									this.setState({ 'card[exp_year]': Exp_year });
-								}}
-							/>
-							<TextInput
-								style={styles.inputCvc}
-								placeholder='CVC'
-								onChangeText={cvc => {
-									this.setState({ 'card[cvc]': cvc });
-								}}
-							/>
-						</View>
-						<View style={styles.inputContainerPay}>
-							<TextInput
-								style={styles.inputMoney}
-								placeholder="Money Amount '$'"
-								onChangeText={money => {
-									this.setState({ 'money': `${money}` });
-								}}
-							/>
-						</View>
-						<View style={styles.pay}>
-							<TouchableHighlight
-								style={styles.button}
-								onPress={this.requestPayment}
-							>
-								<Text style={styles.text}>Submit Payment</Text>
-							</TouchableHighlight>
-						</View>
+							<View style={{ height: 65 }}>
+								<TextInput
+									style={styles.inputNumber}
+									placeholder='Account Number'
+									onChangeText={Number => {
+										this.setState({ 'card[number]': Number });
+									}}
+								/>
+							</View>
+							<View style={styles.inputContainer}>
+								<TextInput
+									style={styles.inputExp_month}
+									placeholder='Exp_month'
+									onChangeText={Exp_month => {
+										this.setState({ 'card[exp_month]': Exp_month });
+									}}
+								/>
+								<TextInput style={styles.inputExp_year}
+									placeholder='Exp_year'
+									onChangeText={Exp_year => {
+										this.setState({ 'card[exp_year]': Exp_year });
+									}}
+								/>
+								<TextInput
+									style={styles.inputCvc}
+									placeholder='CVC'
+									onChangeText={cvc => {
+										this.setState({ 'card[cvc]': cvc });
+									}}
+								/>
+							</View>
+							<View style={styles.inputContainerPay}>
+								<TextInput
+									style={styles.inputMoney}
+									placeholder="Money Amount '$'"
+									onChangeText={money => {
+										this.setState({ 'money': `${money}` });
+									}}
+								/>
+							</View>
+							<View style={styles.pay}>
+								<TouchableHighlight
+									style={styles.button}
+									onPress={this.requestPayment}
+								>
+									<Text style={styles.text}>Submit Payment</Text>
+								</TouchableHighlight>
+							</View>
+						</ScrollView>
 					</View>
 				</Container>
 			)

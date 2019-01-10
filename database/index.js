@@ -382,18 +382,18 @@ const selectAnswerOfAResult = (id_suervey, callback) => {
   );
 };
 
-// const fillAnswerOfAResult = (id_suervey, answer, callback) => {
-//   dbconnection.query(
-//     `INSERT INTO result (id,id_suervey,answer,createdAt) VALUES (NULL, , , CURRENT_TIMESTAMP)`,
-//     (err, results) => {
-//       if (err) {
-//         callback(err, null);
-//       } else {
-//         callback(null, results);
-//       }
-//     }
-//   );
-// };
+const fillAnswerOfAResult = (id_suervey, answer, callback) => {
+  dbconnection.query(
+    `INSERT INTO result (id, id_suervey, answer, createdAt) VALUES (NULL, ${id_suervey}, ${answer}, CURRENT_TIMESTAMP)`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
 
 const addAnswerOfAResult = (id_suervey, answer, callback) => {
   dbconnection.query(
@@ -526,3 +526,4 @@ module.exports.selectAllChoicesOfQuestion = selectAllChoicesOfQuestion;
 // module.exports.selectAllChoicesOfSurveyQuestions = selectAllChoicesOfSurveyQuestions;
 module.exports.selectAnswerOfAResult = selectAnswerOfAResult;
 module.exports.addAnswerOfAResult = addAnswerOfAResult;
+module.exports.fillAnswerOfAResult = fillAnswerOfAResult;
