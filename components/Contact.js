@@ -5,7 +5,8 @@ import {
   View,
   TextInput,
   AsyncStorage,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from "react-native";
 import {
   Container,
@@ -94,7 +95,8 @@ export default class Contact extends Component {
             <Text style={styles.headerStyle}>Contact Us</Text>
           </Header>
         </View>
-        <Text style={{ color: 'black', textAlign: 'center', marginTop: 120, fontSize: 20, color: '#002C43' }}>Contact us to make your own survey</Text>
+        <ScrollView>
+        <Text style={{ color: 'black', textAlign: 'center', marginTop: 80, marginBottom: 40,fontSize: 20, color: '#002C43' }}>Contact us to make your own survey</Text>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <TextInput
@@ -143,6 +145,7 @@ export default class Contact extends Component {
             </Text>
           </TouchableHighlight>
         </View>
+        </ScrollView>
       </Container>
     );
   }
