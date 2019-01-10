@@ -34,12 +34,7 @@ export default class SurveyListThumbnails extends Component {
             <List key={survey.id}>
               <ListItem thumbnail>
                 <Left>
-                  <Thumbnail
-                    square
-                    source={{
-                      uri: surveyImages[index]
-                    }}
-                  />
+                  <Thumbnail square source={surveyImages[index]} />
                 </Left>
                 <Body>
                   <TouchableHighlight
@@ -62,8 +57,11 @@ export default class SurveyListThumbnails extends Component {
                     {survey.description}
                   </Text>
                 </Body>
+
                 <Right>
-                  <TouchableHighlight
+                  <Button
+                    bordered
+                    danger
                     onPress={() => {
                       this.props.onChangeSurveyInfo(
                         survey.survey_name,
@@ -74,12 +72,9 @@ export default class SurveyListThumbnails extends Component {
                       );
                       this.props.showHandler();
                     }}
-                    underlayColor="gray"
                   >
-                    <Text key={survey.id} style={{ color: "grey" }}>
-                      View
-                    </Text>
-                  </TouchableHighlight>
+                    <Text key={survey.id}>View</Text>
+                  </Button>
                 </Right>
               </ListItem>
             </List>
@@ -96,3 +91,21 @@ SurveyListThumbnails.propTypes = {
   surveyImages: PropTypes.array,
   onChangeSurveyInfo: PropTypes.func
 };
+
+//  {/* <TouchableHighlight
+//                 onPress={() => {
+//                   this.props.onChangeSurveyInfo(
+//                     survey.survey_name,
+//                     survey.description,
+//                     survey.category,
+//                     survey.id_users,
+//                     survey.id
+//                   );
+//                   this.props.showHandler();
+//                 }}
+//                 underlayColor="gray"
+//               >
+//                 <Text key={survey.id} style={{ color: "grey" }}>
+//                   View
+//                 </Text>
+//               </TouchableHighlight> */}

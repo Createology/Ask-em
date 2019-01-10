@@ -24,18 +24,34 @@ app.post("/search", (req, res) => {
   });
 });
 
+//;-----------------------;
 app.post("/signup", signUp);
 
 app.post("/login", signIn);
+//;-----------------------;/------------------]
 
+//;-----------------------;
 app.post("/surveys/retrieve", surveyHelpers.getAllSurveys);
 
-app.post("/surveys/save", surveyHelpers.saveSurvey);
+app.post("/surveys/retrieve/all/lastname", surveyHelpers.getAllLastNames);
+app.post("/surveys/retrieve/all/gender", surveyHelpers.getAllGenders);
+app.post("/surveys/retrieve/all/birthday", surveyHelpers.getAllBirthdays);
 
+app.post(
+  "/surveys/retrieve/all/notanswered",
+  surveyHelpers.getAllActiveSurveysNotAnswerdByUser
+);
+
+app.post("/surveys/save", surveyHelpers.saveSurvey);
+//;-----------------------;/------------------]
+
+//;-----------------------;
 app.post("/mysurveys/retrieve", surveyHelpers.getAllSurveysOfUser);
 
 app.post("/mysurveys/answered", surveyHelpers.getAllSurveysAnsweredByUser);
+//;-----------------------;/------------------]
 
+//;-----------------------;
 app.post("/answer/dummy/add", surveyHelpers.fillDummyAnswer);
 
 app.post("/answer/dummy/get", surveyHelpers.getAllDummyAnswer);
@@ -44,17 +60,35 @@ app.post("/answer/smart/add", surveyHelpers.fillSmartAnswer);
 
 app.post("/answer/smart/get", surveyHelpers.getAllSmartAnswOfASurvey);
 
-app.post("/question/smart/get", surveyHelpers.getAllSmartQuestionsOfASurvey);
-
-app.post("/question/smart/add", surveyHelpers.fillSmartQuestion);
-
 app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
 app.post("answer/dumb/get", surveyHelpers.getAllAnswOfASurvey);
 
+app.post("/answer/res/get", surveyHelpers.getAnswerOfAResult);
+
+app.post("/answer/res/add", surveyHelpers.addAnswerOfAResult);
+//;-----------------------;/------------------]
+
+//;-----------------------;
+app.post("/question/smart/get", surveyHelpers.getAllSmartQuestionsOfASurvey);
+
+app.post("/question/smart/add", surveyHelpers.fillSmartQuestion);
+
 app.post("/question/dumb/add", surveyHelpers.fillQuestion);
 
 app.post("/question/dumb/get", surveyHelpers.getAllQuestionsOfASurvey);
+
+app.post(
+  "/question/dumb/get/choice/question",
+  surveyHelpers.getAllChoicesOfQuestion
+);
+
+// app.post(
+//   "/question/dumb/get/choice/surveyquestions",
+//   surveyHelpers.getAllChoicesOfSurveyQuestions
+// );
+
+//;-----------------------;/------------------]
 
 app.post("/mysurveys", (req, res) => {
   res.status(200).send({});

@@ -48,7 +48,6 @@ export default class Contact extends Component {
         console.log("null", value);
       } else {
         var data = JSON.parse(value);
-        console.warn("value2", data.user_id, data.userName);
 
         fetch(`${ip}:3000/contact`, {
           method: "POST",
@@ -108,6 +107,8 @@ export default class Contact extends Component {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
+              multiline={true}
+              numberOfLines = {4}
               style={styles.inputs}
               placeholder="Issue Brief Description"
               placeholderTextColor="gray"
@@ -124,7 +125,7 @@ export default class Contact extends Component {
             }}
           >
             <Text style={styles.sumitText}>
-              <Icon name="send" style={{ color: "white"}} />
+              <Icon name="send" style={{ color: "white", fontSize: 20, marginLeft: -8 }} />
               Submit
             </Text>
           </TouchableHighlight>
@@ -145,34 +146,28 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderBottomColor: "#F5FCFF",
     backgroundColor: "#FFFFFF",
-    borderRadius: 50,
     borderBottomWidth: 1,
     width: 250,
-    height: 50,
+    height: 30,
     marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    color: "#E65100"
+    color: "#E65100",
+    //borderWidth: 0.5,
   },
   inputs: {
-    height: 45,
+    height: 38,
     borderBottomColor: "#E65100",
     flex: 1,
     color: "black",
     textAlign: "left",
     alignItems: "center",
     justifyContent: "center",
-    fontSize :22
-  },
-  inputIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 15,
-    justifyContent: "center"
+    fontSize: 15
   },
   buttonContainer: {
-    height: 45,
+    height: 40,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -182,18 +177,13 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: "#E65100",
-    justifyContent:"center"
+    justifyContent: "center"
   },
   sumitText: {
     color: "white",
     alignItems: "center",
-    fontSize :17
-  },
-  welcome: {
-    fontSize: 30,
-    textAlign: "center",
-    marginTop: -100,
-    marginBottom: 100
+    fontSize: 17,
+    marginLeft: 10,
   },
   wrong: {
     color: "red"
