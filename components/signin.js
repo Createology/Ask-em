@@ -24,8 +24,7 @@ import {
   Left,
   Right,
   Form,
-  Spinner,
-  Icon
+  Spinner
 } from "native-base";
 import { Icon } from 'react-native-elements';
 

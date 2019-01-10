@@ -13,6 +13,10 @@ app.use(bodyParser.json());
 
 // nueral network declaration
 
+//const network = new brain.recurrent.LSTM();
+let network = new brain.NeuralNetwork();
+
+
 var userID;
 var surveyID;
 
