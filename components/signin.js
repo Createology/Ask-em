@@ -38,7 +38,8 @@ class Signin extends Component {
     this.state = {
       password: "DEFAULT",
       loggedin: "Login", // custormer notification
-      wrong: "" // if wrong username or password
+      wrong: "", // if wrong username or password
+      loggedout: '',
     };
   }
 
@@ -161,7 +162,8 @@ class Signin extends Component {
         console.warn("You are not Logged out, try again");
       } else {
         this.setState({
-          loggedin: `Login`
+          loggedIn: 'Login',
+          loggedout: `You are logged out`
         });
         // save username into global
         this.props.onAddUsername("");
@@ -197,14 +199,15 @@ class Signin extends Component {
         </View>
         <View style={styles.container}>
           {this.state.loggedin !==
-          "You will recieve your data soon, please wait!" ? (
-            <Text style={styles.welcome}>{loggedin}</Text>
-          ) : (
-            <Spinner color="blue" />
-          )}
+            "You will recieve your data soon, please wait!" ? (
+              <Text style={styles.welcome}>{loggedin}</Text>
+            ) : (
+              <Spinner color="blue" />
+            )}
           <View style={styles.inputContainer}>
             <Icon active name="md-person" />
             <TextInput
+              placeholderTextColor='black'
               placeholder="Username"
               style={styles.inputs}
               underlineColorAndroid="transparent"
@@ -219,6 +222,7 @@ class Signin extends Component {
           <View style={styles.inputContainer}>
             <Icon active name="lock" />
             <TextInput
+              placeholderTextColor='black'
               placeholder="Password"
               style={styles.inputs}
               secureTextEntry={true}
@@ -246,8 +250,8 @@ class Signin extends Component {
               <Text>Logout</Text>
             </TouchableHighlight>
           ) : (
-            <Text />
-          )}
+              <Text>{this.state.loggedout}</Text>
+            )}
         </View>
       </Container>
     );
@@ -269,7 +273,7 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   inputs: {
     height: 45,

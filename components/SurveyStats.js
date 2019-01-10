@@ -321,7 +321,7 @@ class SurveyStats extends React.PureComponent {
               >
                 Smart Response
             </TouchableHighlight>
-              <Textnative>
+              <Textnative style={{ color: 'black' }}>
                 {this.state.finalSmartAnswer}
               </Textnative>
             </View>

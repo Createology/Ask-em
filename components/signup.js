@@ -24,6 +24,7 @@ import {
   Icon
 } from "native-base";
 import * as firebase from "firebase";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const ip = require("../ip.json");
 const firebaseConfig = {
@@ -52,7 +53,8 @@ export default class Signup extends Component {
       age: "1980-01-01", // default value
       username: "",
       email: "",
-      password: ""
+      password: "",
+      showAlert: false
     };
   }
 
@@ -78,6 +80,10 @@ export default class Signup extends Component {
           alert("The password is too weak.");
         } else {
           alert(errorMessage);
+          this.setState({
+            username: ''
+          })
+
         }
       });
 
@@ -104,12 +110,27 @@ export default class Signup extends Component {
         return response.json();
       })
       .then(response => {
-        alert(`Please ${this.state.username} login now`);
+        var scope = this;
+        this.showAlert()
+        setTimeout(function () { scope.hideAlert(); }, 2000);
       })
       .catch(error => {
         // catch is a must for every fetch
+        console.warn('unsuccessfull signup')
       });
   }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
 
   render() {
     const { gender, country, age } = this.state;
@@ -137,7 +158,11 @@ export default class Signup extends Component {
                   <Input
                     placeholder="First Name"
                     keyboardType="email-address"
+                    style={styles.inputs}
                     underlineColorAndroid="transparent"
+                    ref={input => {
+                      this.textInput1 = input;
+                    }}
                     onChangeText={firstname => this.setState({ firstname })}
                   />
                   <Icon active name="person" />
@@ -149,7 +174,11 @@ export default class Signup extends Component {
                   <Input
                     placeholder="Middle Name"
                     keyboardType="email-address"
+                    style={styles.inputs}
                     underlineColorAndroid="transparent"
+                    ref={input => {
+                      this.textInput2 = input;
+                    }}
                     onChangeText={midname => this.setState({ midname })}
                   />
                   <Icon active name="person" />
@@ -161,7 +190,11 @@ export default class Signup extends Component {
                   <Input
                     placeholder="Last Name"
                     keyboardType="email-address"
+                    style={styles.inputs}
                     underlineColorAndroid="transparent"
+                    ref={input => {
+                      this.textInput3 = input;
+                    }}
                     onChangeText={lastname => this.setState({ lastname })}
                   />
                   <Icon active name="person" />
@@ -171,7 +204,7 @@ export default class Signup extends Component {
               <View style={styles.inputContainer}>
                 <Picker
                   selectedValue={gender}
-                  style={{ height: 60, width: 150, marginTop: 20 }}
+                  style={{ height: 60, width: 150, marginTop: 20, color: '#586069' }}
                   onValueChange={(itemValue, itemIndex) => {
                     if (itemValue === "Male") {
                       this.setState({ gender: itemValue });
@@ -188,13 +221,23 @@ export default class Signup extends Component {
               <View style={styles.inputContainer}>
                 <Picker
                   selectedValue={country}
-                  style={{ height: 55, width: 200 }}
+                  style={{ height: 55, width: 200, color: '#586069' }}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({ country: itemValue })
                   }
                 >
                   <Picker.Item label="Amman" value="Amman" />
                   <Picker.Item label="Irbid" value="Irbid" />
+                  <Picker.Item label="Zarqa" value="Zarqa" />
+                  <Picker.Item label="Jarash" value="Jarash" />
+                  <Picker.Item label="Mafraq" value="Mafraq" />
+                  <Picker.Item label="Ajloun" value="Ajloun" />
+                  <Picker.Item label="Balqaa" value="Balqaa" />
+                  <Picker.Item label="Madaba" value="Madaba" />
+                  <Picker.Item label="Karak" value="Karak" />
+                  <Picker.Item label="Ma'an" value="Ma'an" />
+                  <Picker.Item label="Tafeeleh" value="Tafeeleh" />
+                  <Picker.Item label="Aqaba" value="Aqaba" />
                 </Picker>
               </View>
 
@@ -234,17 +277,6 @@ export default class Signup extends Component {
                   }}
                 />
               </View>
-              {/* <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={{
-                uri: "https://png.icons8.com/message/ultraviolet/50/3498db"
-              }}
-              onDateChange={date => {
-                this.setState({ age: date });
-              }}
-            /> */}
-
               <View style={styles.inputContainer}>
                 <Item rounded>
                   <Input
@@ -252,6 +284,9 @@ export default class Signup extends Component {
                     style={styles.inputs}
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
+                    ref={input => {
+                      this.textInput4 = input;
+                    }}
                     onChangeText={username => this.setState({ username })}
                   />
                   <Icon active name="person" />
@@ -265,6 +300,9 @@ export default class Signup extends Component {
                     style={styles.inputs}
                     keyboardType="email-address"
                     underlineColorAndroid="transparent"
+                    ref={input => {
+                      this.textInput5 = input;
+                    }}
                     onChangeText={email => this.setState({ email })}
                   />
                   <Icon active name="md-mail" />
@@ -278,12 +316,14 @@ export default class Signup extends Component {
                     style={styles.inputs}
                     secureTextEntry={true}
                     underlineColorAndroid="transparent"
+                    ref={input => {
+                      this.textInput6 = input;
+                    }}
                     onChangeText={password => this.setState({ password })}
                   />
                   <Icon active name="lock" />
                 </Item>
               </View>
-
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.signupBtn]}
                 onPress={() => this.onClickListener()}
@@ -292,6 +332,24 @@ export default class Signup extends Component {
               </TouchableHighlight>
             </Form>
           </View>
+          <AwesomeAlert
+            show={this.state.showAlert}
+            showProgress={false}
+            title="Successfully Signed up"
+            message="You can login now!"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={false}
+            showConfirmButton={false}
+            progressSize='50'
+            progressColor='green'
+            overlayStyle={{
+              padding: 50,
+            }}
+            contentContainerStyle={{
+              padding: 50,
+            }}
+          />
         </ScrollView>
       </Container>
     );
@@ -334,13 +392,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     width: 250,
-    borderRadius: 30
+    borderRadius: 30,
+    marginLeft: 30,
   },
   signupBtn: {
     backgroundColor: "#E65100"
   },
   signupText: {
-    color: "white"
+    color: "white",
+    textAlign: 'center'
   },
   headerStyle: {
     flex: 1,
