@@ -33,10 +33,17 @@ export default class Search extends Component {
 			modalVisible: false,
 			selectedSurvey: null,
 			images: [
-				"https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png",
-				"https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
-				"https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
-			]
+        require("./assets/1.jpeg"),
+        require("./assets/2.jpeg"),
+        require("./assets/3.jpeg"),
+        require("./assets/4.jpeg"),
+        require("./assets/5.jpeg"),
+        require("./assets/6.jpeg"),
+        require("./assets/7.jpeg"),
+        require("./assets/8.jpeg"),
+        require("./assets/9.jpeg"),
+        require("./assets/10.jpg")
+      ]
 		};
 	}
 
@@ -87,6 +94,7 @@ export default class Search extends Component {
 
 				<View style={styles.inner}>
 					<TextInput
+						placeholderTextColor='grey'
 						style={styles.TextInput}
 						editable={true}
 						maxLength={40}
@@ -142,7 +150,8 @@ const styles = StyleSheet.create({
 		flex: 0.9,
 		borderWidth: 1,
 		borderColor: '#002C43',
-		backgroundColor: "white",
+    backgroundColor: "white",
+    color: 'black'
 	},
 	button: {
 		marginLeft: -25,

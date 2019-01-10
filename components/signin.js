@@ -38,7 +38,8 @@ class Signin extends Component {
     this.state = {
       password: "DEFAULT",
       loggedin: "Login", // custormer notification
-      wrong: "" // if wrong username or password
+      wrong: "", // if wrong username or password
+      loggedout: '',
     };
   }
 
@@ -161,7 +162,8 @@ class Signin extends Component {
         console.warn("You are not Logged out, try again");
       } else {
         this.setState({
-          loggedin: `Login`
+          loggedIn: 'Login',
+          loggedout: `You are logged out`
         });
         // save username into global
         this.props.onAddUsername("");
@@ -248,7 +250,7 @@ class Signin extends Component {
               <Text>Logout</Text>
             </TouchableHighlight>
           ) : (
-              <Text />
+              <Text>{this.state.loggedout}</Text>
             )}
         </View>
       </Container>
