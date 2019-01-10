@@ -5,7 +5,8 @@ import {
   View,
   Alert,
   StyleSheet,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import {
   Container,
@@ -20,9 +21,7 @@ import StarRating from "react-native-star-rating";
 
 export default class AboutUs extends Component {
   static navigationOptions = {
-    drawerIcon: () => (
-      <Icon name="star" style={{ fontSize: 30, color: "#ffdd42" }} />
-    )
+    drawerIcon: () => <Icon name="star" style={{ fontSize: 30 }} />
   };
   state = {
     modalVisible: false,
@@ -40,10 +39,10 @@ export default class AboutUs extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{ alignItems: "center" }}>
         <View style={{ backgroundColor: "white" }}>
           <View style={styles.header}>
-            <Header style={{ backgroundColor: "#E65100" }}>
+            <Header style={{ backgroundColor: "#E65100", width: "100%" }}>
               <Left>
                 <Icon
                   style={styles.icon}
@@ -53,7 +52,7 @@ export default class AboutUs extends Component {
                   }}
                 />
               </Left>
-              <Text style={styles.headerStyle}>Contact Us</Text>
+              <Text style={styles.headerStyle}>About Us</Text>
             </Header>
           </View>
           <View style={styles.modalContainer}>
@@ -87,7 +86,7 @@ export default class AboutUs extends Component {
                     }}
                   >
                     <Text
-                      style={{ color: "red", textAlign: "right", margin: 20 }}
+                      style={{ color: "red", textAlign: "right", margin: 10 }}
                     >
                       {"<<<Back"}
                     </Text>
@@ -96,7 +95,12 @@ export default class AboutUs extends Component {
               </View>
             </Modal>
             <View>
-                <Text style={styles.textTitle}>
+              <Image
+                style={{ alignSelf: "center" ,width: 150,
+                height: 150}}
+                source={require("./ask.png")}
+              />
+              <Text style={styles.textTitle}>
                 Ask'Em is a smart mobile app that uses machine learning to
                 achieve customers satisfaction. this app will give you the
                 opportunity to start your own business on a sure-footed.
@@ -107,37 +111,41 @@ export default class AboutUs extends Component {
                 }}
               >
                 <Text
-                  style={{ color: "red", textAlign: "right", marginBottom: 30 }}
+                  style={{ color: "red", textAlign: "right", marginBottom: 10 }}
                 >
                   See more>>>
                 </Text>
               </TouchableHighlight>
             </View>
-            <View style={{ backgroundColor: "white" }}>
-              <Text style={{ fontSize: 30, textAlign: "left" }}>Rate Us</Text>
-              <StarRating
-                disabled={false}
-                maxStars={5}
-                rating={this.state.starCount}
-                selectedStar={rating => this.onStarRatingPress(rating)}
-                fullStarColor={"#ffdd42"}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.inputs}
-                placeholder="Help Us To Improve ?!"
-                placeholderTextColor="gray"
-              />
-            </View>
-            <TouchableHighlight
-              style={[styles.buttonContainer, styles.submitButton]}
-            >
-              <Text style={styles.submitText}>
-                <Icon name="send" style={{ color: "white" }} />
-                Submit
-              </Text>
-            </TouchableHighlight>
+            <ScrollView>
+              <View style={{ backgroundColor: "white", margin: 10 }}>
+                <Text style={{ fontSize: 30, textAlign: "left" }}>Rate Us</Text>
+                <View style={styles.stars}>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                    fullStarColor={"#ffdd42"}
+                  />
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.inputs}
+                  placeholder="Help Us To Improve ?!"
+                  placeholderTextColor="gray"
+                />
+              </View>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.submitButton]}
+              >
+                <Text style={styles.submitText}>
+                  <Icon name="send" style={{ color: "white" }} />
+                  Submit
+                </Text>
+              </TouchableHighlight>
+            </ScrollView>
           </View>
         </View>
       </Container>
@@ -147,7 +155,6 @@ export default class AboutUs extends Component {
 
 const styles = StyleSheet.create({
   container: {
-  
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     // textAlignVertical: "center",
     // textAlign: "center",
-    margin: 40,
+    margin: 20,
     fontFamily: "Roboto"
   },
   textScreenElements: {
@@ -171,7 +178,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto"
   },
   modalContainer: {
-    width: "80%",
+    width: "100%",
     backgroundColor: "white"
   },
   headerStyle: {
@@ -189,6 +196,19 @@ const styles = StyleSheet.create({
     margin: 10,
     fontSize: 40,
     textAlign: "left"
+  },
+  inputContainer: {
+    borderBottomColor: "#F5FCFF",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 50,
+    marginBottom: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#E65100"
   },
   inputs: {
     height: 45,
@@ -223,32 +243,18 @@ const styles = StyleSheet.create({
     color: "white",
     alignItems: "center",
     fontSize: 17
+  },
+  stars: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    // margin:30,
+    marginBottom: 10,
+    marginTop: 10
+  },
+  tretch: {
+    width: 50,
+    height: 50
   }
 });
-
-// // const styles = StyleSheet.create({
-// //   container: {
-// //     flex: 1,
-// //     flexDirection: "column",
-// //     justifyContent: "space-between",
-// //     alignItems: "center",
-// //     backgroundColor: "white",
-// //     top: 0
-// //   },
-// //   headerStyle: {
-// //     flex: 1,
-// //     flexDirection: "column",
-// //     alignItems: "center",
-// //     justifyContent: "center",
-// //     textAlignVertical: "center",
-// //     textAlign: "left",
-// //     color: "white",
-// //     fontSize: 22
-// //   },
-// //   icon: {
-// //     color: "white",
-// //     margin: 10,
-// //     fontSize: 30,
-// //     textAlign: "left"
-// //   }
-// // });
