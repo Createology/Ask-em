@@ -64,20 +64,26 @@ export default class Home extends Component {
       surveyAnswers: [],
       userID: null,
       images: [
-        "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png",
-        "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
-        "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
+        require("./assets/1.jpeg"),
+        require("./assets/2.jpeg"),
+        require("./assets/3.jpeg"),
+        require("./assets/4.jpeg"),
+        require("./assets/5.jpeg"),
+        require("./assets/6.jpeg"),
+        require("./assets/7.jpeg"),
+        require("./assets/8.jpeg"),
+        require("./assets/9.jpeg"),
+        require("./assets/10.jpg")
       ]
     };
   }
 
   componentDidMount = async () => {
-    
     try {
       const value = await AsyncStorage.getItem("userID");
       if (value !== null && !this.state.loggedin) {
         // We have data!!
-        const token = (JSON.parse(value));
+        const token = JSON.parse(value);
         this.showAllSurveys(token.user_id);
         this.setState({
           loggedin: ` ${token.userName} `
@@ -88,7 +94,7 @@ export default class Home extends Component {
         });
       }
     } catch (error) {
-      console.warn("errer home didmount", error)
+      console.warn("error home didmount", error);
       // Error retrieving data
     }
   };
@@ -122,9 +128,9 @@ export default class Home extends Component {
   getQuestions(surveyID) {
     fetch(`${ip}:3000/answer/dumb/questions`, {
       method: "POST",
-      headers: { 
-        'Accept':'application/json',
-        "Content-Type": "application/json" 
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         surveyID: surveyID
@@ -202,23 +208,22 @@ export default class Home extends Component {
           surveyAnswers: res
         });
       })
-      .done(() => {
-      });
+      .done(() => {});
   };
 
   onChangeSurveyInfo = (
     name,
     description,
     category,
-    surveyID,
-    surveyUserID
+    surveyUserID,
+    surveyID
   ) => {
     this.setState({
       surveyName: name,
       surveyDescription: description,
       surveyCategory: category,
-      surveyID: surveyID,
-      surveyUserID: surveyUserID
+      surveyUserID: surveyUserID,
+      surveyID: surveyID
     });
   };
 
@@ -233,7 +238,8 @@ export default class Home extends Component {
       surveyName,
       loggedin,
       surveyUserID,
-      surveyID
+      surveyID,
+      userID
     } = this.state;
 
     const { navigation } = this.props;
@@ -274,6 +280,8 @@ export default class Home extends Component {
               surveyDescription={surveyDescription}
               surveyCategory={surveyCategory}
               submitModalHandler={this.onPressSubmitModal.bind(this)}
+              surveyID={surveyID}
+              userID={userID}
             />
             <SurveyListThumbnails
               allSurveys={allSurveysInfo}

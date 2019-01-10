@@ -12,131 +12,456 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // nueral network declaration
+
 //const network = new brain.recurrent.LSTM();
 let network = new brain.NeuralNetwork();
+
 
 var userID;
 var surveyID;
 
 // save answers from specific surveys into json file
 app.post("/answers/smart/create", (req, res) => {
-	// console.log("search brainServer", req.body.userID);
 	console.log("search brainServer", req.body.surveyID);
-	// userID = req.body.userID;
 	surveyID = req.body.surveyID;
-	db.selectAllUsersAnsweredSurveys(surveyID, (err, result) => {
+	db.selectAllSmartAnsOfASurvey(surveyID, async (err, result) => {
 		if (result) {
-			console.log(result)
-			var results = {}
+			var array = []
+			var input = ''
 			for (var i = 0; i < result.length; i++) {
-				console.log('result[i]', result[i])
-				results[result[i].id_users] = {}
+				input += result[i].smartanswer;
 			}
-			for (var i = 0; i < result.length; i++) {
-				console.log('result[i]', result[i])
-				results[result[i].id_users][result[i].id_questions] = result[i].smartanswer
-			}
-			var array = [];
-			for (var key in results) {
-				array.push(results[key])
-			}
-			console.log("results", array)
-			fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
-			res.sendStatus(200)
+			var req = {body: {input: input, surveyID: 7}};
+			var Think = await think(req, res)
 		} else {
 			res.status(404).send("Invalid surveyID");
 		}
 	})
 });
 
-/* try to add smart answer
-{
-	"surveyID": "7",
-	"input": {
-    "0": "Yes",
-    "39": "Jandaweel",
-    "40": "1",
-    "41": "5",
-    "42": "YES",
-    "43": "suuuure I love KFC"
-  }
-}
-*/
-// think about new smart answer
-app.post("/smart/answer/think", async (req, res) => {
-	//req.body is an object of two keys (surveyID and input)
-	surveyID = req.body.surveyID;
 
-	data = require(`./smartData/surveyID${surveyID}_Dummy.json`)
-	if (data) {
-		// make up data for training
-		var trainingData = data.map(item => (
-			{
-				input: Object.values(item).slice(1).join('').replace(/\s/g, "").toLowerCase(),
-				output: item['0']
-			}
-		))
+var think = function (req, res) {
+	var surveyID = req.body['surveyID'];
+	const trainingData = require(`./smartData/surveyID${surveyID}_Dummy.json`)
 
-		console.log(trainingData)
-		// train data with some options
-		network.train(trainingData, {
-			iterations: 2000, // if you increase time of brain will increase, and accuracy will increase
-			//errorThresh: 0.005,   // the acceptable error percentage from training data --> number between 0 and 1
-			activation: 'relu' // to read bigger numbers than 1
-		});
+	let trainedNet;
+	let maxLengthInput = -1;
+	var longest;
 
-		// make up new data input	where req.body.input is an object, 
-		// key is questionID and value is smartAnswer	
-		var input = req.body.input;
-		// editedInput is an array of only input values
-		var editedInput = Object.values(input).join('').replace(/\s/g, "").toLowerCase();
+	longest = trainingData.reduce((a, b) => a.input.length > b.input.length ? a : b).input.length;
+	for (let i = 0; i < trainingData.length; i++) {
+		trainingData[i].input = adjustSize(trainingData[i].input);
+	}
 
-		// THINK
-		const smartAnswer = await network.run(editedInput)//[('Khalda').replace(/\s/g, ""), 5])
- 
-		try { // if this is NOT the first time brain Thinks
-			// bring all the thinking data
-			var array = require(`./smartData/surveyID${surveyID}_Answers.json`);
-			input['0'] = smartAnswer;
-			if (array.length === 0) { // with dummy
-				if (smartAnswer === "Yes" || smartAnswer === "No") {
-					data.push(input)
-					array = data
-					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
-					console.log('run answer =============', smartAnswer)
-				} else {
-					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(data, null, '  '));
-				}
-			} else {
-				if (smartAnswer === "Yes" || smartAnswer === "No") {
-					array.push(input)
-					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
-					console.log('run answer =============', smartAnswer)
-				} else {
-					console.log('invalid answer')
-					fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
-				}
-			}
-		} catch { // if this is the first time brain Thinks
-			if (smartAnswer === "Yes" || smartAnswer === "No") {
-				// make a file of thinking data
-				fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify([], null, '  '));
-				var array = require(`./smartData/surveyID${surveyID}_Answers.json`);
-				input['0'] = smartAnswer;
-				data.push(input)
-				array = data
-				fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify(array, null, '  '));
-				console.log('run answer =============', smartAnswer)
-			} else {
-				console.log('invalid answer')
-				fs.writeFileSync(`./smartData/surveyID${surveyID}_Answers.json`, JSON.stringify([], null, '  '));
+	function adjustSize(string) {
+		while (string.length < longest) {
+			string += ' ';
+		}
+		return string;
+	}
+
+	function fixLengths(data) {
+		var before = data
+		for (let i = 0; i < data.length; i++) {
+			if (data.length > maxLengthInput) {
+				maxLengthInput = data.length;
 			}
 		}
-		res.status(200).send(smartAnswer)
-	} else {
-		res.sendStatus(404)
+
+		for (let i = 0; i < data.length; i++) {
+			while (data.length < maxLengthInput) {
+				data = data + 0;
+			}
+		}
+		if (data !== before) {
+		}
+		return Number(data);
+	}
+
+	function encode(arg) {
+		var encoded = arg.split('').map(x => {
+			var item = x.charCodeAt(0) / 255;
+			return fixLengths(String(item))
+		});
+		return encoded;
+	}
+
+	function processTrainingData(data) {
+		return data.map(d => {
+			return {
+				input: encode(d.input),
+				output: d.output
+			}
+		})
+	}
+
+	function train(data) {
+		let net = new brain.NeuralNetwork();
+		net.train(processTrainingData(data), {
+			iterations: 20000,
+			errorThresh: 0.05,
+			log: true
+		});
+		trainedNet = net.toFunction();
+		console.log('Finished training...');
+	};
+
+	function execute(input) {
+		let results = trainedNet(encode(input));
+		let output;
+		console.log("results", results)
+		if (!results.no) {
+			console.log('==============convert============')
+
+			for (var i = 0; i < trainingData.length; i++) {
+				trainingData[i].output = Object.keys(trainingData[i].output)[0]
+			}
+			console.log(trainingData)
+			let trainedNet;
+
+			function train(data) {
+				let net = new brain.recurrent.LSTM();
+				net.train(data, {
+					iterations: 1000,
+					log: true
+				});
+				trainedNet = net.toFunction();
+				console.log('Finished training...');
+			};
+
+			function execute(input) {
+				let results = trainedNet(input);
+				res.status(200).send(results)
+				console.log('Finished thinking...');
+				return results;
+			}
+
+			train(trainingData);
+			var input = adjustSize(req.body.input);
+			var smartAnswer = execute(input)
+			console.log('smartAnswer', smartAnswer);
+
+
+		} else {
+			results.no > results.yes ? output = 'no' : output = 'yes';
+			console.log(results)
+			res.status(200).send(results)
+			return output;
+		}
+	}
+
+	train(trainingData);
+	var input = Object.values(req.body.input).join('');
+	var smartAnswer = execute(adjustSize(input))
+	console.log('smartAnswer', smartAnswer)
+
+	try { // if dummy data is not existing
+		// bring all the thinking data
+		var array = require(`./smartData/surveyID${surveyID}_Dummy.json`)
+
+		if (smartAnswer == "yes" || smartAnswer === "no") {
+			array.push({
+				input: adjustSize(input),
+				output: { [smartAnswer]: 1 }
+			});
+			var data = array;
+			fs.writeFileSync(`./smartData/surveyID${surveyID}_Dummy.json`, JSON.stringify(array, null, '  '));
+			console.log('run answer =============', smartAnswer)
+		}
+
+	} catch { // if no dummy file
+		console.log('NO DUMMY DATA')
+	}
+};
+
+
+app.post("/smart/answer/think", think)
+
+
+
+
+
+/*
+async (req, res) => {
+	var surveyID = req.body['surveyID'];
+	const trainingData = require(`./smartData/surveyID${surveyID}_Dummy.json`)
+
+	let trainedNet;
+	let maxLengthInput = -1;
+	var longest;
+
+	longest = trainingData.reduce((a, b) => a.input.length > b.input.length ? a : b).input.length;
+	for (let i = 0; i < trainingData.length; i++) {
+		trainingData[i].input = adjustSize(trainingData[i].input);
+	}
+
+	function adjustSize(string) {
+		while (string.length < longest) {
+			string += ' ';
+		}
+		return string;
+	}
+
+	function fixLengths(data) {
+		var before = data
+		for (let i = 0; i < data.length; i++) {
+			if (data.length > maxLengthInput) {
+				maxLengthInput = data.length;
+			}
+		}
+
+		for (let i = 0; i < data.length; i++) {
+			while (data.length < maxLengthInput) {
+				data = data + 0;
+			}
+		}
+		if (data !== before) {
+		}
+		return Number(data);
+	}
+
+	function encode(arg) {
+		var encoded = arg.split('').map(x => {
+			var item = x.charCodeAt(0) / 255;
+			return fixLengths(String(item))
+		});
+		return encoded;
+	}
+
+	function processTrainingData(data) {
+		return data.map(d => {
+			return {
+				input: encode(d.input),
+				output: d.output
+			}
+		})
+	}
+
+	function train(data) {
+		let net = new brain.NeuralNetwork();
+		net.train(processTrainingData(data), {
+			iterations: 20000,
+			errorThresh: 0.05,
+			log: true
+		});
+		trainedNet = net.toFunction();
+		console.log('Finished training...');
+	};
+
+	function execute(input) {
+		let results = trainedNet(encode(input));
+		let output;
+		console.log("results", results)
+		if (!results.no) {
+			console.log('==============convert============')
+
+			for (var i = 0; i < trainingData.length; i++) {
+				trainingData[i].output = Object.keys(trainingData[i].output)[0]
+			}
+			console.log(trainingData)
+			let trainedNet;
+
+			function train(data) {
+				let net = new brain.recurrent.LSTM();
+				net.train(data, {
+					iterations: 1000,
+					log: true
+				});
+				trainedNet = net.toFunction();
+				console.log('Finished training...');
+			};
+
+			function execute(input) {
+				let results = trainedNet(input);
+				res.status(200).send(results)
+				console.log('Finished thinking...');
+				return results;
+			}
+
+			train(trainingData);
+			var input = adjustSize(req.body.input);
+			var smartAnswer = execute(input)
+			console.log('smartAnswer', smartAnswer);
+
+
+		} else {
+			results.no > results.yes ? output = 'no' : output = 'yes';
+			console.log(results)
+			res.status(200).send(results)
+			return output;
+		}
+	}
+
+	train(trainingData);
+	var input = Object.values(req.body.input).join('');
+	var smartAnswer = execute(adjustSize(input))
+	console.log('smartAnswer', smartAnswer)
+
+	try { // if dummy data is not existing
+		// bring all the thinking data
+		var array = require(`./smartData/surveyID${surveyID}_Dummy.json`)
+
+		if (smartAnswer == "yes" || smartAnswer === "no") {
+			array.push({
+				input: adjustSize(input),
+				output: { [smartAnswer]: 1 }
+			});
+			var data = array;
+			fs.writeFileSync(`./smartData/surveyID${surveyID}_Dummy.json`, JSON.stringify(array, null, '  '));
+			console.log('run answer =============', smartAnswer)
+		}
+
+	} catch { // if no dummy file
+		console.log('NO DUMMY DATA')
 	}
 });
+*/
+
+
+
+
+app.post("/smart/answer/final", async (req, res) => {
+	var surveyID = req.body['surveyID'];
+	const trainingData = require(`./smartData/surveyID${surveyID}_Dummy.json`)
+
+	let trainedNet;
+	let maxLengthInput = -1;
+	var longest;
+
+	longest = trainingData.reduce((a, b) => a.input.length > b.input.length ? a : b).input.length;
+	for (let i = 0; i < trainingData.length; i++) {
+		trainingData[i].input = adjustSize(trainingData[i].input);
+	}
+
+	function adjustSize(string) {
+		while (string.length < longest) {
+			string += ' ';
+		}
+		return string;
+	}
+
+	function fixLengths(data) {
+		var before = data
+		for (let i = 0; i < data.length; i++) {
+			if (data.length > maxLengthInput) {
+				maxLengthInput = data.length;
+			}
+		}
+
+		for (let i = 0; i < data.length; i++) {
+			while (data.length < maxLengthInput) {
+				data = data + 0;
+			}
+		}
+		if (data !== before) {
+		}
+		return Number(data);
+	}
+
+	function encode(arg) {
+		var encoded = arg.split('').map(x => {
+			var item = x.charCodeAt(0) / 255;
+			return fixLengths(String(item))
+		});
+		return encoded;
+	}
+
+	function processTrainingData(data) {
+		return data.map(d => {
+			return {
+				input: encode(d.input),
+				output: d.output
+			}
+		})
+	}
+
+	function train(data) {
+		let net = new brain.NeuralNetwork();
+		net.train(processTrainingData(data), {
+			iterations: 1000,
+			errorThresh: 0.1,
+			log: true
+		});
+		trainedNet = net.toFunction();
+		console.log('Finished training...');
+	};
+
+	function execute(input) {
+		let results = trainedNet(encode(input));
+		let output;
+		if (!results.no) {
+
+			for (var i = 0; i < trainingData.length; i++) {
+				trainingData[i].output = Object.keys(trainingData[i].output)[0]
+			}
+			console.log(trainingData)
+			let trainedNet;
+
+			function train(data) {
+				let net = new brain.recurrent.LSTM();
+				net.train(data, {
+					iterations: 1000,
+					errorThresh: 0.05,
+					log: true
+				});
+				trainedNet = net.toFunction();
+				console.log('Finished training...');
+			};
+
+			function execute(input) {
+				let results = trainedNet(input);
+				res.status(200).send(results)
+				console.log('Finished thinking...');
+				return results;
+			}
+
+			train(trainingData);
+			var input = adjustSize(req.body.input.join(' ').toLowerCase());
+			var smartAnswer = execute(input)
+			results.yes < 0.30 ? output = 'No' : output = 'Yes';
+			console.log(results)
+			res.status(200).send(output)
+			return output;
+
+		} else {
+			results.yes < 0.30 ? output = 'No' : output = 'Yes';
+			console.log(results)
+			res.status(200).send(output)
+			return output;
+		}
+	}
+
+	train(trainingData);
+	var input = Object.values(req.body.input).join(' ');
+	var smartAnswer = execute(adjustSize(input.toLowerCase()))
+	console.log('smartAnswer', smartAnswer)
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -145,41 +470,36 @@ app.post("/answer/smart/get", async (req, res) => {
 	surveyID = req.body.surveyID;
 
 	data = require(`./smartData/surveyID${surveyID}_Answers.json`)
-		// make up data for training
-		var trainingData = data.map(item => (
-			{
-				input: Object.values(item).slice(1),
-				output: item['0']
-			}
-		))
+	// make up data for training
+	var trainingData = data.map(item => (
+		{
+			input: Object.values(item).slice(1),
+			output: item['0']
+		}
+	))
 
-		// train data with some options
-		network.train(trainingData, {
-			iterations: 2000, // if you increase time of brain will increase, and accuracy will increase
-			//errorThresh: 0.005,   // the acceptable error percentage from training data --> number between 0 and 1
-			activation: 'relu' // to read bigger numbers than 1
-		});
+	// train data with some options
+	network.train(trainingData, {
+		iterations: 2000, // if you increase time of brain will increase, and accuracy will increase
+		//errorThresh: 0.005,   // the acceptable error percentage from training data --> number between 0 and 1
+		activation: 'relu' // to read bigger numbers than 1
+	});
 
-		// make up new data input	where req.body.input is an object, 
-		// key is questionID and value is smartAnswer	
-		var input = req.body.input;
-		// editedInput is an array of only input values
-		var editedInput = Object.values(input);
+	// make up new data input	where req.body.input is an object, 
+	// key is questionID and value is smartAnswer	
+	var input = req.body.input;
+	// editedInput is an array of only input values
+	var editedInput = Object.values(input);
 
-		// THINK
-		const smartAnswer = await network.run(editedInput)
-		res.status(200).send(smartAnswer)
+	// THINK
+	const smartAnswer = await network.run(editedInput)
+	res.status(200).send(smartAnswer)
 });
 
 
 app.listen(4000, function () {
 	console.log('listening on port 4000!');
 });
-
-// data.push({
-//     "text": "issa",
-//     "category": "try"
-// })
 
 // fs.writeFileSync('./net.json', JSON.stringify(network.toJSON(), null, '  '));
 // const textOutput = network.fromJSON(JSON.parse(fs.readFileSync('./net.json', 'utf8')));

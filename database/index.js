@@ -257,15 +257,13 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
 };
 
 const insertSmartAnswer = (
-  smartanswer,
-  Truth,
-  id_smartquestions,
-  id_users,
-  id_surveys,
+  values,
   callback
 ) => {
-  dbconnection.query(
-    `INSERT INTO smart (id, smartanswer,Truth, id_smartquestions, id_users, id_surveys) VALUES(null, \"${smartanswer}\",\"${Truth}\",\"${id_smartquestions}\",\"${id_users}\",\"${id_surveys}\")`,
+  var sql = `INSERT INTO smart (smartanswer,Truth, id_smartquestions, id_users, id_surveys) VALUES ?`;
+  var editedValues = values.map(answer => Object.values(answer));
+
+  dbconnection.query(sql, [editedValues],
     (err, result) => {
       if (err) {
         console.log("err", err);
@@ -328,13 +326,14 @@ const insertQuestion = (values, callback) => {
   );
 };
 
-
 const insertSmartQuestion = (values, callback) => {
   dbconnection.query(
-    `INSERT INTO smartquestions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${values[0]}\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
+    `INSERT INTO smartquestions (id, id_surveys, id_users, question, createdAt) VALUES (NULL, \"${
+      values[0]
+    }\", \"${values[1]}\", \"${values[2]}\", CURRENT_TIMESTAMP)`,
     (err, result) => {
       if (err) {
-        console.log('db err', err)
+        console.log("db err", err);
         callback(err, null);
       } else {
         callback(null, result);
@@ -344,7 +343,7 @@ const insertSmartQuestion = (values, callback) => {
 };
 
 // 1 >> wich is active and 0 >> is not active
-const selectAllActiveSurveysNotAnswerd = (userID, callback) => {
+const selectAllActiveSurveysNotAnswerdByUser = (userID, callback) => {
   dbconnection.query(
     `SELECT * from surveys where (id NOT IN (SELECT id_surveys from answers where id_users = ${userID}) AND activated = '1') ORDER BY createdAt DESC `,
     (err, results) => {
@@ -370,6 +369,46 @@ const selectAllAnswerOfADummy = (surveyID, callback) => {
   );
 };
 
+const selectAnswerOfAResult = (id_suervey, callback) => {
+  dbconnection.query(
+    `SELECT * from result where id_suervey = ${id_suervey}`,
+    (err, results) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+};
+
+// const fillAnswerOfAResult = (id_suervey, answer, callback) => {
+//   dbconnection.query(
+//     `INSERT INTO result (id,id_suervey,answer,createdAt) VALUES (NULL, , , CURRENT_TIMESTAMP)`,
+//     (err, results) => {
+//       if (err) {
+//         callback(err, null);
+//       } else {
+//         callback(null, results);
+//       }
+//     }
+//   );
+// };
+
+const addAnswerOfAResult = (id_suervey, answer, callback) => {
+  dbconnection.query(
+    `INSERT INTO result (id, id_suervey, answer, createdAt) VALUES(null, \"${id_suervey}\",\"${answer}\",CURRENT_TIMESTAMP)`,
+    (err, result) => {
+      if (err) {
+        console.log("err", err);
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
 const saveContactUs = (
   id_user,
   username,
@@ -389,8 +428,73 @@ const saveContactUs = (
   );
 };
 
+const selectAllLastNames = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT lastname from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllGenders = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT gender from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllBirthdays = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT birthday from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllChoicesOfQuestion = (questionID, callback) => {
+  dbconnection.query(
+    `SELECT choice from choices where id_qustions = ${questionID}`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+// const selectAllChoicesOfSurveyQuestions = (surveyID, callback) => {
+//   dbconnection.query(
+//     `select choice, questions.id from choices inner join questions on choices.id_qustions = questions.id and choices.id_suerveys = ${surveyID}`,
+//     (err, result) => {
+//       if (err) {
+//         callback(err, null);
+//       } else {
+//         callback(null, result);
+//       }
+//     }
+//   );
+// };
+
 module.exports.selectAll = selectAll;
-module.exports.selectAllActiveSurveysNotAnswerd = selectAllActiveSurveysNotAnswerd;
+module.exports.selectAllActiveSurveysNotAnswerdByUser = selectAllActiveSurveysNotAnswerdByUser;
 module.exports.selectAllSurveysOfUser = selectAllSurveysOfUser;
 module.exports.insertSurvey = insertSurvey;
 module.exports.selectUser = selectUser;
@@ -415,3 +519,10 @@ module.exports.selectAllAnsOfASurvey = selectAllAnsOfASurvey;
 module.exports.selectAllSmartAnsOfASurvey = selectAllSmartAnsOfASurvey;
 module.exports.selectAllAnsOfQus = selectAllAnsOfQus;
 module.exports.selectAllAnswerOfADummy = selectAllAnswerOfADummy;
+module.exports.selectAllLastNames = selectAllLastNames;
+module.exports.selectAllGenders = selectAllGenders;
+module.exports.selectAllBirthdays = selectAllBirthdays;
+module.exports.selectAllChoicesOfQuestion = selectAllChoicesOfQuestion;
+// module.exports.selectAllChoicesOfSurveyQuestions = selectAllChoicesOfSurveyQuestions;
+module.exports.selectAnswerOfAResult = selectAnswerOfAResult;
+module.exports.addAnswerOfAResult = addAnswerOfAResult;

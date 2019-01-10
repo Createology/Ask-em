@@ -12,10 +12,10 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Container, Header, Text as Textbase, Left, Icon } from "native-base";
-//import { Icon } from 'react-native-elements';
-
-import SurveyListThumbnails from "./SurveyListThumbnails";
 import { Col, Row, Grid } from "react-native-easy-grid";
+
+import AccountThumbnails from "./AccountThumbnails";
+import AccountModal from "./AccountModal";
 
 const ip = require("../ip.json");
 
@@ -34,16 +34,37 @@ export default class Account extends Component {
       surveyName: "",
       surveyDescription: "",
       surveyCategory: "",
+      surveyID: "",
+      surveyUserID: "",
       fetchedSurveys: [],
       user_id: null,
       images: [
-        "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png",
-        "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg",
-        "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
+        require("./assets/1.jpeg"),
+        require("./assets/2.jpeg"),
+        require("./assets/3.jpeg"),
+        require("./assets/4.jpeg"),
+        require("./assets/5.jpeg"),
+        require("./assets/6.jpeg"),
+        require("./assets/7.jpeg"),
+        require("./assets/8.jpeg"),
+        require("./assets/9.jpeg"),
+        require("./assets/10.jpg")
       ],
-      user: ""
+      user: "",
+      isUserSurveys: false,
+      birthdays: [],
+      lastnames: [],
+      genders: []
     };
   }
+
+  componentDidMount = async () => {
+    var user = await AsyncStorage.getItem("userID");
+    user = JSON.parse(user);
+    if (user["userName"]) {
+      this.setState({ user: user.userName });
+    }
+  };
 
   onPressMySurveys = async () => {
     try {
@@ -55,9 +76,9 @@ export default class Account extends Component {
         });
         fetch(`${ip}:3000/mysurveys/retrieve`, {
           method: "POST",
-          headers: { 
-            'Accept':'application/json',
-            "Content-Type": "application/json" 
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ id: this.state.user_id })
         })
@@ -82,9 +103,9 @@ export default class Account extends Component {
         });
         fetch(`${ip}:3000/mysurveys/answered`, {
           method: "POST",
-          headers: { 
-            'Accept':'application/json',
-            "Content-Type": "application/json" 
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ id: this.state.user_id })
         })
@@ -99,6 +120,51 @@ export default class Account extends Component {
     }
   };
 
+  getBirthdays(id) {
+    fetch(`${ip}:3000/surveys/retrieve/all/birthday`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ surveyID: id })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ birthdays: res });
+      })
+      .catch(err => {
+        console.warn("getBirthdays");
+      });
+  }
+
+  getGenders(id) {
+    fetch(`${ip}:3000/surveys/retrieve/all/gender`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ surveyID: id })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ genders: res });
+      })
+      .catch(err => {
+        console.warn("getGenders");
+      });
+  }
+
+  getLastNames(id) {
+    fetch(`${ip}:3000/surveys/retrieve/all/lastname`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ surveyID: id })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ lastnames: res });
+      })
+      .catch(err => {
+        console.warn("getLastNames");
+      });
+  }
+
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
@@ -107,15 +173,38 @@ export default class Account extends Component {
     this.setState({ selectedSurvey: item });
   };
 
-  componentDidMount = async () => {
-    var user = await AsyncStorage.getItem("userID");
-    user = JSON.parse(user);
-    if (user["userName"]) {
-      this.setState({ user: user.userName });
-    }
-  };
+  async onChangeSurveyInfo(name, description, category, id, userID) {
+    await this.setState({
+      surveyName: name,
+      surveyDescription: description,
+      surveyCategory: category,
+      surveyID: id,
+      surveyUserID: userID
+    });
+  }
+
+  onPressCloseModal() {
+    this.setState({ modalVisible: false });
+  }
 
   render() {
+    const {
+      modalVisible,
+      selectedSurvey,
+      allSurveysInfo,
+      images,
+      surveyDescription,
+      surveyCategory,
+      surveyName,
+      loggedin,
+      surveyUserID,
+      surveyID,
+      fetchedSurveys,
+      isUserSurveys,
+      birthdays,
+      genders,
+      lastnames
+    } = this.state;
     return (
       <Container>
         <Header style={{ backgroundColor: "#E65100" }}>
@@ -147,6 +236,7 @@ export default class Account extends Component {
                     style={styles.buttonContainerFirst}
                     onPress={() => {
                       this.onPressMySurveys();
+                      this.setState({ isUserSurveys: true });
                     }}
                   >
                     <Text style={styles.text}>My Surveys</Text>
@@ -155,6 +245,7 @@ export default class Account extends Component {
                     style={styles.buttonContainerSecond}
                     onPress={() => {
                       this.onPressSurveysHasBeenAns();
+                      this.setState({ isUserSurveys: false });
                     }}
                   >
                     <Text style={styles.bigText}>Answered</Text>
@@ -164,11 +255,30 @@ export default class Account extends Component {
               </View>
             </Row>
             <Row size={2}>
-              <SurveyListThumbnails
-                allSurveys={this.state.fetchedSurveys}
+              <AccountModal
+                showHandler={this.setModalVisible.bind(this)}
+                visibility={modalVisible}
+                selectedSurvey={selectedSurvey}
+                allSurveys={fetchedSurveys}
+                surveyName={surveyName}
+                surveyDescription={surveyDescription}
+                surveyCategory={surveyCategory}
+                submitModalHandler={this.onPressCloseModal.bind(this)}
+                surveyID={surveyID}
+                birthdays={birthdays}
+                genders={genders}
+                lastnames={lastnames}
+              />
+              <AccountThumbnails
+                allSurveys={fetchedSurveys}
                 selectedSurvey={this.selectedSurvey.bind(this)}
                 showHandler={this.setModalVisible.bind(this)}
-                surveyImages={this.state.images}
+                surveyImages={images}
+                onChangeSurveyInfo={this.onChangeSurveyInfo.bind(this)}
+                isUserSurveys={isUserSurveys}
+                getBirthdays={this.getBirthdays.bind(this)}
+                getGenders={this.getGenders.bind(this)}
+                getLastNames={this.getLastNames.bind(this)}
               />
             </Row>
           </Grid>
@@ -226,33 +336,26 @@ const styles = StyleSheet.create({
   bodyContent: {
     flex: 1,
     flexDirection: "row"
-    //justifyContent: 'space-between',
   },
   buttonContainerFirst: {
     flex: 2,
     marginTop: 10,
     height: 45,
     marginBottom: 1,
-    //marginRight: 5,
-    //width: 150,
     alignItems: "center",
-    //borderRadius: 12,
     borderColor: "black",
     borderRightWidth: 1,
-    backgroundColor: "#002C43" //"#003049",
+    backgroundColor: "#002C43"
   },
   buttonContainerSecond: {
     flex: 2,
     marginTop: 10,
     height: 45,
     marginBottom: 1,
-    //marginRight: 5,
-    //width: 150,
     alignItems: "center",
-    //borderRadius: 12,
     borderColor: "black",
     borderLeftWidth: 1,
-    backgroundColor: "#EAE2B7" //"#003049",
+    backgroundColor: "#EAE2B7"
   },
   thumbnails: {
     color: "black"
@@ -266,7 +369,6 @@ const styles = StyleSheet.create({
   bigText: {
     color: "black",
     fontSize: 15,
-    //marginLeft: 10,
     fontWeight: "bold"
   },
   icon: {
