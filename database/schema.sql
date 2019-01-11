@@ -862,3 +862,709 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+--- after test 
+-----------
+-----------
+
+-- phpMyAdmin SQL Dump
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jan 11, 2019 at 02:04 AM
+-- Server version: 8.0.13
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `askem_77`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers`
+--
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL,
+  `answer` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+  `id_questions` int(11) DEFAULT NULL,
+  `id_users` int(11) NOT NULL,
+  `id_surveys` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `answer`, `id_questions`, `id_users`, `id_surveys`) VALUES
+(318, 'Primary', 83, 70, 41),
+(319, 'Married', 84, 70, 41);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `choices`
+--
+
+CREATE TABLE `choices` (
+  `id` int(11) NOT NULL,
+  `id_qustions` int(11) NOT NULL,
+  `id_suerveys` int(11) NOT NULL,
+  `choice` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `choices`
+--
+
+INSERT INTO `choices` (`id`, `id_qustions`, `id_suerveys`, `choice`) VALUES
+(17, 80, 41, 'Isa'),
+(18, 80, 41, 'Omar'),
+(19, 80, 41, 'Muhannad'),
+(20, 80, 41, 'Ghadeer'),
+(21, 82, 41, 'Fame'),
+(22, 82, 41, 'Relative'),
+(23, 82, 41, 'Wealth'),
+(24, 81, 41, 'Yes'),
+(25, 81, 41, 'No'),
+(26, 81, 41, 'I don\'t know'),
+(27, 83, 41, 'Primary'),
+(28, 83, 41, 'Secondary'),
+(29, 83, 41, 'Bachelor'),
+(30, 83, 41, 'Master'),
+(31, 83, 41, 'Doctoral'),
+(32, 84, 41, 'Single'),
+(33, 84, 41, 'Married'),
+(34, 84, 41, 'Divorced'),
+(35, 84, 41, 'Seperated'),
+(36, 84, 41, 'Widowed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custmoers`
+--
+
+CREATE TABLE `custmoers`
+(
+  `id` int
+(11) NOT NULL,
+  `id_user` int
+(11) NOT NULL,
+  `username` varchar
+(11) NOT NULL,
+  `phonenumber` varchar
+(255) NOT NULL,
+  `survey_desc` varchar
+(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `custmoers`
+--
+
+INSERT INTO `custmoers` (`
+id`,
+`id_user
+`, `username`, `phonenumber`, `survey_desc`) VALUES
+(1, 44, 'read', '56789', 'dfghjk'),
+(2, 44, 'read', '999', 'kjhg'),
+(3, 44, 'read', '999', 'kjhg'),
+(4, 44, 'read', '3333', 'ggg'),
+(5, 44, 'read', 'gggg', '66666'),
+(6, 44, 'read', '2345', 'jh'),
+(7, 44, 'read', '0786927200', 'Ghadeer'),
+(8, 44, 'read', '', ''),
+(10, 44, 'read', '', ''),
+(11, 44, 'read', '', ''),
+(12, 44, 'read', '', ''),
+(13, 6, 'aaaa', 'c≈ƒvxdf', 'sdzfdszfsd'),
+(14, 44, 'read', '07777777777', '33ss33'),
+(15, 44, 'read', '07777777777', '33ss33'),
+(16, 44, 'read', '', ''),
+(17, 44, 'read', '88888', 'hhhh'),
+(18, 44, 'read', '9999', 'llll'),
+(19, 44, 'read', '0000', 'ppppp'),
+(20, 44, 'read', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dummy`
+--
+
+CREATE TABLE `dummy`
+(
+  `id` int
+(11) NOT NULL,
+  `answer` varchar
+(225) DEFAULT NULL,
+  `result` varchar
+(50) DEFAULT NULL,
+  `id_smartquestions` int
+(11) NOT NULL,
+  `id_users` int
+(11) NOT NULL,
+  `id_surveys` int
+(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions`
+(
+  `id` int
+(11) NOT NULL,
+  `id_surveys` int
+(11) NOT NULL,
+  `id_users` int
+(11) NOT NULL,
+  `question` varchar
+(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`
+id`,
+`id_surveys
+`, `id_users`, `question`) VALUES
+(77, 36, 70, 'How many levels?'),
+(78, 36, 70, 'How many employees?'),
+(79, 36, 70, 'In which city should this branch be?'),
+(80, 36, 70, 'Who are you going to elect?'),
+(81, 36, 70, 'Are you related to the candidate?'),
+(82, 36, 70, 'On what basis did you elect this candidate?'),
+(83, 41, 70, 'What is your educational level?'),
+(84, 41, 70, 'What is your marital status?');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `result`
+--
+
+CREATE TABLE `result`
+(
+  `id` int
+(11) NOT NULL,
+  `id_suervey` int
+(11) NOT NULL,
+  `answer` varchar
+(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `result`
+--
+
+INSERT INTO `result` (`
+id`,
+`id_suervey
+`, `answer`) VALUES
+(19, 36, 'Yes');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smart`
+--
+
+CREATE TABLE `smart`
+(
+  `id` int
+(11) NOT NULL,
+  `smartanswer` varchar
+(225) DEFAULT NULL,
+  `Truth` enum
+('0','1') DEFAULT NULL,
+  `id_smartquestions` int
+(11) DEFAULT NULL,
+  `id_users` int
+(11) NOT NULL,
+  `id_surveys` int
+(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `smart`
+--
+
+INSERT INTO `smart` (`
+id`,
+`smartanswer
+`, `Truth`, `id_smartquestions`, `id_users`, `id_surveys`) VALUES
+(60, 'Jandaweel', '0', 11, 70, 41),
+(61, 'Anaqreh', '0', 12, 70, 41),
+(62, 'Rich', '0', 13, 70, 41),
+(63, '', '0', 11, 44, 42),
+(64, '', '0', 12, 44, 42),
+(65, '', '0', 13, 44, 42);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smartquestions`
+--
+
+CREATE TABLE `smartquestions`
+(
+  `id` int
+(11) NOT NULL,
+  `id_surveys` int
+(11) NOT NULL,
+  `id_users` int
+(11) NOT NULL,
+  `question` varchar
+(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `smartquestions`
+--
+
+INSERT INTO `smartquestions` (`
+id`,
+`id_surveys
+`, `id_users`, `question`) VALUES
+(7, 2, 44, 'it is modifaied now'),
+(9, 36, 70, 'Is this a smart question?'),
+(10, 36, 70, 'Yes, it is a smart question'),
+(11, 41, 70, 'Where is your favorite candidate from?'),
+(12, 41, 70, 'What is your favorite candidate final name?'),
+(13, 41, 70, 'Is your favorite candidate rich or poor?');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surveys`
+--
+
+CREATE TABLE `surveys`
+(
+  `id` int
+(11) NOT NULL,
+  `id_users` int
+(11) NOT NULL,
+  `survey_name` varchar
+(30) CHARACTER
+SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `category` enum
+('0','1','2','3','4','5','6','7') CHARACTER
+SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `description` mediumtext NOT NULL,
+  `activated` enum
+('0','1') CHARACTER
+SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `surveys`
+--
+
+INSERT INTO `surveys` (`
+id`,
+`id_users
+`, `survey_name`, `category`, `description`, `activated`) VALUES
+(2, 2, 'smart car', '3', 'smart car navigation ', '1'),
+(36, 70, 'Mohannad', '0', 'Mo', '1'),
+(41, 70, 'Parliament Candidate', '0', 'We have a candidate for the parliaments elections, will he succeed?', '1'),
+(42, 70, 'Test', '0', 'We have a candidate for the parliaments elections, will he succeed?', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users`
+(
+  `id` int
+(11) NOT NULL,
+  `username` varchar
+(25) NOT NULL,
+  `firstname` varchar
+(25) NOT NULL,
+  `midname` varchar
+(25) NOT NULL,
+  `lastname` varchar
+(25) NOT NULL,
+  `birthday` datetime NOT NULL,
+  `gender` enum
+('0','1') NOT NULL,
+  `country` varchar
+(30) NOT NULL,
+  `email` varchar
+(75) NOT NULL,
+  `password` varchar
+(555) CHARACTER
+SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`
+id`,
+`username
+`, `firstname`, `midname`, `lastname`, `birthday`, `gender`, `country`, `email`, `password`) VALUES
+(1, 'Mohannad', 'Mohannad', 'Bahaa', 'Al-musa', '2018-12-17 00:00:00', '1', 'Amman', 'mohbah026@gmail.com', '12345678'),
+(2, 'issa', 'issa', 'ali', 'anagrah', '2017-08-15 00:00:00', '1', 'irbid', 'issa@issa.com', '12344321'),
+(6, 'a', 'aa', 'a', 'aaa', '2017-08-15 00:00:00', '1', 'a', 'a.@a.com', '$2a$10$TKFWBsxW0GOfwJcunhrXMuhnJ//f9iA0rUUP8byNjCPG.FjsWb1Rq'),
+(9, 'aa', 'aa', 'a', 'aaa', '2017-08-15 00:00:00', '1', 'a', 'aa.@aa.com', '$2a$10$zhHjc9jAGZfz7MBAUqSDr.iHVpV7zCeUrBAcb/y8ro74Upc/dfFne'),
+(44, 'read', 'read', 'read', 'read', '1980-01-01 00:00:00', '0', 'Amman', 'read@read.com', '$2a$10$uiorq.Wn5pSDdVkMVJsMEecdC6FrawuebYwR4TjEeqtr1ytubeBa2'),
+(45, 'write', 'write', 'write', 'write', '1980-01-01 00:00:00', '0', 'Amman', 'write@write.com', '$2a$10$lGax4Gr/wO2uprzCQuWz9OSWoqDI9SMVlOpJlZV7JTSpjikTXJfDW'),
+(70, 'test', 'test', 'test', 'test', '1997-01-16 00:00:00', '0', 'Amman', 'test@test.com', '$2a$10$mTJMfCXVuM6MfDBeg5ggd.F6G64GwvaikXs6u.OobnNB9ifewaxSq'),
+(71, 'aaaa', 'aaa', 'aaa', 'aaa', '1980-01-01 00:00:00', '0', 'Amman', 'aa@aa.com', '$2a$10$saAQgSm8XyiSdlwGPpsSc.exbjkXFdL3rn5nR1MzKs7xI9S.ORA2a'),
+(72, 'zzzz', 'szzz', 'zzz', 'zzz', '1980-01-01 00:00:00', '0', 'Amman', 'z@z.com', '$2a$10$5fOVCJtKs9GXMMNibF.gw.vnFWq7l4bs0n9zCQIgRp1wbtCWv/aom'),
+(73, '', '', '', '', '1980-01-01 00:00:00', '0', 'Amman', '', '$2a$10$SE7d/BC62SrNsI.UT1xy4.tIe4DOKGOxUns6pgYwCgv.mkiOc.E7G'),
+(74, 'Ghadeer', 'GG', 'yaser', 'khataybeh', '1990-03-17 00:00:00', '0', 'Amman', 'gg@yahho.com', '$2a$10$FkdpUZCbIhAYep0BAZt4celq982NCUuZz3/5d3Qb.WjFcGBQVqiOe'),
+(75, 'gg', 'gg', 'gg', 'g', '1980-01-01 00:00:00', '0', 'Amman', 'gg@yahoo.com', '$2a$10$NRYVicKPq03yCJoSElIjO.1V75SlodBqGZEqfYoaaclUuqsmR9kIm'),
+(80, 'isa', 'isa', 'isa', 'isa', '1980-01-01 00:00:00', '0', 'Amman', 'isa', '$2a$10$BStQbnJTDrE01QD15ENwPOL3Vu7y2HSepqgPX98uInOy7sBY1mSLu'),
+(88, 'Isaa', 'isa', 'isa', 'isa', '1980-01-09 00:00:00', '0', 'Balqaa', 'isaa', '$2a$10$5Y6EvKtBmqbdsPHDw./RKeHhbrsRAeDfCAXCaP6R09aosdr5I05Um'),
+(90, 'issaa', 'issa', 'issa', 'issa', '1980-01-01 00:00:00', '0', 'Amman', 'issa@a.com', '$2a$10$8r9p0VW58Ek2loEZVhTDyeT8lFcQDJJkBGwXbczZHdJy/5UFGk3PG'),
+(92, 'aaaaaaaaa', 'a', 'a', 'a', '1980-01-01 00:00:00', '0', 'Amman', 'aaaa@a.com', '$2a$10$E4tkjb4nxQSczE523UOjf.M6R08BRRzfMwiG4uTaedKhq5nYmbjE2'),
+(93, 'qq', 'qq', 'qq', 'qq', '1980-01-01 00:00:00', '0', 'Amman', 'qq@qq.com', '$2a$10$TYnZu0zPfhyirRb.FYVavusMqLOxhhnoGEmCkNIGloy0X0EunVgmO'),
+(94, 'qqq', 'qqq', 'qqq', 'qqq', '1980-01-01 00:00:00', '0', 'Amman', 'qqq@q.com', '$2a$10$RBccCVzAc6uDnC1E.T0uAeqQ8j/4HpAN/usB7/9tAzn.0p7zmKnGK'),
+(95, 'ss', 'ss', 'ss', 'ss', '1980-01-01 00:00:00', '0', 'Amman', 'ss@s.com', '$2a$10$tMLlxZXcbDeCR9fmDmzNd.7T942Wb4GfLuw57Q4jtjYq4g8BKx5by'),
+(96, 'IssaAnagreh', 'isa', 'ali', 'anagreh', '1980-01-01 00:00:00', '0', 'Amman', 'isa.anagreh@yahoo.com', '$2a$10$jUopd3qe0Erp/Hvswq7aGOmpR7R.zsFuvSVrboDueLnACRgYSlJFK'),
+(98, 'ii', 'ii', 'ii', 'ii', '1980-01-01 00:00:00', '0', 'Amman', 'ii', '$2a$10$mWAmZwhaZGcZzs6uSY56EuXEBwsPqODIPozFRbnm5.OoIF1Ni4tbW');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `id_users`
+(`id_users`),
+ADD KEY `id_surveys`
+(`id_surveys`),
+ADD KEY `choices_ibfk_1`
+(`id_questions`);
+
+--
+-- Indexes for table `choices`
+--
+ALTER TABLE `choices`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `choices_ibfk`
+(`id_qustions`),
+ADD KEY `choices_ibfk22`
+(`id_suerveys`);
+
+--
+-- Indexes for table `custmoers`
+--
+ALTER TABLE `custmoers`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `custmoersfk1`
+(`id_user`),
+ADD KEY `custmoersfk2`
+(`username`);
+
+--
+-- Indexes for table `dummy`
+--
+ALTER TABLE `dummy`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `dummy_fbk1`
+(`id_smartquestions`),
+ADD KEY `dummy_fbk2`
+(`id_users`),
+ADD KEY `dummy_fbk3`
+(`id_surveys`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `id_surveys`
+(`id_surveys`),
+ADD KEY `id_users`
+(`id_users`);
+
+--
+-- Indexes for table `result`
+--
+ALTER TABLE `result`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `result_fbk1`
+(`id_suervey`);
+
+--
+-- Indexes for table `smart`
+--
+ALTER TABLE `smart`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `smart_ibfk_1`
+(`id_smartquestions`) USING BTREE,
+ADD KEY `smart_ibfk_3`
+(`id_surveys`) USING BTREE,
+ADD KEY `smart_ibfk_2`
+(`id_users`) USING BTREE;
+
+--
+-- Indexes for table `smartquestions`
+--
+ALTER TABLE `smartquestions`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `smtquestions-fb1`
+(`id_surveys`),
+ADD KEY `smtquestions-fb2`
+(`id_users`);
+
+--
+-- Indexes for table `surveys`
+--
+ALTER TABLE `surveys`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `id_users`
+(`id_users`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+ADD PRIMARY KEY
+(`id`,`username`) USING BTREE,
+ADD UNIQUE KEY `username`
+(`username`),
+ADD UNIQUE KEY `email`
+(`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=320;
+
+--
+-- AUTO_INCREMENT for table `choices`
+--
+ALTER TABLE `choices`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `custmoers`
+--
+ALTER TABLE `custmoers`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `dummy`
+--
+ALTER TABLE `dummy`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT for table `result`
+--
+ALTER TABLE `result`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `smart`
+--
+ALTER TABLE `smart`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+
+--
+-- AUTO_INCREMENT for table `smartquestions`
+--
+ALTER TABLE `smartquestions`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `surveys`
+--
+ALTER TABLE `surveys`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY
+(`id_questions`) REFERENCES `questions`
+(`id`),
+ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`),
+ADD CONSTRAINT `answers_ibfk_3` FOREIGN KEY
+(`id_surveys`) REFERENCES `surveys`
+(`id`),
+ADD CONSTRAINT `choices_ibfk_1` FOREIGN KEY
+(`id_questions`) REFERENCES `questions`
+(`id`);
+
+--
+-- Constraints for table `choices`
+--
+ALTER TABLE `choices`
+ADD CONSTRAINT `choices_ibfk` FOREIGN KEY
+(`id_qustions`) REFERENCES `questions`
+(`id`),
+ADD CONSTRAINT `choices_ibfk22` FOREIGN KEY
+(`id_suerveys`) REFERENCES `surveys`
+(`id`);
+
+--
+-- Constraints for table `custmoers`
+--
+ALTER TABLE `custmoers`
+ADD CONSTRAINT `custmoersfk1` FOREIGN KEY
+(`id_user`) REFERENCES `users`
+(`id`),
+ADD CONSTRAINT `custmoersfk2` FOREIGN KEY
+(`username`) REFERENCES `users`
+(`username`);
+
+--
+-- Constraints for table `dummy`
+--
+ALTER TABLE `dummy`
+ADD CONSTRAINT `dummy_fbk1` FOREIGN KEY
+(`id_smartquestions`) REFERENCES `smartquestions`
+(`id`),
+ADD CONSTRAINT `dummy_fbk2` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`),
+ADD CONSTRAINT `dummy_fbk3` FOREIGN KEY
+(`id_surveys`) REFERENCES `surveys`
+(`id`);
+
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY
+(`id_surveys`) REFERENCES `surveys`
+(`id`),
+ADD CONSTRAINT `questions_ibfk_2` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`);
+
+--
+-- Constraints for table `result`
+--
+ALTER TABLE `result`
+ADD CONSTRAINT `result_fbk1` FOREIGN KEY
+(`id_suervey`) REFERENCES `surveys`
+(`id`);
+
+--
+-- Constraints for table `smart`
+--
+ALTER TABLE `smart`
+ADD CONSTRAINT `smart_fbk1` FOREIGN KEY
+(`id_smartquestions`) REFERENCES `smartquestions`
+(`id`),
+ADD CONSTRAINT `smart_fbk2` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`),
+ADD CONSTRAINT `smart_fbk3` FOREIGN KEY
+(`id_surveys`) REFERENCES `surveys`
+(`id`);
+
+--
+-- Constraints for table `smartquestions`
+--
+ALTER TABLE `smartquestions`
+ADD CONSTRAINT `smtquestions-fb1` FOREIGN KEY
+(`id_surveys`) REFERENCES `surveys`
+(`id`),
+ADD CONSTRAINT `smtquestions-fb2` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`);
+
+--
+-- Constraints for table `surveys`
+--
+ALTER TABLE `surveys`
+ADD CONSTRAINT `surveys_ibfk_1` FOREIGN KEY
+(`id_users`) REFERENCES `users`
+(`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
