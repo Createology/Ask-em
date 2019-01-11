@@ -28,7 +28,6 @@ export default class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
       modalVisible: false,
       selectedSurvey: null,
       surveyName: "",
@@ -193,7 +192,7 @@ export default class Account extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         surveyID: this.state.surveyID,
-        "input": {
+        input: {
           "39": x,
           "40": y,
           "41": z
@@ -230,7 +229,7 @@ export default class Account extends Component {
     } = this.state;
     return (
       <Container>
-        <Header style={{ backgroundColor: "#E65100" }}>
+        <Header style={{ backgroundColor: "#037FBC" }}>
           <Left>
             <Icon
               style={styles.icon}
@@ -271,8 +270,7 @@ export default class Account extends Component {
                       this.setState({ isUserSurveys: false });
                     }}
                   >
-                    <Text style={styles.bigText}>Answered</Text>
-                    <Text style={styles.bigText}>Surveys</Text>
+                    <Text style={styles.bigText}>Answered Surveys</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -367,9 +365,13 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 1,
     alignItems: "center",
-    borderColor: "black",
-    borderRightWidth: 1,
-    backgroundColor: "#002C43"
+    //borderColor: "black",
+    //borderRightWidth: 1,
+    backgroundColor: "#DBE3E7",
+    borderRadius: 30,
+    marginRight: 5,
+    marginLeft: 10,
+    
   },
   buttonContainerSecond: {
     flex: 2,
@@ -377,23 +379,26 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 1,
     alignItems: "center",
-    borderColor: "black",
-    borderLeftWidth: 1,
-    backgroundColor: "#EAE2B7"
+    //borderColor: "black",
+    //borderLeftWidth: 1,
+    backgroundColor: "#DBE3E7",
+    borderRadius: 30,
+    marginRight: 10,
   },
   thumbnails: {
     color: "black"
   },
   text: {
-    color: "white",
-    fontSize: 15,
-    marginTop: 12,
-    fontWeight: "bold"
+    color: "black",
+    fontSize: 17,
+    marginTop: 10,
+    fontWeight: "bold",
   },
   bigText: {
     color: "black",
-    fontSize: 15,
-    fontWeight: "bold"
+    fontSize: 17,
+    fontWeight: "bold",
+    marginTop: 10,
   },
   icon: {
     color: "white",

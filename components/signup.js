@@ -138,7 +138,7 @@ export default class Signup extends Component {
       <Container>
         <ScrollView>
           <View style={styles.header}>
-            <Header style={{ backgroundColor: "#E65100" }}>
+            <Header style={{ backgroundColor: "#037FBC" }}>
               <Left>
                 <Icon
                   style={styles.icon}
@@ -201,7 +201,7 @@ export default class Signup extends Component {
                 </Item>
               </View>
 
-              <View style={styles.inputContainer}>
+              <View style={[styles.inputContainer,{marginLeft: 18}]}>
                 <Picker
                   selectedValue={gender}
                   style={{ height: 60, width: 150, marginTop: 20, color: '#586069' }}
@@ -216,12 +216,13 @@ export default class Signup extends Component {
                   <Picker.Item label="Male" value="0" />
                   <Picker.Item label="Female" value="1" />
                 </Picker>
+                <Icon name="ios-arrow-dropdown-circle" style={{ color: "black", fontSize: 20, marginLeft: -90, marginTop: 22 }} />
               </View>
 
-              <View style={styles.inputContainer}>
+              <View style={[styles.inputContainer,{marginLeft: 18}]}>
                 <Picker
                   selectedValue={country}
-                  style={{ height: 55, width: 200, color: '#586069' }}
+                  style={{ height: 55, width: 150, color: '#586069' }}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({ country: itemValue })
                   }
@@ -239,11 +240,12 @@ export default class Signup extends Component {
                   <Picker.Item label="Tafeeleh" value="Tafeeleh" />
                   <Picker.Item label="Aqaba" value="Aqaba" />
                 </Picker>
+                <Icon name="ios-arrow-dropdown-circle" style={{ color: "black", fontSize: 20, marginLeft: -70 }} />
               </View>
 
               <View style={styles.inputContainer}>
                 <DatePicker
-                  style={{ width: 250, padding: 10, marginLeft: 0 }}
+                  style={{ width: 250, padding: 10, marginLeft: 8 }}
                   date={age}
                   mode="date"
                   placeholder="select date"
@@ -366,6 +368,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   inputContainer: {
+    
     marginTop: 5,
     marginBottom: 15,
     flexDirection: "row",
@@ -396,11 +399,12 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   signupBtn: {
-    backgroundColor: "#E65100"
+    backgroundColor: "#080708"
   },
   signupText: {
     color: "white",
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   headerStyle: {
     flex: 1,

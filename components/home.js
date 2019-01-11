@@ -19,7 +19,6 @@ import {
 } from "native-base";
 import SurveyModal from "./SurveyModal";
 import SurveyListThumbnails from "./SurveyListThumbnails";
-import SurveyStats from "./SurveyStats";
 
 const ip = require("../ip.json");
 
@@ -32,24 +31,6 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
-      names: [
-        {
-          key: "Isa",
-          imageURI:
-            "https://cdn-images-1.medium.com/max/1200/1*jh6bmapyE8nPWju7W_7qEw.png"
-        },
-        {
-          key: "Maram",
-          imageURI:
-            "https://softwareengineeringdaily.com/wp-content/uploads/2018/12/machinelearning.jpg"
-        },
-        {
-          key: "Anagreh",
-          imageURI:
-            "https://d2odgkulk9w7if.cloudfront.net/images/default-source/blogs/nativescript-vuef711652a7b776b26a649ff04000922f2.png?sfvrsn=75660efe_0"
-        }
-      ],
       modalVisible: false,
       selectedSurvey: null,
       surveyName: "",
@@ -146,27 +127,12 @@ export default class Home extends Component {
   }
 
   async onPressSubmitModal() {
-    const surveyAndUserIDs = [this.state.surveyID, this.state.surveyUserID];
-    const args = [...arguments];
-    //30 => education level
-    //37 => marital status
-    const questionsIDs = [30, 37];
-    const answersArray = [];
+    const args = arguments[0];
 
-    args.forEach((item, index) => {
-      answersArray.push([
-        item,
-        questionsIDs[index],
-        surveyAndUserIDs[0],
-        surveyAndUserIDs[1]
-      ]);
-    });
-
-    await this.setState({ surveyAnswers: answersArray });
     fetch(`${ip}:3000/answer/dumb/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: this.state.surveyAnswers })
+      body: JSON.stringify({ surveyData: args })
     })
       .then(response => response.json())
       .then(res => {
@@ -257,7 +223,7 @@ export default class Home extends Component {
     }
     return (
       <View>
-        <Header style={{ backgroundColor: "#E65100" }}>
+        <Header style={{ backgroundColor: "#037FBC" }}>
           <Left>
             <Icon
               style={styles.icon}

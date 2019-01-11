@@ -52,7 +52,7 @@ export default class AccountThumbnails extends Component {
                         this.props.getGenders(survey.id);
                         this.props.getLastNames(survey.id);
                       }}
-                      underlayColor="gray"
+                      underlayColor="#E02A23"
                     >
                       <Text key={survey.id}>{survey.survey_name}</Text>
                     </TouchableHighlight>
@@ -62,17 +62,19 @@ export default class AccountThumbnails extends Component {
                     </Text>
                   </Body>
                 ) : (
-                  <Body>
-                    <Text key={survey.id}>{survey.survey_name}</Text>
-                    <Text note numberOfLines={3}>
-                      {survey.description}
-                    </Text>
-                  </Body>
-                )}
+                    <Body>
+                      <Text key={survey.id}>{survey.survey_name}</Text>
+                      <Text note numberOfLines={3}>
+                        {survey.description}
+                      </Text>
+                    </Body>
+                  )}
 
                 {this.props.isUserSurveys ? (
                   <Right>
-                    <TouchableHighlight
+                    <Button
+                      bordered
+                      primary
                       onPress={() => {
                         this.props.onChangeSurveyInfo(
                           survey.survey_name,
@@ -86,16 +88,13 @@ export default class AccountThumbnails extends Component {
                         this.props.getGenders(survey.id);
                         this.props.getLastNames(survey.id);
                       }}
-                      underlayColor="gray"
                     >
-                      <Text key={survey.id} style={{ color: "grey" }}>
-                        View
-                      </Text>
-                    </TouchableHighlight>
+                      <Text key={survey.id} style={{ color: '#039BE5' }}>View</Text>
+                    </Button>
                   </Right>
                 ) : (
-                  <Right />
-                )}
+                    <Right />
+                  )}
               </ListItem>
             </List>
           ))}

@@ -15,6 +15,7 @@ import {
   Left,
   Icon
 } from "native-base";
+import { BorderlessButton } from "react-native-gesture-handler";
 const ip = require("../ip.json");
 
 export default class Contact extends Component {
@@ -82,7 +83,7 @@ export default class Contact extends Component {
     return (
       <Container>
         <View style={styles.header}>
-          <Header style={{ backgroundColor: "#E65100" }}>
+          <Header style={{ backgroundColor: "#037FBC" }}>
             <Left>
               <Icon
                 style={styles.icon}
@@ -96,7 +97,7 @@ export default class Contact extends Component {
           </Header>
         </View>
         <ScrollView>
-        <Text style={{ color: 'black', textAlign: 'center', marginTop: 80, marginBottom: 40,fontSize: 20, color: '#002C43' }}>Contact us to make your own survey</Text>
+        <Text style={{ color: 'black', textAlign: 'center', marginTop: 80, marginBottom: 40,fontSize: 20, color: '#080708' }}>Contact us to make your own survey</Text>
         <View style={styles.container}>
           <View style={styles.inputContainer}>
             <TextInput
@@ -140,8 +141,9 @@ export default class Contact extends Component {
             }}
           >
             <Text style={styles.sumitText}>
-              <Icon name="send" style={{ color: "white", fontSize: 20, marginLeft: -8 }} />
-              Submit
+              {/* <Icon name="send" style={{ color: "black", fontSize: 20, marginLeft: -8 }} /> */}
+              <Text style={{ color: "#080708", fontSize: 18 }}>Submit</Text>
+              
             </Text>
           </TouchableHighlight>
         </View>
@@ -171,6 +173,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     color: "#E65100",
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#080708'
     //borderWidth: 0.5,
   },
   inputs: {
@@ -185,22 +189,24 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 40,
-    flexDirection: "row",
-    justifyContent: "center",
+    //flexDirection: "row",
+    //justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
-    width: 250,
-    borderRadius: 30
+    width: 200,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#037FBC'//'#080708'//'#E5504B'
   },
   submitButton: {
-    backgroundColor: "#E65100",
+    //backgroundColor: "#C5CCD0",
     justifyContent: "center"
   },
   sumitText: {
-    color: "white",
+    color: "#080708",
     alignItems: "center",
     fontSize: 17,
-    marginLeft: 10,
+    fontWeight: 'bold',
   },
   wrong: {
     color: "red"

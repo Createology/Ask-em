@@ -184,7 +184,7 @@ class Signin extends Component {
     return (
       <Container>
         <View style={styles.header}>
-          <Header style={{ backgroundColor: "#E65100" }}>
+          <Header style={{ backgroundColor: "#037FBC" }}>
             <Left>
               <Icon
                 style={styles.icon}
@@ -200,7 +200,7 @@ class Signin extends Component {
         <View style={styles.container}>
           {this.state.loggedin !==
             "You will recieve your data soon, please wait!" ? (
-              <Text style={styles.welcome}>{loggedin}</Text>
+              <Text style={styles.welcome}>{""}</Text>
             ) : (
               <Spinner color="blue" />
             )}
@@ -244,10 +244,10 @@ class Signin extends Component {
 
           {this.state.loggedin !== "Login" ? (
             <TouchableHighlight
-              style={[styles.buttonContainer, styles.loginButton]}
+              style={[styles.buttonContainer, styles.logoutButton]}
               onPress={() => this.logoutBottun()}
             >
-              <Text>Logout</Text>
+              <Text style={styles.logoutText}>Logout</Text>
             </TouchableHighlight>
           ) : (
               <Text>{this.state.loggedout}</Text>
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   inputs: {
     height: 45,
     marginLeft: 16,
-    color: "#E65100",
+    color: "#080708",
     flex: 1
   },
   inputIcon: {
@@ -293,14 +293,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
-    width: 250,
+    width: 200,
     borderRadius: 30
   },
   loginButton: {
-    backgroundColor: "#E65100"
+    backgroundColor: "#080708"
+  },
+  logoutButton: {
+    marginTop: -20,
+    backgroundColor: "white"
   },
   loginText: {
-    color: "white"
+    color: "white",
+    fontWeight: 'bold'
+  },
+  logoutText: {
+    color: "black"
   },
   welcome: {
     fontSize: 30,

@@ -61,7 +61,7 @@ export default class SurveyListThumbnails extends Component {
                 <Right>
                   <Button
                     bordered
-                    danger
+                    primary
                     onPress={() => {
                       this.props.onChangeSurveyInfo(
                         survey.survey_name,
@@ -73,7 +73,7 @@ export default class SurveyListThumbnails extends Component {
                       this.props.showHandler();
                     }}
                   >
-                    <Text key={survey.id}>View</Text>
+                    <Text key={survey.id} style={{color: '#039BE5'}}>View</Text>
                   </Button>
                 </Right>
               </ListItem>
@@ -91,21 +91,3 @@ SurveyListThumbnails.propTypes = {
   surveyImages: PropTypes.array,
   onChangeSurveyInfo: PropTypes.func
 };
-
-//  {/* <TouchableHighlight
-//                 onPress={() => {
-//                   this.props.onChangeSurveyInfo(
-//                     survey.survey_name,
-//                     survey.description,
-//                     survey.category,
-//                     survey.id_users,
-//                     survey.id
-//                   );
-//                   this.props.showHandler();
-//                 }}
-//                 underlayColor="gray"
-//               >
-//                 <Text key={survey.id} style={{ color: "grey" }}>
-//                   View
-//                 </Text>
-//               </TouchableHighlight> */}
