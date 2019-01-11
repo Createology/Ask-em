@@ -91,21 +91,3 @@ SurveyListThumbnails.propTypes = {
   surveyImages: PropTypes.array,
   onChangeSurveyInfo: PropTypes.func
 };
-
-//  {/* <TouchableHighlight
-//                 onPress={() => {
-//                   this.props.onChangeSurveyInfo(
-//                     survey.survey_name,
-//                     survey.description,
-//                     survey.category,
-//                     survey.id_users,
-//                     survey.id
-//                   );
-//                   this.props.showHandler();
-//                 }}
-//                 underlayColor="gray"
-//               >
-//                 <Text key={survey.id} style={{ color: "grey" }}>
-//                   View
-//                 </Text>
-//               </TouchableHighlight> */}
