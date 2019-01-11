@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text as Textnative, StyleSheet, TouchableHighlight, TextInput, ScrollView } from "react-native";
+import {
+  View,
+  Text as Textnative,
+  StyleSheet,
+  TouchableHighlight,
+  TextInput,
+  ScrollView
+} from "react-native";
 import { BarChart, Grid } from "react-native-svg-charts";
 import { Text } from "react-native-svg";
 import { Col, Row, Grid as GridEasy } from "react-native-easy-grid";
@@ -24,7 +31,6 @@ class SurveyStats extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      // surveyAnswers: props.surveyAnswers,
       avgAge: 0,
       highestPercentFamilyName: "",
       highestPercentFamilyNameKey: "",
@@ -42,10 +48,10 @@ class SurveyStats extends React.PureComponent {
       maritalStatuses: ["default"],
       educationLevels: ["default"],
       genders: ["male"],
-      finalSmartAnswer: '',
-      x: '', // these are random number from the customer for the smart final answer
-      y: '',
-      z: ''
+      finalSmartAnswer: "",
+      x: "", // these are random number from the customer for the smart final answer
+      y: "",
+      z: ""
     };
   }
 
@@ -168,7 +174,7 @@ class SurveyStats extends React.PureComponent {
           probabilities[item] = Math.round(
             (array.join("").match(new RegExp(item, "g")).length /
               array.length) *
-            100
+              100
           );
         });
       }
@@ -222,11 +228,11 @@ class SurveyStats extends React.PureComponent {
           >
             {`
           ${
-              index === 4
-                ? "Age"
-                : this.state.statsAnswersKeys[index][0].toUpperCase() +
+            index === 4
+              ? "Age"
+              : this.state.statsAnswersKeys[index][0].toUpperCase() +
                 this.state.statsAnswersKeys[index].slice(1)
-              }
+          }
           ${index === 4 ? value + " years" : value + "%"}
         `}
           </Text>
@@ -279,9 +285,15 @@ class SurveyStats extends React.PureComponent {
               </Row>
               <Row size={0.5}>
                 <View style={{ justifyContent: "center", flex: 1 }}>
-                  <Textnative style={{ textAlign: "center", fontSize: 14, color: 'black' }}>
+                  <Textnative
+                    style={{
+                      textAlign: "center",
+                      fontSize: 14,
+                      color: "black"
+                    }}
+                  >
                     Highest Percentages Among Surveys
-                </Textnative>
+                  </Textnative>
                 </View>
               </Row>
             </GridEasy>
@@ -291,8 +303,10 @@ class SurveyStats extends React.PureComponent {
                 editable={true}
                 maxLength={40}
                 numberOfLines={4}
-                ref={input => { this.textInput = input }}
-                onChangeText={(x) => this.setState({ x })}
+                ref={input => {
+                  this.textInput = input;
+                }}
+                onChangeText={x => this.setState({ x })}
                 placeholder="About you"
               />
               <TextInput
@@ -300,8 +314,10 @@ class SurveyStats extends React.PureComponent {
                 editable={true}
                 maxLength={40}
                 numberOfLines={4}
-                ref={input => { this.textInput = input }}
-                onChangeText={(y) => this.setState({ y })}
+                ref={input => {
+                  this.textInput = input;
+                }}
+                onChangeText={y => this.setState({ y })}
                 placeholder="About you"
               />
               <TextInput
@@ -309,19 +325,25 @@ class SurveyStats extends React.PureComponent {
                 editable={true}
                 maxLength={40}
                 numberOfLines={4}
-                ref={input => { this.textInput = input }}
-                onChangeText={(y) => this.setState({ y })}
+                ref={input => {
+                  this.textInput = input;
+                }}
+                onChangeText={y => this.setState({ y })}
                 placeholder="About you"
               />
               <TouchableHighlight
-                style={{ color: 'black' }}
+                style={{ color: "black" }}
                 onPress={() => {
-                  this.finalSmartAnswer(this.state.x, this.state.y, this.state.z);
+                  this.finalSmartAnswer(
+                    this.state.x,
+                    this.state.y,
+                    this.state.z
+                  );
                 }}
               >
                 Smart Response
-            </TouchableHighlight>
-              <Textnative style={{ color: 'black' }}>
+              </TouchableHighlight>
+              <Textnative style={{ color: "black" }}>
                 {this.state.finalSmartAnswer}
               </Textnative>
             </View>
@@ -335,16 +357,16 @@ class SurveyStats extends React.PureComponent {
 export default SurveyStats;
 const styles = StyleSheet.create({
   text: {
-    fontSize: 25,
+    fontSize: 25
   },
   TextInput: {
     height: 40,
     flex: 0.9,
     borderWidth: 1,
-    borderColor: '#002C43',
-    backgroundColor: "white",
-  },
-})
+    borderColor: "#002C43",
+    backgroundColor: "white"
+  }
+});
 
 SurveyStats.propTypes = {
   birthdays: PropTypes.array,
