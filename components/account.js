@@ -28,7 +28,6 @@ export default class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
       modalVisible: false,
       selectedSurvey: null,
       surveyName: "",
@@ -193,7 +192,7 @@ export default class Account extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         surveyID: this.state.surveyID,
-        "input": {
+        input: {
           "39": x,
           "40": y,
           "41": z

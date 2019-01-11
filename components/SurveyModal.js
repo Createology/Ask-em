@@ -7,7 +7,8 @@ import {
   Modal,
   TouchableHighlight,
   TextInput,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import {
   Container,
@@ -53,7 +54,9 @@ export default class SurveyModal extends Component {
       clicked: "",
       input: '',
       ids: [],
-      showAlert: false
+      showAlert: false,
+      userID: null,
+      answers: []
     };
   }
 
@@ -64,6 +67,12 @@ export default class SurveyModal extends Component {
       });
       this.getQuestions(this.props.surveyID);
       this.getSmartQuestions(this.props.surveyID);
+    }
+
+    if (this.props.userID !== nextProps.userID) {
+      await this.setState({
+        userID: nextProps.userID
+      });
     }
   }
 
@@ -170,7 +179,31 @@ export default class SurveyModal extends Component {
 		this.setState({
 			showAlert: false
 		});
-	};
+  };
+  
+  onChangeChoices = async (answer, questionID, userID, surveyID) => {
+    const temp = {
+      answer: answer,
+      questionID: questionID,
+      userID: userID,
+      surveyID: surveyID
+    };
+    if (this.state.answers.length !== 0) {
+      const stateCopy = this.state.answers.slice();
+      stateCopy.push(temp);
+      await this.setState({
+        answers: stateCopy
+      });
+    } else {
+      const emptyTemp = [];
+      emptyTemp.push(temp);
+      await this.setState({
+        answers: emptyTemp
+      });
+    }
+
+    console.warn(this.state.answers);
+  };
 
   render() {
     const {
@@ -178,11 +211,13 @@ export default class SurveyModal extends Component {
       selectedMarital,
       clicked,
       surveyID,
+      userID,
       allChoicesOfQuestion,
       smartQuestions,
       questionsIDs,
       questions,
-      showAlert
+      showAlert,
+      answers
     } = this.state;
     return (
       <Root>
@@ -268,105 +303,6 @@ export default class SurveyModal extends Component {
                       </Right>
                     </View>
                   </View>
-                  {/*  */}
-                  <View style={{ flexDirection: "row" }}>
-                    <Left style={{ flex: 1 }}>
-                      <Text style={{ color: "black", fontSize: 16 }}>
-                        Education Level:{" "}
-                      </Text>
-                    </Left>
-
-                    <Picker
-                      note
-                      mode="dropdown"
-                      style={{ width: undefined }}
-                      selectedValue={selectedEducation}
-                      onValueChange={async (item, index) => {
-                        await this.setState({
-                          selectedEducation: item
-                        });
-                      }}
-                    >
-                      <Picker.Item
-                        label="Primary"
-                        value="primary"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Secondary"
-                        value="secondary"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item label="High" value="high" />
-                      <Picker.Item
-                        label="Bachelor"
-                        value="bachelor"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Master"
-                        value="master"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Doctoral"
-                        value="doctoral"
-                        style={styles.textScreenElements}
-                      />
-                    </Picker>
-                  </View>
-
-                  <View style={{ flexDirection: "row" }}>
-                    <Left style={{ flex: 1 }}>
-                      <Text style={{ color: "black", fontSize: 16 }}>
-                        Marital Status:{" "}
-                      </Text>
-                    </Left>
-
-                    <Picker
-                      note
-                      mode="dropdown"
-                      style={{ width: undefined }}
-                      selectedValue={selectedMarital}
-                      onValueChange={async (item, index) => {
-                        await this.setState({
-                          selectedMarital: item
-                        });
-                      }}
-                    >
-                      <Picker.Item
-                        label="Single"
-                        value="single"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Married"
-                        value="married"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Divorced"
-                        value="divorced"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Widowed"
-                        value="widowed"
-                        style={styles.textScreenElements}
-                      />
-                      <Picker.Item
-                        label="Seperated"
-                        value="seperated"
-                        style={styles.textScreenElements}
-                      />
-                    </Picker>
-                    <IconAwesome
-                      name="sort-down"
-                      size={20}
-                      color="white"
-                      style={[{ right: 18, top: 4, position: "absolute" }]}
-                    />
-                  </View>
 
                   {Array.isArray(questions) &&
                     questions.map(({ id, question }, index) => (
@@ -377,11 +313,15 @@ export default class SurveyModal extends Component {
                             numberOfLines={2}
                             style={styles.textScreenElements}
                           >
-                            {question} {id}
+                            {question}
                           </Text>
                         </Left>
                         <Right style={{ flex: 1 }}>
-                          <Question questionID={id} key={id} />
+                          <Question                             questionID={id}
+                            surveyID={surveyID}
+                            key={id}
+                            userID={userID}
+                            onChangeChoices={this.onChangeChoices.bind(this)} />
                         </Right>
                       </View>
                     ))}
@@ -427,10 +367,7 @@ export default class SurveyModal extends Component {
                       block
                       onPress={() => {
                         this.sendSmartAnswers()
-                        // this.props.submitModalHandler(
-                        //   selectedEducation,
-                        //   selectedMarital
-                        // );
+                        this.props.submitModalHandler(this.state.answers);
                       }}
                     >
                       {/* need to changeicon color */}

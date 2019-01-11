@@ -93,27 +93,15 @@ const getAllDummyAnswer = (req, res) => {
 //;-----------------------;/------------------]
 //;-----------------------;/------------------]
 const fillAnswer = (req, res) => {
-  console.log("fillAnswer", req.body);
-  const { answer, id_question, id_users, id_surveys } = req.body;
-  if (answer) {
-    DB.insertAnswer(
-      answer,
-      id_question,
-      id_users,
-      id_surveys,
-      (err, results) => {
-        if (err) {
-          console.log(err);
-          res.sendStatus(404);
-        } else {
-          if (results.affectedRows > 0) {
-            res.status(200).send(results);
-          } else {
-            res.status(401).send("no results");
-          }
-        }
+  if (req.body.surveyData) {
+    DB.insertAnswer(req.body.surveyData, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(404);
+      } else {
+        res.status(200).send(results);
       }
-    );
+    });
   } else {
     res.status(402).send("no answer");
   }
@@ -122,17 +110,14 @@ const fillAnswer = (req, res) => {
 // modifaied
 const fillSmartAnswer = (req, res) => {
   if (req.body) {
-    DB.insertSmartAnswer(
-      req.body,
-      (err, results) => {
-        if (err) {
-          console.log(err)
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(results);
-        }
+    DB.insertSmartAnswer(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(404);
+      } else {
+        res.status(200).send(results);
       }
-    );
+    });
   } else {
     res.status(402).send("no answer");
   }

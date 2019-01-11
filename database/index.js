@@ -256,23 +256,18 @@ const selectQuestionFromSurvey = (surveyID, questionID, callback) => {
   );
 };
 
-const insertSmartAnswer = (
-  values,
-  callback
-) => {
+const insertSmartAnswer = (values, callback) => {
   var sql = `INSERT INTO smart (smartanswer,Truth, id_smartquestions, id_users, id_surveys) VALUES ?`;
   var editedValues = values.map(answer => Object.values(answer));
 
-  dbconnection.query(sql, [editedValues],
-    (err, result) => {
-      if (err) {
-        console.log("err", err);
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
+  dbconnection.query(sql, [editedValues], (err, result) => {
+    if (err) {
+      console.log("err", err);
+      callback(err, null);
+    } else {
+      callback(null, result);
     }
-  );
+  });
 };
 
 const insertDummyAnswer = (
@@ -296,18 +291,18 @@ const insertDummyAnswer = (
   );
 };
 
-const insertAnswer = (answer, id_question, id_users, id_surveys, callback) => {
-  console.log("insertAnswer");
-  dbconnection.query(
-    `INSERT INTO answers(id, answer, id_questions, id_users, id_surveys) VALUES (null, \"${answer}\",\"${id_question}\",\"${id_users}\",\"${id_surveys}\")`,
-    (err, result) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, result);
-      }
+const insertAnswer = (surveyData, callback) => {
+  var sql = `INSERT INTO answers (answer, id_questions, id_users, id_surveys) VALUES ?`;
+  var editedValues = surveyData.map(answer => Object.values(answer));
+
+  dbconnection.query(sql, [editedValues], (err, result) => {
+    if (err) {
+      console.log("err", err);
+      callback(err, null);
+    } else {
+      callback(null, result);
     }
-  );
+  });
 };
 
 const insertQuestion = (values, callback) => {
