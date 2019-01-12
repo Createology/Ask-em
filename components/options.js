@@ -12,6 +12,7 @@ import Payment from "./Payment";
 import TabNavigator from "./tabNavigator";
 import Search from "./Search";
 import AddSurvey from "./AddSurvey";
+import AboutUs from "./aboutUs";
 
 
 export class Options extends Component {
@@ -44,8 +45,8 @@ const AppDrawerNavigator = createDrawerNavigator({
   Signup: Signup,
   Payment: Payment,
   AddSurvey: AddSurvey,
-  // Feedback: Payment,
-  // About: Payment,
+  AboutUs: AboutUs,
+  
 },
   {
     initialRouteName: "Ask'Em",
