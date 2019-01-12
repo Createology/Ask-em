@@ -53,7 +53,9 @@ export default class Account extends Component {
       isUserSurveys: false,
       birthdays: [],
       lastnames: [],
-      genders: []
+      genders: [],
+      maritalstatuses: [],
+      educationlevels: []
     };
   }
 
@@ -164,6 +166,36 @@ export default class Account extends Component {
       });
   }
 
+  getEducationLevels(id) {
+    fetch(`${ip}:3000/surveys/retrieve/all/educationlevel`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ surveyID: id })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ educationlevels: res });
+      })
+      .catch(err => {
+        console.warn("getEducationLevels");
+      });
+  }
+
+  getMaritalStatuses(id) {
+    fetch(`${ip}:3000/surveys/retrieve/all/maritalstatus`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ surveyID: id })
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ maritalstatuses: res });
+      })
+      .catch(err => {
+        console.warn("getMaritalStatuses");
+      });
+  }
+
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
@@ -225,89 +257,166 @@ export default class Account extends Component {
       isUserSurveys,
       birthdays,
       genders,
-      lastnames
+      lastnames,
+      educationlevels,
+      maritalstatuses
     } = this.state;
-    return (
-      <Container>
-        <Header style={{ backgroundColor: "#E65100" }}>
-          <Left>
-            <Icon
-              style={styles.icon}
-              name="menu"
-              onPress={() => {
-                this.props.navigation.openDrawer();
-              }}
-            />
-          </Left>
-          <Text style={styles.headerStyle}>Account</Text>
-        </Header>
-        <ScrollView>
-          <Grid>
-            <Row size={2}>
-              <View style={styles.container}>
-                <Image
-                  style={styles.avatar}
-                  source={{
-                    uri:
-                      "https://unixtitan.net/images/profile-vector-person-4.png"
-                  }}
-                />
-                <Text style={styles.name}>{this.state.user}</Text>
-                <View style={styles.bodyContent}>
-                  <TouchableOpacity
-                    style={styles.buttonContainerFirst}
-                    onPress={() => {
-                      this.onPressMySurveys();
-                      this.setState({ isUserSurveys: true });
+    if (genders) {
+      return (
+        <Container>
+          <Header style={{ backgroundColor: "#E65100" }}>
+            <Left>
+              <Icon
+                style={styles.icon}
+                name="menu"
+                onPress={() => {
+                  this.props.navigation.openDrawer();
+                }}
+              />
+            </Left>
+            <Text style={styles.headerStyle}>Account</Text>
+          </Header>
+          <ScrollView>
+            <Grid>
+              <Row size={2}>
+                <View style={styles.container}>
+                  <Image
+                    style={styles.avatar}
+                    source={{
+                      uri:
+                        "https://unixtitan.net/images/profile-vector-person-4.png"
                     }}
-                  >
-                    <Text style={styles.text}>My Surveys</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.buttonContainerSecond}
-                    onPress={() => {
-                      this.onPressSurveysHasBeenAns();
-                      this.setState({ isUserSurveys: false });
-                    }}
-                  >
-                    <Text style={styles.bigText}>Answered</Text>
-                    <Text style={styles.bigText}>Surveys</Text>
-                  </TouchableOpacity>
+                  />
+                  <Text style={styles.name}>{this.state.user}</Text>
+                  <View style={styles.bodyContent}>
+                    <TouchableOpacity
+                      style={styles.buttonContainerFirst}
+                      onPress={() => {
+                        this.onPressMySurveys();
+                        this.setState({ isUserSurveys: true });
+                      }}
+                    >
+                      <Text style={styles.text}>My Surveys</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.buttonContainerSecond}
+                      onPress={() => {
+                        this.onPressSurveysHasBeenAns();
+                        this.setState({ isUserSurveys: false });
+                      }}
+                    >
+                      <Text style={styles.bigText}>Answered</Text>
+                      <Text style={styles.bigText}>Surveys</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            </Row>
-            <Row size={2}>
-              <AccountModal
-                showHandler={this.setModalVisible.bind(this)}
-                finalSmartAnswer={this.finalSmartAnswer.bind(this)}
-                visibility={modalVisible}
-                selectedSurvey={selectedSurvey}
-                allSurveys={fetchedSurveys}
-                surveyName={surveyName}
-                surveyDescription={surveyDescription}
-                surveyCategory={surveyCategory}
-                submitModalHandler={this.onPressCloseModal.bind(this)}
-                surveyID={surveyID}
-                birthdays={birthdays}
-                genders={genders}
-                lastnames={lastnames}
+              </Row>
+              <Row size={2}>
+                <AccountModal
+                  showHandler={this.setModalVisible.bind(this)}
+                  finalSmartAnswer={this.finalSmartAnswer.bind(this)}
+                  visibility={modalVisible}
+                  selectedSurvey={selectedSurvey}
+                  allSurveys={fetchedSurveys}
+                  surveyName={surveyName}
+                  surveyDescription={surveyDescription}
+                  surveyCategory={surveyCategory}
+                  submitModalHandler={this.onPressCloseModal.bind(this)}
+                  surveyID={surveyID}
+                  birthdays={birthdays}
+                  genders={genders}
+                  lastnames={lastnames}
+                  maritalstatuses={maritalstatuses}
+                  educationlevels={educationlevels}
+                />
+                <AccountThumbnails
+                  allSurveys={fetchedSurveys}
+                  selectedSurvey={this.selectedSurvey.bind(this)}
+                  showHandler={this.setModalVisible.bind(this)}
+                  surveyImages={images}
+                  onChangeSurveyInfo={this.onChangeSurveyInfo.bind(this)}
+                  isUserSurveys={isUserSurveys}
+                  getBirthdays={this.getBirthdays.bind(this)}
+                  getGenders={this.getGenders.bind(this)}
+                  getLastNames={this.getLastNames.bind(this)}
+                  getMaritalStatuses={this.getMaritalStatuses.bind(this)}
+                  getEducationLevels={this.getEducationLevels.bind(this)}
+                />
+              </Row>
+            </Grid>
+          </ScrollView>
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          <Header style={{ backgroundColor: "#E65100" }}>
+            <Left>
+              <Icon
+                style={styles.icon}
+                name="menu"
+                onPress={() => {
+                  this.props.navigation.openDrawer();
+                }}
               />
-              <AccountThumbnails
-                allSurveys={fetchedSurveys}
-                selectedSurvey={this.selectedSurvey.bind(this)}
-                showHandler={this.setModalVisible.bind(this)}
-                surveyImages={images}
-                onChangeSurveyInfo={this.onChangeSurveyInfo.bind(this)}
-                isUserSurveys={isUserSurveys}
-                getBirthdays={this.getBirthdays.bind(this)}
-                getGenders={this.getGenders.bind(this)}
-                getLastNames={this.getLastNames.bind(this)}
-              />
-            </Row>
-          </Grid>
-        </ScrollView>
-      </Container>
-    );
+            </Left>
+            <Text style={styles.headerStyle}>Account</Text>
+          </Header>
+          <ScrollView>
+            <Grid>
+              <Row size={2}>
+                <View style={styles.container}>
+                  <Image
+                    style={styles.avatar}
+                    source={{
+                      uri:
+                        "https://unixtitan.net/images/profile-vector-person-4.png"
+                    }}
+                  />
+                  <Text style={styles.name}>{this.state.user}</Text>
+                  <View style={styles.bodyContent}>
+                    <TouchableOpacity
+                      style={styles.buttonContainerFirst}
+                      onPress={() => {
+                        this.onPressMySurveys();
+                        this.setState({ isUserSurveys: true });
+                      }}
+                    >
+                      <Text style={styles.text}>My Surveys</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.buttonContainerSecond}
+                      onPress={() => {
+                        this.onPressSurveysHasBeenAns();
+                        this.setState({ isUserSurveys: false });
+                      }}
+                    >
+                      <Text style={styles.bigText}>Answered</Text>
+                      <Text style={styles.bigText}>Surveys</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Row>
+              <Row size={2}>
+                <AccountThumbnails
+                  allSurveys={fetchedSurveys}
+                  selectedSurvey={this.selectedSurvey.bind(this)}
+                  showHandler={this.setModalVisible.bind(this)}
+                  surveyImages={images}
+                  onChangeSurveyInfo={this.onChangeSurveyInfo.bind(this)}
+                  isUserSurveys={isUserSurveys}
+                  getBirthdays={this.getBirthdays.bind(this)}
+                  getGenders={this.getGenders.bind(this)}
+                  getLastNames={this.getLastNames.bind(this)}
+                  getMaritalStatuses={this.getMaritalStatuses.bind(this)}
+                  getEducationLevels={this.getEducationLevels.bind(this)}
+                />
+              </Row>
+            </Grid>
+          </ScrollView>
+        </Container>
+      );
+    }
   }
 }
 
