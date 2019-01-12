@@ -475,6 +475,18 @@ const selectAllEducationLevels = (surveyID, callback) => {
   );
 };
 
+const selectAllMaritalStatuses = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT answer from answers where answer in ('Single', 'Married', 'Divorced', 'Seperated', 'Widowed') and id_surveys = ${surveyID}`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
 
 const selectAllChoicesOfQuestion = (questionID, callback) => {
   dbconnection.query(
