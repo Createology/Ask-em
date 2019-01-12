@@ -18,14 +18,15 @@ import {
   Icon as IconMenu
 } from "native-base";
 import myStripe from '../stripe.json'
-import { Icon } from 'react-native-elements';
+import { Icon as Iconelements } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default class Payment extends Component {
   static navigationOptions = {
     drawerIcon: () => (
-      <Icon name='payment' style={{ fontSize: 30 }} />
+      <Iconelements name='payment' style={{ fontSize: 30 }} />
     )
   };
   constructor(props) {
@@ -35,12 +36,12 @@ export default class Payment extends Component {
       "card[exp_month]": "12", //Default
       "card[exp_year]": "2019", //Default
       "card[cvc]": "123", //Default
-      userName: '', //logged in username
+      userName: 'test', //logged in username
       token: {
         userName: "issa", //Default
         userToken: {}
       },
-      money: '65', //cent //Default
+      money: '100', //cent //Default
       currency: 'usd', //Default
       showAlert: false
     };
@@ -80,7 +81,7 @@ export default class Payment extends Component {
     return formBody = formBody.join("&");
   }
 
-  requestPayment = async () => {
+  requestPayment = async () => {    
     const scope = this;
     await this.checkUser()
     if (this.state.userName) {
@@ -92,7 +93,7 @@ export default class Payment extends Component {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': 'Bearer ' + 'pk_test_uxJh964nHbbD6S1vgxkUlnJ0'
         },
-        body: `${formBody}`//"card%5Bnumber%5D=4242424242424242&card%5Bexp_month%5D=12&card%5Bexp_year%5D=2019&card%5Bcvc%5D=123"
+        body: `${formBody}`
       })
         .then(function (res) {
           scope.setState({
@@ -102,7 +103,6 @@ export default class Payment extends Component {
             }
           })
           res.json()
-          //alert('You paid!')
           scope.chargeCustomer()
         })
         .then(() => {
@@ -145,7 +145,6 @@ export default class Payment extends Component {
         .then(function (res) {
           res.json()
           if (res.status < 400) {
-            //alert('You paid!')
             scope.showAlert()
             setTimeout(function () { scope.hideAlert(); }, 2000);
           } else {
@@ -159,7 +158,6 @@ export default class Payment extends Component {
       console.warn('Please login!')
     }
   }
-  //https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png
 
   showAlert = () => {
     this.setState({
@@ -185,17 +183,12 @@ export default class Payment extends Component {
               </Left>
               <Text style={styles.headerStyle}>Payment</Text>
             </Header>
-            {/* <Image
-						style={styles.avatar}
-						source={{
-							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
-						}}
-					/> */}
+
             <ScrollView>
               <View style={styles.card}>
                 <View style={styles.inCard}>
                   <View style={styles.logo}>
-                    <Text style={{ fontSize: 17 }}>VISA</Text>
+                    <Icon.Button name="cc-visa" backgroundColor="#037FBC" color='#fdb827' size={25} />
                   </View>
                   <View style={styles.cardNumber}>
                     <Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
@@ -287,17 +280,11 @@ export default class Payment extends Component {
               </Left>
               <Text style={styles.headerStyle}>Payment</Text>
             </Header>
-            {/* <Image
-						style={styles.avatar}
-						source={{
-							uri: "https://www.experian.com/blogs/ask-experian/wp-content/uploads/What-Is-a-Credit-Card_Graphic.png"
-						}}
-					/> */}
             <ScrollView>
               <View style={styles.card}>
                 <View style={styles.inCard}>
                   <View style={styles.logo}>
-                    <Text style={{ fontSize: 17 }}>VISA</Text>
+                    <Icon.Button name="cc-visa" backgroundColor="#037FBC" color='#fdb827' size={25} />
                   </View>
                   <View style={styles.cardNumber}>
                     <Text style={styles.textNumber}>{this.state["card[number]"]}</Text>
@@ -379,7 +366,7 @@ const styles = {
     marginBottom: 0,
     padding: 90,
     borderRadius: 20,
-    borderColor: "#738E9B",
+    borderColor: "#A3D0E6",
     borderWidth: 3,
     backgroundColor: 'white',
   },
@@ -387,47 +374,49 @@ const styles = {
     margin: -85,
     padding: 90,
     borderRadius: 20,
-    borderColor: "#738E9B",
+    borderColor: "#A3D0E6",
     borderWidth: 1,
     backgroundColor: 'white',
   },
   logo: {
     marginLeft: -70,
     marginTop: -70,
-    height: 27,
-    width: 45,
+    height: 20,
+    width: 80,
     alignItems: 'center',
     borderRadius: 1,
-    borderColor: "#738E9B",
+    borderColor: "white",
     borderWidth: 1,
     backgroundColor: 'white',
   },
   cardNumber: {
+    color: '#080708',
     height: 10,
-    //width: 10,
     borderRadius: 10,
-    borderColor: "#738E9B",
-    //marginLeft: 70,
-    marginBottom: -70,
-    marginTop: 40,
-    marginLeft: -50,
+    borderColor: "#A3D0E6",
+    marginBottom: -80,
+    marginTop: 60,
+    marginLeft: -45,
     backgroundColor: 'white',
   },
   cardExpiration: {
+    color: '#080708',
     height: 10,
     width: 90,
     borderRadius: 10,
-    borderColor: "#738E9B",
-    //marginLeft: 70,
-    marginBottom: -70,
+    borderColor: "#A3D0E6",
+    marginBottom: -100,
     marginTop: 100,
     marginLeft: 130,
     backgroundColor: 'white',
   },
   textNumber: {
+    color: '#080708',
     fontSize: 20
   },
   textExpiration: {
+    marginTop: 10,
+    color: '#080708',
     fontSize: 18
   },
   buttonContainer: {
@@ -463,7 +452,7 @@ const styles = {
     flexDirection: "column",
     color: "white",
     //marginTop: 7,
-    fontSize: 20,
+    fontSize: 18,
   },
   inputContainer: {
     flex: 1,

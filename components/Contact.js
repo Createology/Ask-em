@@ -105,7 +105,7 @@ export default class Contact extends Component {
               placeholder="Name"
               placeholderTextColor="gray"
               underlineColorAndroid="transparent"
-              onChangeText={phoneNumber => {
+              onChangeText={name => {
                 this.handleNameChange(name);
               }}
             />
