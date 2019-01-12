@@ -43,36 +43,64 @@ export default class AccountModal extends Component {
 
   render() {
     const color = this.randomColor();
-    return (
-      <View>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.props.visibility}
-          onRequestClose={() => {}}
-        >
-          <SurveyStats
-            finalSmartAnswer={this.props.finalSmartAnswer}
-            birthdays={this.props.birthdays}
-            genders={this.props.genders}
-            lastnames={this.props.lastnames}
-            randomColor={color}
-          />
-          <Button
-            iconLeft
-            style={{ backgroundColor: color }}
-            onPress={() => {
-              this.props.showHandler(false);
-            }}
+    if (this.props.birthdays) {
+      return (
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.props.visibility}
+            onRequestClose={() => {}}
           >
-            <Iconbase name="arrow-back" />
-            <Text style={{ marginStart: 10, marginEnd: 10, color: "white" }}>
-              Back
-            </Text>
-          </Button>
-        </Modal>
-      </View>
-    );
+            <SurveyStats
+              finalSmartAnswer={this.props.finalSmartAnswer}
+              birthdays={this.props.birthdays}
+              genders={this.props.genders}
+              lastNames={this.props.lastnames}
+              maritalStatuses={this.props.maritalstatuses}
+              educationLevels={this.props.educationlevels}
+              randomColor={color}
+            />
+            <Button
+              iconLeft
+              style={{ backgroundColor: color }}
+              onPress={() => {
+                this.props.showHandler(false);
+              }}
+            >
+              <Iconbase name="arrow-back" />
+              <Text style={{ marginStart: 10, marginEnd: 10, color: "white" }}>
+                Back
+              </Text>
+            </Button>
+          </Modal>
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.props.visibility}
+            onRequestClose={() => {}}
+          >
+            <Button
+              iconLeft
+              style={{ backgroundColor: color }}
+              onPress={() => {
+                this.props.showHandler(false);
+              }}
+            >
+              <Iconbase name="arrow-back" />
+              <Text style={{ marginStart: 10, marginEnd: 10, color: "white" }}>
+                Back
+              </Text>
+            </Button>
+          </Modal>
+        </View>
+      );
+    }
   }
 }
 
