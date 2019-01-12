@@ -267,6 +267,20 @@ const getAllEducationLevels = (req, res) => {
   });
 };
 
+const getAllMaritalStatuses = (req, res) => {
+  const { surveyID } = req.body;
+  console.log("surveyID: ", surveyID);
+  DB.selectAllMaritalStatuses(surveyID, (err, result) => {
+    if (result) {
+      console.log("===selectAllMaritalStatuses===");
+      console.log(result);
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user survey marital statuses!");
+    }
+  });
+};
 //;-----------------------;/------------------]
 //;-----------------------;/------------------]
 const getAllActiveSurveysNotAnswerdByUser = (req, res) => {
