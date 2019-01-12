@@ -17,7 +17,7 @@ import {
   Right,
   Input as TextInput
 } from "native-base";
-// import StarRating from "react-native-star-rating";
+import StarRating from "react-native-star-rating";
 
 export default class AboutUs extends Component {
   static navigationOptions = {
@@ -116,6 +116,36 @@ export default class AboutUs extends Component {
                 </Text>
               </TouchableHighlight>
             </View>
+            <ScrollView>
+              <View style={{ backgroundColor: "white", margin: 10 }}>
+                <Text style={{ fontSize: 30 }}>Rate Us</Text>
+                <View style={styles.stars}>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                    fullStarColor={"#ffdd42"}
+                  />
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.inputs}
+                  placeholder="Help us to improve ..."
+                  placeholderTextColor="gray"
+                  underlineColorAndroid="gray"
+                />
+              </View>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.submitButton]}
+              >
+                <Text style={styles.submitText}>
+                  <Icon name="send" style={{ color: "white" }} />
+                  Submit
+                </Text>
+              </TouchableHighlight>
+            </ScrollView>
           </View>
         </View>
       </Container>
@@ -213,5 +243,18 @@ const styles = StyleSheet.create({
     color: "white",
     alignItems: "center",
     fontSize: 17
+  },
+  stars: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    // margin:30,
+    marginBottom: 10,
+    marginTop: 10
+  },
+  stretch: {
+    width: 50,
+    height: 50
   }
 });
