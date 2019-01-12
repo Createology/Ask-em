@@ -40,6 +40,10 @@ app.post(
   "/surveys/retrieve/all/educationlevel",
   surveyHelpers.getAllEducationLevels
 );
+app.post(
+  "/surveys/retrieve/all/maritalstatus",
+  surveyHelpers.getAllMaritalStatuses
+);
 
 app.post(
   "/surveys/retrieve/all/notanswered",
