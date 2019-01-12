@@ -209,10 +209,11 @@ const saveSurvey = (req, res) => {
 //;-----------------------;/------------------]
 const getAllLastNames = (req, res) => {
   const { surveyID } = req.body;
-  console.log(surveyID);
+  console.log("surveyID: ", surveyID);
   DB.selectAllLastNames(surveyID, (err, result) => {
     if (result) {
       console.log("===selectLastNames===");
+      console.log(result);
       res.status(200).send(result);
     } else {
       console.log(err);
@@ -223,6 +224,7 @@ const getAllLastNames = (req, res) => {
 
 const getAllGenders = (req, res) => {
   const { surveyID } = req.body;
+  console.log("surveyID: ", surveyID);
   DB.selectAllGenders(surveyID, (err, result) => {
     if (result) {
       console.log("===selectGenders===");
@@ -237,9 +239,10 @@ const getAllGenders = (req, res) => {
 
 const getAllBirthdays = (req, res) => {
   const { surveyID } = req.body;
+  console.log("surveyID: ", surveyID);
   DB.selectAllBirthdays(surveyID, (err, result) => {
     if (result) {
-      console.log("===selectBirthdays===");
+      console.log("===selectBirthdays===" + "\t Survey ID: " + surveyID);
       console.log(result);
       res.status(200).send(result);
     } else {
@@ -249,6 +252,23 @@ const getAllBirthdays = (req, res) => {
   });
 };
 
+const getAllEducationLevels = (req, res) => {
+  const { surveyID } = req.body;
+  console.log("surveyID: ", surveyID);
+  DB.selectAllEducationLevels(surveyID, (err, result) => {
+    if (result) {
+      console.log("===selectAllEducationLevels===");
+      console.log(result);
+      res.status(200).send(result);
+    } else {
+      console.log(err);
+      res.status(404).send("Error getting user survey education levels!");
+    }
+  });
+};
+
+//;-----------------------;/------------------]
+//;-----------------------;/------------------]
 const getAllActiveSurveysNotAnswerdByUser = (req, res) => {
   const { id_users } = req.body;
   DB.selectAllActiveSurveysNotAnswerdByUser(id_users, (err, result) => {
@@ -313,6 +333,7 @@ addAnswerOfAResult = (req, res) => {
     }
   });
 };
+
 module.exports.getAllSurveys = getAllSurveys;
 module.exports.getAllSurveysOfUser = getAllSurveysOfUser;
 module.exports.getAllSurveysAnsweredByUser = getAllSurveysAnsweredByUser;
@@ -348,6 +369,8 @@ module.exports.saveSurvey = saveSurvey;
 module.exports.getAllLastNames = getAllLastNames;
 module.exports.getAllGenders = getAllGenders;
 module.exports.getAllBirthdays = getAllBirthdays;
+module.exports.getAllEducationLevels = getAllEducationLevels;
+module.exports.getAllMaritalStatuses = getAllMaritalStatuses;
 
 //;-----------------------;/------------------]
 // brain result
