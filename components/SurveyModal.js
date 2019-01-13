@@ -34,7 +34,7 @@ import {
 import { Icon, Divider } from "react-native-elements";
 import IconAwesome from "react-native-vector-icons/FontAwesome";
 import Question from "./Question";
-import AwesomeAlert from 'react-native-awesome-alerts';
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const ip = require("../ip.json");
 
@@ -52,7 +52,7 @@ export default class SurveyModal extends Component {
       allChoicesOfQuestion: [],
       surveyID: "",
       clicked: "",
-      input: '',
+      input: "",
       ids: [],
       showAlert: false,
       userID: null,
@@ -100,8 +100,7 @@ export default class SurveyModal extends Component {
           questionsIDs: this.state.questions.map(item => item.id)
         });
       })
-      .done(() => {
-      });
+      .done(() => {});
   }
 
   getSmartQuestions(surveyID) {
@@ -125,29 +124,28 @@ export default class SurveyModal extends Component {
         });
         var idsState = scope.state.ids;
         for (var i = 0; i < res.length; i++) {
-          idsState.push(res[i].id)
+          idsState.push(res[i].id);
           this.setState({
-            [res[i].id]: '',
+            [res[i].id]: "",
             ids: idsState
           });
         }
       })
-      .done(() => {
-      });
+      .done(() => {});
   }
 
   sendSmartAnswers() {
     var sendBody = [];
     const scope = this;
     for (var i = 0; i < this.state.ids.length; i++) {
-      var id = this.state.ids[i]
+      var id = this.state.ids[i];
       sendBody.push({
         smartanswer: this.state[id],
         Truth: 1,
         id_smartquestions: this.state.ids[i],
         id_users: this.props.userID,
         id_surveys: this.props.surveyID
-      })
+      });
     }
     fetch(`${ip}:3000/answer/smart/add`, {
       method: "POST",
@@ -158,29 +156,31 @@ export default class SurveyModal extends Component {
       body: JSON.stringify(sendBody)
     })
       .then(response => {
-        this.showAlert()
-        setTimeout(function () { scope.hideAlert(); }, 2000);
-        setTimeout(function () { scope.props.showHandler(false) }, 500);
+        this.showAlert();
+        setTimeout(function() {
+          scope.hideAlert();
+        }, 2000);
+        setTimeout(function() {
+          scope.props.showHandler(false);
+        }, 500);
         response.json();
       })
-      .then(res => {
-      })
-      .done(() => {
-      });
+      .then(res => {})
+      .done(() => {});
   }
 
   showAlert = () => {
-		this.setState({
-			showAlert: true
-		});
-	};
-
-	hideAlert = () => {
-		this.setState({
-			showAlert: false
-		});
+    this.setState({
+      showAlert: true
+    });
   };
-  
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
+
   onChangeChoices = async (answer, questionID, userID, surveyID) => {
     const temp = {
       answer: answer,
@@ -201,8 +201,6 @@ export default class SurveyModal extends Component {
         answers: emptyTemp
       });
     }
-
-    console.warn(this.state.answers);
   };
 
   render() {
@@ -219,13 +217,31 @@ export default class SurveyModal extends Component {
       showAlert,
       answers
     } = this.state;
+    var surveyCategory;
+    switch (this.props.surveyCategory) {
+      case '0':
+        surveyCategory = 'Politics';
+        break;
+      case '1':
+        surveyCategory = 'Community';
+        break;
+      case '2':
+        surveyCategory = 'Economy';
+        break;
+      case '3':
+        surveyCategory = 'Education';
+        break;
+      case '4':
+        surveyCategory = 'Confidentiality';
+        break;
+    }
     return (
       <Root>
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.props.visibility}
-          onRequestClose={() => { }}
+          onRequestClose={() => {}}
         >
           <ScrollView>
             <View style={styles.container}>
@@ -233,13 +249,9 @@ export default class SurveyModal extends Component {
                 <Text style={styles.textTitle}>
                   {this.props.surveyName.toUpperCase()}
                 </Text>
-                <Text style={styles.textInfo}>
-                  Please fill the required info
-                </Text>
-
                 <Form>
                   <View style={styles.surveyInfo}>
-                    <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row", textAlign: 'left' }}>
                       <Left style={{ flex: 1 }}>
                         <Text
                           note
@@ -261,7 +273,7 @@ export default class SurveyModal extends Component {
                     </View>
 
                     {/*  */}
-                    <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row", textAlign: 'left' }}>
                       <Left style={{ flex: 1 }}>
                         <Text
                           note
@@ -282,7 +294,7 @@ export default class SurveyModal extends Component {
                       </Right>
                     </View>
                     {/*  */}
-                    <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row", textAlign: 'left' }}>
                       <Left style={{ flex: 1 }}>
                         <Text
                           note
@@ -296,14 +308,19 @@ export default class SurveyModal extends Component {
                         <Text
                           note
                           numberOfLines={8}
-                          style={styles.surveyValues}
+                          style={[styles.surveyValues, {marginRight: 122}]}
                         >
-                          {this.props.surveyCategory}
+                          { surveyCategory }
                         </Text>
                       </Right>
                     </View>
                   </View>
-
+                  <Text style={styles.textInfo}>
+                    Please fill the required info
+                  </Text>
+                  <Separator>
+                    <Text style={{ color: 'black' }}>Questions </Text>
+                  </Separator>
                   {Array.isArray(questions) &&
                     questions.map(({ id, question }, index) => (
                       <View style={{ flexDirection: "row" }} key={id}>
@@ -317,16 +334,19 @@ export default class SurveyModal extends Component {
                           </Text>
                         </Left>
                         <Right style={{ flex: 1 }}>
-                          <Question                             questionID={id}
+                          <Question
+                            questionID={id}
                             surveyID={surveyID}
                             key={id}
                             userID={userID}
-                            onChangeChoices={this.onChangeChoices.bind(this)} />
+                            onChangeChoices={this.onChangeChoices.bind(this)}
+                          />
                         </Right>
                       </View>
                     ))}
 
-                  <Separator bordered>
+                  <Separator>
+                    <Text style={{ color: 'black' }}>Smart Questions </Text>
                   </Separator>
 
                   {Array.isArray(this.state.smartQuestions) &&
@@ -349,7 +369,7 @@ export default class SurveyModal extends Component {
                               onChangeText={text => {
                                 this.setState({
                                   [id]: text
-                                })
+                                });
                               }}
                               style={{ color: "#E65100" }}
                             />
@@ -366,7 +386,7 @@ export default class SurveyModal extends Component {
                       full
                       block
                       onPress={() => {
-                        this.sendSmartAnswers()
+                        this.sendSmartAnswers();
                         this.props.submitModalHandler(this.state.answers);
                       }}
                     >
@@ -395,23 +415,23 @@ export default class SurveyModal extends Component {
             </View>
           </ScrollView>
           <AwesomeAlert
-							show={showAlert}
-							showProgress={false}
-							title="Payment Success"
-							message="You have successfully paid!"
-							closeOnTouchOutside={true}
-							closeOnHardwareBackPress={true}
-							showCancelButton={false}
-							showConfirmButton={false}
-							progressSize='50'
-							progressColor='green'
-							overlayStyle={{
-								padding: 50,
-							}}
-							contentContainerStyle={{
-								padding: 50,
-							}}
-						/>
+            show={showAlert}
+            showProgress={false}
+            title="Payment Success"
+            message="You have successfully paid!"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={false}
+            showConfirmButton={false}
+            progressSize='50'
+            progressColor='green'
+            overlayStyle={{
+              padding: 50,
+            }}
+            contentContainerStyle={{
+              padding: 50,
+            }}
+          />
         </Modal>
       </Root>
     );
@@ -433,7 +453,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginTop: 40,
     fontFamily: "Roboto",
-    color: "#E65100"
+    color: "#037FBC",
+    fontWeight: 'bold'
   },
   textScreenElements: {
     fontSize: 16,
@@ -442,17 +463,17 @@ const styles = StyleSheet.create({
   },
   textInfo: {
     color: "black",
-    fontSize: 25,
+    fontSize: 20,
     textAlignVertical: "center",
     textAlign: "center",
-    marginBottom: 40,
+    marginBottom: 10,
     fontFamily: "Roboto"
   },
   surveyValues: {
     textAlign: "left",
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: "Roboto",
-    color: "#E65100"
+    color: "#037FBC"
   },
   input: {
     height: 50,
@@ -480,7 +501,7 @@ const styles = StyleSheet.create({
   surveyInfo: {
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: "#E65100",
+    borderColor: "#A3D0E6",
     padding: 10,
     borderStyle: "solid",
     marginBottom: 10

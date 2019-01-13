@@ -33,17 +33,17 @@ export default class Search extends Component {
 			modalVisible: false,
 			selectedSurvey: null,
 			images: [
-        require("./assets/1.jpeg"),
-        require("./assets/2.jpeg"),
-        require("./assets/3.jpeg"),
-        require("./assets/4.jpeg"),
-        require("./assets/5.jpeg"),
-        require("./assets/6.jpeg"),
-        require("./assets/7.jpeg"),
-        require("./assets/8.jpeg"),
-        require("./assets/9.jpeg"),
-        require("./assets/10.jpg")
-      ]
+				require("./assets/1.jpeg"),
+				require("./assets/2.jpeg"),
+				require("./assets/3.jpeg"),
+				require("./assets/4.jpeg"),
+				require("./assets/5.jpeg"),
+				require("./assets/6.jpeg"),
+				require("./assets/7.jpeg"),
+				require("./assets/8.jpeg"),
+				require("./assets/9.jpeg"),
+				require("./assets/10.jpg")
+			]
 		};
 	}
 
@@ -85,7 +85,7 @@ export default class Search extends Component {
 		}
 		return (
 			<View style={styles.container}>
-				<Header style={{ backgroundColor: "#E65100" }}>
+				<Header style={{ backgroundColor: "#037FBC" }}>
 					<Left>
 						<IconMenu style={styles.icon} name='menu' onPress={() => { this.props.navigation.openDrawer() }} />
 					</Left>
@@ -101,7 +101,7 @@ export default class Search extends Component {
 						numberOfLines={4}
 						ref={input => { this.textInput = input }}
 						onChangeText={(text) => this.setState({ text })}
-						placeholder="Search"
+						placeholder=" Search"
 					/>
 					<IconMenu style={styles.button} name='search' onPress={this.onSearch.bind(this)} />
 				</View>
@@ -150,11 +150,12 @@ const styles = StyleSheet.create({
 		flex: 0.9,
 		borderWidth: 1,
 		borderColor: '#002C43',
-    backgroundColor: "white",
-    color: 'black'
+		backgroundColor: "white",
+		color: 'black',
+		marginLeft: 5,
 	},
 	button: {
-		marginLeft: -25,
+		marginLeft: -28,
 		marginRight: 12,
 		marginTop: 5,
 		color: "#002C43",

@@ -7,6 +7,7 @@ const signIn = require("./server/signIn");
 const signUp = require("./server/signUp");
 const db = require("./database/index");
 const contact = require("./server/contactUs");
+const feedback = require("./server/feedback");
 
 const app = express();
 
@@ -36,6 +37,14 @@ app.post("/surveys/retrieve", surveyHelpers.getAllSurveys);
 app.post("/surveys/retrieve/all/lastname", surveyHelpers.getAllLastNames);
 app.post("/surveys/retrieve/all/gender", surveyHelpers.getAllGenders);
 app.post("/surveys/retrieve/all/birthday", surveyHelpers.getAllBirthdays);
+app.post(
+  "/surveys/retrieve/all/educationlevel",
+  surveyHelpers.getAllEducationLevels
+);
+app.post(
+  "/surveys/retrieve/all/maritalstatus",
+  surveyHelpers.getAllMaritalStatuses
+);
 
 app.post(
   "/surveys/retrieve/all/notanswered",
@@ -56,7 +65,10 @@ app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
 app.post("answer/dumb/get", surveyHelpers.getAllAnswOfASurvey);
 
-app.post("/question/dumb/get/choice/question", surveyHelpers.getAllChoicesOfQuestion);
+app.post(
+  "/question/dumb/get/choice/question",
+  surveyHelpers.getAllChoicesOfQuestion
+);
 
 app.post("/answer/res/get", surveyHelpers.getAnswerOfAResult);
 
@@ -105,3 +117,5 @@ app.get("/*", (req, res) => {
 app.listen(3000, () => {
   console.log("listening on port 3000!");
 });
+
+app.post("/feedback", feedback);
