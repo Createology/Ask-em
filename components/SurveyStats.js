@@ -48,33 +48,6 @@ class SurveyStats extends React.PureComponent {
       maritalStatuses: ["default"],
       educationLevels: ["default"],
       genders: ["male"],
-      // ages: [25],
-      // lastNames: [
-      //   "dulaimi",
-      //   "khudhairi",
-      //   "anaqreh",
-      //   "rawashdeh",
-      //   "hajhussein",
-      //   "dulaimi"
-      // ],
-      // maritalStatuses: [
-      //   "single",
-      //   "married",
-      //   "divorced",
-      //   "widowed",
-      //   "seperated",
-      //   "single"
-      // ],
-      // educationLevels: [
-      //   "primary",
-      //   "secondary",
-      //   "high",
-      //   "bachelor",
-      //   "master",
-      //   "doctoral",
-      //   "doctoral"
-      // ],
-      genders: ["male", "female", "male"],
       x: "default", // these are random number from the customer for the smart final answer
       y: "default",
       z: "default"
@@ -85,7 +58,6 @@ class SurveyStats extends React.PureComponent {
     //;--------------------------------------------------------------------------------------------
     //get and set birthdays
     if (nextProps.birthdays !== this.props.birthdays) {
-      // console.warn("ages1", this.state.ages);
       // ages: input: [{birthdays}], output: []
       await this.setState({
         ages: nextProps.birthdays.map(({ birthday }) => {
@@ -94,19 +66,15 @@ class SurveyStats extends React.PureComponent {
           );
         })
       });
-      // console.warn("ages2", this.state.ages);
       // avgAge: input: [], output: number
       await this.setState({
         avgAge: this.calculateProbabilities(this.state.ages)
       });
-
-      // console.warn("avgAge", this.state.avgAge);
     }
 
     //;--------------------------------------------------------------------------------------------
     //get and set genders
     if (nextProps.genders !== this.props.genders) {
-      // console.warn("genders1", this.state.genders);
       // avgAge: input: [{}], output: []
       await this.setState({
         genders: nextProps.genders.map(({ gender }) => {
@@ -117,109 +85,76 @@ class SurveyStats extends React.PureComponent {
           }
         })
       });
-      // console.warn("genders2", this.state.genders);
       // avgAge: input: [], output: number
       await this.setState({
         highestPercentGender: this.getHighestPercent(this.state.genders)
       });
 
-      // console.warn("highestPercentGender", this.state.highestPercentGender);
       // avgAge: input: [], output: string
       await this.setState({
         highestPercentGenderKey: this.getHighestPercentKey(this.state.genders)
       });
-      // console.warn(
-      //   "highestPercentGenderKey",
-      //   this.state.highestPercentGenderKey
-      // );
     }
 
     //;--------------------------------------------------------------------------------------------
     //get and set lastNames
     if (nextProps.lastNames !== this.props.lastNames) {
-      // console.warn("lastNames1", this.state.lastNames);
       // avgAge: input: [{}], output: []
       await this.setState({
         lastNames: nextProps.lastNames.map(({ lastname }) => lastname)
       });
-      // console.warn("lastNames2", this.state.lastNames);
       // avgAge: input: [], output: number
       await this.setState({
         highestPercentLastName: this.getHighestPercent(this.state.lastNames)
       });
-      // console.warn("highestPercentLastName", this.state.highestPercentLastName);
       // avgAge: input: [], output: string
       await this.setState({
         highestPercentLastNameKey: this.getHighestPercentKey(
           this.state.lastNames
         )
       });
-      // console.warn(
-      //   "highestPercentLastNameKey",
-      //   this.state.highestPercentLastNameKey
-      // );
     }
 
     //;--------------------------------------------------------------------------------------------
     //get and set maritalStatuses
     if (nextProps.maritalStatuses !== this.props.maritalStatuses) {
-      // console.warn("maritalStatuses1", this.state.maritalStatuses);
       // avgAge: input: [{}], output: []
       await this.setState({
         maritalStatuses: nextProps.maritalStatuses.map(({ answer }) => answer)
       });
-      // console.warn("maritalStatuses2", this.state.maritalStatuses);
       // avgAge: input: [], output: number
       await this.setState({
         highestPercentMaritalStatus: this.getHighestPercent(
           this.state.maritalStatuses
         )
       });
-      // console.warn(
-      //   "highestPercentMaritalStatus",
-      //   this.state.highestPercentMaritalStatus
-      // );
       // avgAge: input: [], output: string
       await this.setState({
         highestPercentMaritalStatusKey: this.getHighestPercentKey(
           this.state.maritalStatuses
         )
       });
-      // console.warn(
-      //   "highestPercentMaritalStatusKey",
-      //   this.state.highestPercentMaritalStatusKey
-      // );
     }
 
     //;--------------------------------------------------------------------------------------------
     //get and set educationLevels
     if (nextProps.educationLevels !== this.props.educationLevels) {
-      // console.warn("educationLevels1", this.state.educationLevels);
       // avgAge: input: [{}], output: []
       await this.setState({
         educationLevels: nextProps.educationLevels.map(({ answer }) => answer)
       });
-      // console.warn("educationLevels2", this.state.educationLevels);
       // avgAge: input: [], output: number
       await this.setState({
         highestPercentEducationLevel: this.getHighestPercent(
           this.state.educationLevels
         )
       });
-      // console.warn(
-      //   "highestPercentEducationLevel",
-      //   this.state.highestPercentEducationLevel
-      // );
       // avgAge: input: [], output: string
       await this.setState({
         highestPercentEducationLevelKey: this.getHighestPercentKey(
           this.state.educationLevels
         )
       });
-      // console.warn(
-      //   "highestPercentEducationLevelKey",
-      //   this.state.highestPercentEducationLevelKey
-      // );
     }
 
     //;--------------------------------------------------------------------------------------------
@@ -247,7 +182,6 @@ class SurveyStats extends React.PureComponent {
   // input: [], output: {keys: numbers}
   calculateProbabilities = items => {
     if (items) {
-      // console.warn("items", items);
       const array = items.slice();
       const probabilities = {};
       if (typeof array[0] === "string") {
@@ -308,10 +242,7 @@ class SurveyStats extends React.PureComponent {
     var finalSmartAnswerFunction = this.props.finalSmartAnswer;
     if (
       this.state.data.length < 3 &&
-      // typeof this.state.data[0] === undefined &&
-
       this.state.statsAnswersKeys.length < 1
-      // typeof this.state.statsAnswersKeys === undefined
     ) {
       return (
         <View style={{ justifyContent: "center", flex: 1 }}>
@@ -498,7 +429,6 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 40,
-    //alignItems: "center",
     marginBottom: 10,
     width: 200,
     borderRadius: 30,
@@ -515,49 +445,3 @@ SurveyStats.propTypes = {
 }
 
 //;------------------------
-
-//Works with static data
-// async componentWillMount() {
-//   let this = this;
-//   // console.warn(this.state.lastNames);
-//   await this.setState({
-//     highestPercentLastName: this.getHighestPercent(this.state.lastNames),
-//     highestPercentMaritalStatus: this.getHighestPercent(
-//       this.state.maritalStatuses
-//     ),
-//     highestPercentEducationLevel: this.getHighestPercent(
-//       this.state.educationLevels
-//     ),
-//     highestPercentGender: this.getHighestPercent(this.state.genders),
-//     highestPercentLastNameKey: this.getHighestPercentKey(
-//       this.state.lastNames
-//     ),
-//     highestPercentMaritalStatusKey: this.getHighestPercentKey(
-//       this.state.maritalStatuses
-//     ),
-//     highestPercentEducationLevelKey: this.getHighestPercentKey(
-//       this.state.educationLevels
-//     ),
-//     highestPercentGenderKey: this.getHighestPercentKey(this.state.genders),
-//     avgAge: this.calculateProbabilities(this.state.ages)
-//   });
-
-//   await this.setState({
-//     data: [
-//       this.state.highestPercentLastName,
-//       this.state.highestPercentMaritalStatus,
-//       this.state.highestPercentEducationLevel,
-//       this.state.highestPercentGender,
-//       this.state.avgAge
-//     ]
-//   });
-
-//   await this.setState({
-//     statsAnswersKeys: [
-//       this.state.highestPercentLastNameKey,
-//       this.state.highestPercentMaritalStatusKey,
-//       this.state.highestPercentEducationLevelKey,
-//       this.state.highestPercentGenderKey
-//     ]
-//   });
-// }
