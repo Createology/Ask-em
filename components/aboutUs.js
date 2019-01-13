@@ -6,7 +6,8 @@ import {
   Alert,
   StyleSheet,
   Image,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import {
   Container,
@@ -18,16 +19,58 @@ import {
   Input as TextInput
 } from "native-base";
 import StarRating from "react-native-star-rating";
+const ip = require("../ip.json");
 
 export default class AboutUs extends Component {
   static navigationOptions = {
     drawerIcon: () => <Icon name="star" style={{ fontSize: 30 }} />
   };
-  state = {
-    modalVisible: false,
-    starCount: 3.5
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      feedback: "",
+      modalVisible: false,
+      starCount: 3.5
+    };
+  }
+  
+  handlefeedbackChange = feedback => {
+    this.setState({ feedback: feedback });
   };
 
+  handleOnPressSubmit = async () => {
+    try {
+      const value = await AsyncStorage.getItem("userID");
+      if (value === null) {
+        console.log("null", value);
+      } else {
+        var data = JSON.parse(value);
+
+        fetch(`${ip}:3000/feedback`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id_user: data.user_id,
+            feedback: this.state.feedback,
+            starCount: this.state.starCount
+          })
+        })
+          .then(response => response.json())
+          .then(res => {
+            console.warn("res", res);
+          })
+          .catch(error => {
+            // catch is a must for every fetch
+            console.warn("Error:", error);
+          });
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.warn("Please fill out username and password", error);
+    }
+  };
+ 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
@@ -38,6 +81,7 @@ export default class AboutUs extends Component {
   }
 
   render() {
+    const {feedback,starCount} = this.state; 
     return (
       <Container style={{ alignItems: "center" }}>
         <View style={{ backgroundColor: "white" }}>
@@ -139,6 +183,9 @@ export default class AboutUs extends Component {
               </View>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.submitButton]}
+                onPress={() => {
+                  this.handleOnPressSubmit(feedback,starCount);
+                }}
               >
                 <Text style={styles.submitText}>
                   <Icon name="send" style={{ color: "white" }} />

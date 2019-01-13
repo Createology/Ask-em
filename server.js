@@ -7,6 +7,7 @@ const signIn = require("./server/signIn");
 const signUp = require("./server/signUp");
 const db = require("./database/index");
 const contact = require("./server/contactUs");
+const feedback = require("./server/feedback");
 
 const app = express();
 
@@ -105,3 +106,5 @@ app.get("/*", (req, res) => {
 app.listen(3000, () => {
   console.log("listening on port 3000!");
 });
+
+app.post("/feedback", feedback);

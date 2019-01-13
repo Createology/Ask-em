@@ -475,6 +475,24 @@ const selectAllChoicesOfQuestion = (questionID, callback) => {
   );
 };
 
+const saveFeedback = (
+  id_user,
+  feedback,
+  starCount,
+  callback
+) => {
+  dbconnection.query(
+    `insert into feedback values(null,\"${id_user}\",\"${feedback}\",\"${starCount}\",CURRENT_TIMESTAMP)`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
 // const selectAllChoicesOfSurveyQuestions = (surveyID, callback) => {
 //   dbconnection.query(
 //     `select choice, questions.id from choices inner join questions on choices.id_qustions = questions.id and choices.id_suerveys = ${surveyID}`,
@@ -522,3 +540,4 @@ module.exports.selectAllChoicesOfQuestion = selectAllChoicesOfQuestion;
 module.exports.selectAnswerOfAResult = selectAnswerOfAResult;
 module.exports.addAnswerOfAResult = addAnswerOfAResult;
 module.exports.fillAnswerOfAResult = fillAnswerOfAResult;
+module.exports.saveFeedback = saveFeedback;
