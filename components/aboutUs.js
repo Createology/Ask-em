@@ -179,6 +179,9 @@ export default class AboutUs extends Component {
                   placeholder="Help us to improve ..."
                   placeholderTextColor="gray"
                   underlineColorAndroid="gray"
+                  onChangeText={feedback => {
+                    this.handlefeedbackChange(feedback);
+                  }}
                 />
               </View>
               <TouchableHighlight
