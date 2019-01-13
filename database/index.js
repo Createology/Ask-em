@@ -425,11 +425,13 @@ const saveContactUs = (
 
 const selectAllLastNames = (surveyID, callback) => {
   dbconnection.query(
-    `SELECT lastname from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    `select lastname from users where id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
     (err, result) => {
       if (err) {
         callback(err, null);
       } else {
+        console.log("All Last Names: ");
+        console.log(result);
         callback(null, result);
       }
     }
@@ -438,7 +440,7 @@ const selectAllLastNames = (surveyID, callback) => {
 
 const selectAllGenders = (surveyID, callback) => {
   dbconnection.query(
-    `SELECT gender from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    `select gender from users where id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
     (err, result) => {
       if (err) {
         callback(err, null);
@@ -451,7 +453,7 @@ const selectAllGenders = (surveyID, callback) => {
 
 const selectAllBirthdays = (surveyID, callback) => {
   dbconnection.query(
-    `SELECT birthday from users inner join surveys on users.id = surveys.id_users where users.id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
+    `select birthday from users where id in (select id_users from answers where answers.id_surveys = ${surveyID})`,
     (err, result) => {
       if (err) {
         callback(err, null);
