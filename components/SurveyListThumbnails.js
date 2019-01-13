@@ -61,7 +61,7 @@ export default class SurveyListThumbnails extends Component {
                 <Right>
                   <Button
                     bordered
-                    danger
+                    primary
                     onPress={() => {
                       this.props.onChangeSurveyInfo(
                         survey.survey_name,
@@ -73,7 +73,7 @@ export default class SurveyListThumbnails extends Component {
                       this.props.showHandler();
                     }}
                   >
-                    <Text key={survey.id}>View</Text>
+                    <Text key={survey.id} style={{color: '#039BE5'}}>View</Text>
                   </Button>
                 </Right>
               </ListItem>

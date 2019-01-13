@@ -54,10 +54,10 @@ const AppDrawerNavigator = createDrawerNavigator(
     ContentComponent: CustumDrawerComponent,
     drawerWidth: 200,
     contentOptions: {
-      activeTintColor: "#E65100",
-      activeBackgroundColor: "rgba(0,0,0,0)",
-      inactiveBackgroundColor: "rgba(0,0,0,0)",
-      inactiveTintColor: "#545f7a",
+      activeTintColor: '#E5504B',
+      activeBackgroundColor: 'rgba(0,0,0,0)',
+      inactiveBackgroundColor: 'rgba(0,0,0,0)',
+      inactiveTintColor: '#545f7a',
       style: {
         marginVertical: 0
       },

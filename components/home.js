@@ -223,7 +223,7 @@ export default class Home extends Component {
     }
     return (
       <View>
-        <Header style={{ backgroundColor: "#E65100" }}>
+        <Header style={{ backgroundColor: "#037FBC" }}>
           <Left>
             <Icon
               style={styles.icon}

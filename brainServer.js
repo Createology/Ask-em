@@ -317,6 +317,7 @@ async (req, res) => {
 
 
 app.post("/smart/answer/final", async (req, res) => {
+	console.log('body', req.body)
 	var surveyID = req.body['surveyID'];
 	const trainingData = require(`./smartData/surveyID${surveyID}_Dummy.json`)
 
@@ -412,7 +413,7 @@ app.post("/smart/answer/final", async (req, res) => {
 			train(trainingData);
 			var input = adjustSize(req.body.input.join(' ').toLowerCase());
 			var smartAnswer = execute(input)
-			smartAnswer.yes < 0.30 ? output = 'No' : output = 'Yes';
+			smartAnswer.yes < 0.50 ? output = 'No' : output = 'Yes';
 			console.log('text', smartAnswer)
 			db.addAnswerOfAResult(surveyID, output, (err, result) => {
 				if (result) {
@@ -425,7 +426,7 @@ app.post("/smart/answer/final", async (req, res) => {
 			return output;
 
 		} else {
-			results.yes < 0.30 ? output = 'No' : output = 'Yes';
+			results.yes < 0.50 ? output = 'No' : output = 'Yes';
 			console.log('numbers', results)
 			db.addAnswerOfAResult(`${surveyID}`,`${output}`, (err, result) => {
 				if (result) {

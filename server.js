@@ -37,6 +37,14 @@ app.post("/surveys/retrieve", surveyHelpers.getAllSurveys);
 app.post("/surveys/retrieve/all/lastname", surveyHelpers.getAllLastNames);
 app.post("/surveys/retrieve/all/gender", surveyHelpers.getAllGenders);
 app.post("/surveys/retrieve/all/birthday", surveyHelpers.getAllBirthdays);
+app.post(
+  "/surveys/retrieve/all/educationlevel",
+  surveyHelpers.getAllEducationLevels
+);
+app.post(
+  "/surveys/retrieve/all/maritalstatus",
+  surveyHelpers.getAllMaritalStatuses
+);
 
 app.post(
   "/surveys/retrieve/all/notanswered",
@@ -57,7 +65,10 @@ app.post("/answer/dumb/add", surveyHelpers.fillAnswer);
 
 app.post("answer/dumb/get", surveyHelpers.getAllAnswOfASurvey);
 
-app.post("/question/dumb/get/choice/question", surveyHelpers.getAllChoicesOfQuestion);
+app.post(
+  "/question/dumb/get/choice/question",
+  surveyHelpers.getAllChoicesOfQuestion
+);
 
 app.post("/answer/res/get", surveyHelpers.getAnswerOfAResult);
 

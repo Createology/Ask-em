@@ -462,6 +462,32 @@ const selectAllBirthdays = (surveyID, callback) => {
   );
 };
 
+const selectAllEducationLevels = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT answer from answers where answer in ('Primary', 'Secondary', 'Bachelor', 'Master', 'Doctoral') and id_surveys = ${surveyID}`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
+const selectAllMaritalStatuses = (surveyID, callback) => {
+  dbconnection.query(
+    `SELECT answer from answers where answer in ('Single', 'Married', 'Divorced', 'Seperated', 'Widowed') and id_surveys = ${surveyID}`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+};
+
 const selectAllChoicesOfQuestion = (questionID, callback) => {
   dbconnection.query(
     `SELECT choice from choices where id_qustions = ${questionID}`,
@@ -541,3 +567,5 @@ module.exports.selectAnswerOfAResult = selectAnswerOfAResult;
 module.exports.addAnswerOfAResult = addAnswerOfAResult;
 module.exports.fillAnswerOfAResult = fillAnswerOfAResult;
 module.exports.saveFeedback = saveFeedback;
+module.exports.selectAllEducationLevels = selectAllEducationLevels;
+module.exports.selectAllMaritalStatuses = selectAllMaritalStatuses;

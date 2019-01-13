@@ -86,7 +86,7 @@ export default class AboutUs extends Component {
       <Container style={{ alignItems: "center" }}>
         <View style={{ backgroundColor: "white" }}>
           <View style={styles.header}>
-            <Header style={{ backgroundColor: "#E65100", width: "100%" }}>
+            <Header style={{ backgroundColor: '#E5504B', width: "100%" }}>
               <Left>
                 <Icon
                   style={styles.icon}
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   },
   inputs: {
     height: 45,
-    borderBottomColor: "#E65100",
+    borderBottomColor: '#E5504B',
     flex: 1,
     color: "black",
     textAlign: "left",
