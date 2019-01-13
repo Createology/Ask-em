@@ -34,7 +34,7 @@ import {
 import { Icon, Divider } from "react-native-elements";
 import IconAwesome from "react-native-vector-icons/FontAwesome";
 import Question from "./Question";
-import AwesomeAlert from 'react-native-awesome-alerts';
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const ip = require("../ip.json");
 
@@ -52,7 +52,7 @@ export default class SurveyModal extends Component {
       allChoicesOfQuestion: [],
       surveyID: "",
       clicked: "",
-      input: '',
+      input: "",
       ids: [],
       showAlert: false,
       userID: null,
@@ -100,8 +100,7 @@ export default class SurveyModal extends Component {
           questionsIDs: this.state.questions.map(item => item.id)
         });
       })
-      .done(() => {
-      });
+      .done(() => {});
   }
 
   getSmartQuestions(surveyID) {
@@ -125,29 +124,28 @@ export default class SurveyModal extends Component {
         });
         var idsState = scope.state.ids;
         for (var i = 0; i < res.length; i++) {
-          idsState.push(res[i].id)
+          idsState.push(res[i].id);
           this.setState({
-            [res[i].id]: '',
+            [res[i].id]: "",
             ids: idsState
           });
         }
       })
-      .done(() => {
-      });
+      .done(() => {});
   }
 
   sendSmartAnswers() {
     var sendBody = [];
     const scope = this;
     for (var i = 0; i < this.state.ids.length; i++) {
-      var id = this.state.ids[i]
+      var id = this.state.ids[i];
       sendBody.push({
         smartanswer: this.state[id],
         Truth: 1,
         id_smartquestions: this.state.ids[i],
         id_users: this.props.userID,
         id_surveys: this.props.surveyID
-      })
+      });
     }
     fetch(`${ip}:3000/answer/smart/add`, {
       method: "POST",
@@ -158,15 +156,17 @@ export default class SurveyModal extends Component {
       body: JSON.stringify(sendBody)
     })
       .then(response => {
-        this.showAlert()
-        setTimeout(function () { scope.hideAlert(); }, 2000);
-        setTimeout(function () { scope.props.showHandler(false) }, 500);
+        this.showAlert();
+        setTimeout(function() {
+          scope.hideAlert();
+        }, 2000);
+        setTimeout(function() {
+          scope.props.showHandler(false);
+        }, 500);
         response.json();
       })
-      .then(res => {
-      })
-      .done(() => {
-      });
+      .then(res => {})
+      .done(() => {});
   }
 
   showAlert = () => {
@@ -201,8 +201,6 @@ export default class SurveyModal extends Component {
         answers: emptyTemp
       });
     }
-
-    console.warn(this.state.answers);
   };
 
   render() {
@@ -243,7 +241,7 @@ export default class SurveyModal extends Component {
           animationType="slide"
           transparent={false}
           visible={this.props.visibility}
-          onRequestClose={() => { }}
+          onRequestClose={() => {}}
         >
           <ScrollView>
             <View style={styles.container}>
@@ -336,11 +334,13 @@ export default class SurveyModal extends Component {
                           </Text>
                         </Left>
                         <Right style={{ flex: 1 }}>
-                          <Question questionID={id}
+                          <Question
+                            questionID={id}
                             surveyID={surveyID}
                             key={id}
                             userID={userID}
-                            onChangeChoices={this.onChangeChoices.bind(this)} />
+                            onChangeChoices={this.onChangeChoices.bind(this)}
+                          />
                         </Right>
                       </View>
                     ))}
@@ -369,7 +369,7 @@ export default class SurveyModal extends Component {
                               onChangeText={text => {
                                 this.setState({
                                   [id]: text
-                                })
+                                });
                               }}
                               style={{ color: "#E65100" }}
                             />
@@ -386,7 +386,7 @@ export default class SurveyModal extends Component {
                       full
                       block
                       onPress={() => {
-                        this.sendSmartAnswers()
+                        this.sendSmartAnswers();
                         this.props.submitModalHandler(this.state.answers);
                       }}
                     >

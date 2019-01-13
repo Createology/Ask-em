@@ -64,7 +64,6 @@ export default class Contact extends Component {
         })
           .then(response => response.json())
           .then(res => {
-            console.warn("res", res);
           })
           .catch(error => {
             // catch is a must for every fetch
@@ -73,7 +72,7 @@ export default class Contact extends Component {
       }
     } catch (error) {
       // Error retrieving data
-      console.warn("Please fill out username and password", error);
+      console.warn("contact fetch", error);
     }
   };
 

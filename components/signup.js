@@ -78,7 +78,7 @@ export default class Signup extends Component {
         const errorMessage = error.message;
         if (errorCode == "auth/weak-password") {
         } else {
-          alert(errorMessage);
+          //alert(errorMessage);
           this.setState({
             username: ''
           })

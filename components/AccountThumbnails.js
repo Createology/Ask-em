@@ -51,10 +51,15 @@ export default class AccountThumbnails extends Component {
                         this.props.getBirthdays(survey.id);
                         this.props.getGenders(survey.id);
                         this.props.getLastNames(survey.id);
+                        this.props.getEducationLevels(survey.id);
+                        this.props.getMaritalStatuses(survey.id);
                       }}
                       underlayColor="#E02A23"
                     >
-                      <Text key={survey.id}>{survey.survey_name}</Text>
+                      <Text key={survey.id}>
+                        {survey.survey_name}
+                        {survey.id}
+                      </Text>
                     </TouchableHighlight>
 
                     <Text note numberOfLines={3}>
@@ -87,6 +92,8 @@ export default class AccountThumbnails extends Component {
                         this.props.getBirthdays(survey.id);
                         this.props.getGenders(survey.id);
                         this.props.getLastNames(survey.id);
+                        this.props.getEducationLevels(survey.id);
+                        this.props.getMaritalStatuses(survey.id);
                       }}
                     >
                       <Text key={survey.id} style={{ color: '#039BE5' }}>View</Text>
