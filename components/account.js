@@ -55,7 +55,8 @@ export default class Account extends Component {
       lastnames: [],
       genders: [],
       maritalstatuses: [],
-      educationlevels: []
+      educationlevels: [],
+      finalSmartAnswer: "Show final smart answer",
     };
   }
 
@@ -114,7 +115,7 @@ export default class Account extends Component {
           .then(res => {
             this.setState({ fetchedSurveys: res });
           })
-          .done(() => {});
+          .done(() => { });
       }
     } catch (error) {
       console.warn("error from the token surveysAnsByUser", error);
@@ -231,9 +232,13 @@ export default class Account extends Component {
         }
       })
     })
-      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          finalSmartAnswer: response._bodyText,
+        })
+        response.json()
+      })
       .then(res => {
-        console.warn("res", res);
       })
       .catch(error => {
         // catch is a must for every fetch
@@ -264,7 +269,7 @@ export default class Account extends Component {
     if (genders) {
       return (
         <Container>
-          <Header style={{ backgroundColor: "#E65100" }}>
+          <Header style={{ backgroundColor: "#037FBC" }}>
             <Left>
               <Icon
                 style={styles.icon}
@@ -305,8 +310,7 @@ export default class Account extends Component {
                         this.setState({ isUserSurveys: false });
                       }}
                     >
-                      <Text style={styles.bigText}>Answered</Text>
-                      <Text style={styles.bigText}>Surveys</Text>
+                      <Text style={styles.bigText}>Answered Surveys</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -315,6 +319,7 @@ export default class Account extends Component {
                 <AccountModal
                   showHandler={this.setModalVisible.bind(this)}
                   finalSmartAnswer={this.finalSmartAnswer.bind(this)}
+                  finalSmartAnswerValue={this.state.finalSmartAnswer}
                   visibility={modalVisible}
                   selectedSurvey={selectedSurvey}
                   allSurveys={fetchedSurveys}
@@ -451,7 +456,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 22,
-    color: "#696969",
+    color: "#002C43",
     fontWeight: "600"
   },
   info: {
@@ -475,9 +480,13 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 1,
     alignItems: "center",
-    borderColor: "black",
-    borderRightWidth: 1,
-    backgroundColor: "#002C43"
+    //borderColor: "black",
+    //borderRightWidth: 1,
+    backgroundColor: "#DBE3E7",
+    borderRadius: 30,
+    marginRight: 5,
+    marginLeft: 10,
+
   },
   buttonContainerSecond: {
     flex: 2,
@@ -485,23 +494,26 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 1,
     alignItems: "center",
-    borderColor: "black",
-    borderLeftWidth: 1,
-    backgroundColor: "#EAE2B7"
+    //borderColor: "black",
+    //borderLeftWidth: 1,
+    backgroundColor: "#DBE3E7",
+    borderRadius: 30,
+    marginRight: 10,
   },
   thumbnails: {
     color: "black"
   },
   text: {
-    color: "white",
-    fontSize: 15,
-    marginTop: 12,
-    fontWeight: "bold"
+    color: "black",
+    fontSize: 17,
+    marginTop: 10,
+    fontWeight: "bold",
   },
   bigText: {
     color: "black",
-    fontSize: 15,
-    fontWeight: "bold"
+    fontSize: 17,
+    fontWeight: "bold",
+    marginTop: 10,
   },
   icon: {
     color: "white",

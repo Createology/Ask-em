@@ -75,10 +75,9 @@ class SurveyStats extends React.PureComponent {
       //   "doctoral"
       // ],
       genders: ["male", "female", "male"],
-      finalSmartAnswer: "",
-      x: "", // these are random number from the customer for the smart final answer
-      y: "",
-      z: ""
+      x: "default", // these are random number from the customer for the smart final answer
+      y: "default",
+      z: "default"
     };
   }
 
@@ -273,7 +272,7 @@ class SurveyStats extends React.PureComponent {
             probabilities[item] = Math.round(
               (array.join("").match(new RegExp(item, "g")).length /
                 array.length) *
-                100
+              100
             );
           });
         }
@@ -303,7 +302,10 @@ class SurveyStats extends React.PureComponent {
   };
 
   render() {
-    // console.warn("stat", this.state.ages);
+    var xx = this.state.x;
+    var yy = this.state.y;
+    var zz = this.state.z;
+    var finalSmartAnswerFunction = this.props.finalSmartAnswer;
     if (
       this.state.data.length < 3 &&
       // typeof this.state.data[0] === undefined &&
@@ -335,11 +337,11 @@ class SurveyStats extends React.PureComponent {
           >
             {`
           ${
-            index === 4
-              ? "Age"
-              : this.state.statsAnswersKeys[index][0].toUpperCase() +
+              index === 4
+                ? "Age"
+                : this.state.statsAnswersKeys[index][0].toUpperCase() +
                 this.state.statsAnswersKeys[index].slice(1)
-          }
+              }
           ${index === 4 ? value + " years" : value + "%"}
         `}
           </Text>
@@ -404,6 +406,71 @@ class SurveyStats extends React.PureComponent {
                   </Textnative>
                 </View>
               </Row>
+              <Text style={{ color: "black", fontSize: 18 }}>Fill smart data</Text>
+              <Row size={1}>
+                <View style={{ flex: 1, alignItems: 'center', marginTop: 40, }}>
+                  <TextInput
+                    placeholder="Issue Brief Description"
+                    placeholderTextColor="gray"
+                    style={styles.TextInput}
+                    editable={true}
+                    maxLength={40}
+                    numberOfLines={4}
+                    ref={input => {
+                      this.textInput = input;
+                    }}
+                    onChangeText={x => this.setState({ x })}
+                    placeholder="About you"
+                  />
+
+                  <TextInput
+                    placeholder="Issue Brief Description"
+                    placeholderTextColor="gray"
+                    style={styles.TextInput}
+                    editable={true}
+                    maxLength={40}
+                    numberOfLines={4}
+                    ref={input => {
+                      this.textInput = input;
+                    }}
+                    onChangeText={y => this.setState({ y })}
+                    placeholder="About you"
+                  />
+
+                  <TextInput
+                    placeholder="Issue Brief Description"
+                    placeholderTextColor="gray"
+                    style={styles.TextInput}
+                    editable={true}
+                    maxLength={40}
+                    numberOfLines={4}
+                    ref={input => {
+                      this.textInput = input;
+                    }}
+                    onChangeText={z => this.setState({ z })}
+                    placeholder="About you"
+                  />
+                </View>
+              </Row>
+              <View style={styles.buttonContainer}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => {
+                    finalSmartAnswerFunction(xx, yy, zz);
+                  }}
+                >
+                  <Textnative
+                    style={{
+                      textAlign: "center",
+                      fontSize: 14,
+                      color: "black"
+                    }}
+                  >
+                    {this.props.finalSmartAnswerValue}
+                  </Textnative>
+
+                </TouchableHighlight>
+              </View>
             </GridEasy>
           </ScrollView>
         </Container>
@@ -419,78 +486,33 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     height: 40,
-    flex: 0.9,
-    borderWidth: 1,
-    borderColor: "#002C43",
-    backgroundColor: "white"
-  }
-});
+    width: 220,
+    borderBottomWidth: 1,
+    borderBottomColor: "#002C43",
+    backgroundColor: "white",
+    color: 'black'
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  button: {
+    height: 40,
+    //alignItems: "center",
+    marginBottom: 10,
+    width: 200,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#037FBC'
+  },
+})
 
 SurveyStats.propTypes = {
   birthdays: PropTypes.array,
   genders: PropTypes.array,
   lastNames: PropTypes.array,
   randomColor: PropTypes.string
-};
-
-//Isa's Work
-
-// <Row size={1}>
-// <View>
-//   <TextInput
-//     style={styles.TextInput}
-//     editable={true}
-//     maxLength={40}
-//     numberOfLines={4}
-//     ref={input => {
-//       this.textInput = input;
-//     }}
-//     onChangeText={x => this.setState({ x })}
-//     placeholder="About you"
-//   />
-
-//   <TextInput
-//     style={styles.TextInput}
-//     editable={true}
-//     maxLength={40}
-//     numberOfLines={4}
-//     ref={input => {
-//       this.textInput = input;
-//     }}
-//     onChangeText={y => this.setState({ y })}
-//     placeholder="About you"
-//   />
-
-//   <TextInput
-//     style={styles.TextInput}
-//     editable={true}
-//     maxLength={40}
-//     numberOfLines={4}
-//     ref={input => {
-//       this.textInput = input;
-//     }}
-//     onChangeText={y => this.setState({ y })}
-//     placeholder="About you"
-//   />
-
-//   {/* <TouchableHighlight
-//     style={{ color: "black" }}
-//     onPress={() => {
-//       this.finalSmartAnswer(
-//         this.state.x,
-//         this.state.y,
-//         this.state.z
-//       );
-//     }}
-//   >
-//     Smart Response
-//   </TouchableHighlight> */}
-
-//   <Textnative style={{ color: "black" }}>
-//     {this.state.finalSmartAnswer}
-//   </Textnative>
-// </View>
-// </Row>
+}
 
 //;------------------------
 
@@ -539,24 +561,3 @@ SurveyStats.propTypes = {
 //     ]
 //   });
 // }
-
-/*
-${
-            index === 4
-              ? "Age"
-              : //this.state.statsAnswersKeys[index][0].toUpperCase() +
-                this.state.statsAnswersKeys[index].slice(1)
-          }
-          ${index === 4 ? value + " years" : value + "%"}
-*/
-/*
-            {/* ${
-            index === 4
-              ? "Age"
-              : this.state.statsAnswersKeys[index][0].toUpperCase() +
-                this.state.statsAnswersKeys[index].slice(1)
-          }
-          ${index === 4 ? value + " years" : value + "%"}
-            {`
-          ${value}
-          `} */

@@ -43,6 +43,7 @@ export default class AccountModal extends Component {
 
   render() {
     const color = this.randomColor();
+    var finalSmartAnswerFucntion = this.props.finalSmartAnswer
     if (this.props.birthdays) {
       return (
         <View>
@@ -53,7 +54,8 @@ export default class AccountModal extends Component {
             onRequestClose={() => {}}
           >
             <SurveyStats
-              finalSmartAnswer={this.props.finalSmartAnswer}
+              finalSmartAnswer={finalSmartAnswerFucntion}
+              finalSmartAnswerValue={this.props.finalSmartAnswerValue}
               birthdays={this.props.birthdays}
               genders={this.props.genders}
               lastNames={this.props.lastnames}
