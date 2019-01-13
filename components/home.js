@@ -25,7 +25,7 @@ const ip = require("../ip.json");
 export default class Home extends Component {
   static navigationOptions = {
     title: "Home",
-    drawerIcon: () => <Icon name="home" style={{ fontSize: 40 }} />
+    drawerIcon: () => <Icon name="home" style={{ fontSize: 30 }} />
   };
 
   constructor(props) {

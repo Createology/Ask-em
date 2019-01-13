@@ -1,5 +1,12 @@
-import React, { Component } from 'react';
-import { View, SafeAreaView, Image, ScrollView, Modal, TouchableHighlight } from 'react-native';
+import React, { Component } from "react";
+import {
+  View,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  Modal,
+  TouchableHighlight
+} from "react-native";
 
 import {
   createDrawerNavigator,
@@ -13,61 +20,54 @@ import TabNavigator from "./tabNavigator";
 import Search from "./Search";
 import AddSurvey from "./AddSurvey";
 import AboutUs from "./aboutUs";
-
+import Home from "./home";
 
 export class Options extends Component {
   render() {
-    return (
-      <AppDrawerNavigator />
-    );
+    return <AppDrawerNavigator />;
   }
 }
 
-const CustumDrawerComponent = (props) => (
-  <View>
-    <StatusBar
-      backgroundColor="#ffffff"
-      barStyle="dark-content"
-      animated={true}
-    />
+const CustumDrawerComponent = props => (
+  <Container>
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <DrawerItems {...props} />
       </ScrollView>
     </SafeAreaView>
-  </View>
-) 
+  </Container>
+);
 
-const AppDrawerNavigator = createDrawerNavigator({
-  "Ask'Em": TabNavigator,
-  Search: Search,
-  Signin: Signin,
-  Signup: Signup,
-  Payment: Payment,
-  AddSurvey: AddSurvey,
-  AboutUs: AboutUs,
-  
-},
+const AppDrawerNavigator = createDrawerNavigator(
+  {
+    "Ask'Em": TabNavigator,
+    Home: Home,
+    Search: Search,
+    Signin: Signin,
+    Signup: Signup,
+    Payment: Payment,
+    AddSurvey: AddSurvey,
+    AboutUs: AboutUs
+  },
   {
     initialRouteName: "Ask'Em",
     ContentComponent: CustumDrawerComponent,
     drawerWidth: 200,
     contentOptions: {
-      activeTintColor: '#E65100',
-      activeBackgroundColor: 'rgba(0,0,0,0)',
-      inactiveBackgroundColor: 'rgba(0,0,0,0)',
-      inactiveTintColor: '#545f7a',
+      activeTintColor: "#E65100",
+      activeBackgroundColor: "rgba(0,0,0,0)",
+      inactiveBackgroundColor: "rgba(0,0,0,0)",
+      inactiveTintColor: "#545f7a",
       style: {
         marginVertical: 0
       },
       labelStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'Roboto',
-        backgroundColor: 'transparent'
+        fontWeight: "bold",
+        fontFamily: "Roboto",
+        backgroundColor: "transparent"
       }
-    },
-  },
-
-)
+    }
+  }
+);
 
 export default createAppContainer(AppDrawerNavigator);
