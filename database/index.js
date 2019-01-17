@@ -503,12 +503,7 @@ const selectAllChoicesOfQuestion = (questionID, callback) => {
   );
 };
 
-const saveFeedback = (
-  id_user,
-  feedback,
-  starCount,
-  callback
-) => {
+const saveFeedback = (id_user, feedback, starCount, callback) => {
   dbconnection.query(
     `insert into feedback values(null,\"${id_user}\",\"${feedback}\",\"${starCount}\",CURRENT_TIMESTAMP)`,
     (err, result) => {

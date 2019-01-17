@@ -94,3 +94,47 @@ describe('Persistent Node Chat Server', function () {
 		});
 	});
 });
+
+it('Should get all choice from the DB', function (done) {
+	// Let's insert a message into the db
+	var queryString = 'SELECT choice from choices where id_qustions = 19';
+	// TODO - The exact query string and query args to use
+	// here depend on the schema you design, so I'll leave
+	// them up to you. */
+
+	dbConnection.query(queryString, function (err) {
+		if (err) { throw err; }
+
+		// Now query the Node chat server and see if it returns
+		// the message we just inserted:
+		request(`${ip}/surveys`, function (error, response, body) {
+			var surveysResults = JSON.parse(body);
+			expect(surveysResults[0].choice).to.equal('a');
+			expect(surveysResults[0].id_qustions).to.equal('4');
+			done();
+		});
+	});
+});
+
+
+it('Should output all result from the DB', function (done) {
+	// Let's insert a message into the db
+	var queryString = 'INSERT INTO result (id, id_suervey, answer, createdAt) VALUES(null, \"${id_suervey}\",\"${answer}\",CURRENT_TIMESTAMP)';
+	var queryArgs = ['null', '19', 'b'];
+	// TODO - The exact query string and query args to use
+	// here depend on the schema you design, so I'll leave
+	// them up to you. */
+
+	dbConnection.query(queryString, queryArgs, function (err) {
+		if (err) { throw err; }
+
+		// Now query the Node chat server and see if it returns
+		// the message we just inserted:
+		request(`${ip}/surveys`, function (error, response, body) {
+			var surveysResults = JSON.parse(body);
+			expect(surveysResults[0].answer).to.equal('b');
+			expect(surveysResults[0].id_suervey).to.equal('19');
+			done();
+		});
+	});
+});
